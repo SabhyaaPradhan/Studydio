@@ -5,7 +5,7 @@ import "@/components/FaultyTerminal.css";
 
 
 export const metadata: Metadata = {
-  title: 'LearnFast - Learn anything, 10x faster',
+  title: 'Studydio - Learn anything, 10x faster',
   description: 'Paste any content (YouTube link, PDF, article, text) and automatically generate study materials like flashcards, quizzes, and summaries.',
 };
 

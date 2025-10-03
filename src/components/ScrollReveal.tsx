@@ -78,8 +78,8 @@ const ScrollReveal = ({
               trigger: el,
               scroller,
               start: 'top bottom-=15%',
-              end: wordAnimationEnd,
-              scrub: true
+              once: true,
+              scrub: false,
             }
           }
         );

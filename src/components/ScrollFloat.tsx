@@ -26,7 +26,7 @@ const ScrollFloat = ({
     const text = typeof children === 'string' ? children : '';
     return text.split('').map((char, index) => (
       <span className="char" key={index}>
-        {char === ' ' ? '\u00A0' : char}
+        {char === ' ' ? ' ' : char}
       </span>
     ));
   }, [children]);
@@ -64,7 +64,8 @@ const ScrollFloat = ({
             scroller,
             start: scrollStart,
             end: scrollEnd,
-            scrub: true
+            scrub: false,
+            once: true,
           }
         }
       );
@@ -86,5 +87,3 @@ const ScrollFloat = ({
 };
 
 export default ScrollFloat;
-
-    

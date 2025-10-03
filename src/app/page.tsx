@@ -116,7 +116,7 @@ export default function LandingPage() {
             </div>
         </section>
 
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black overflow-hidden">
+        <section id="features" className="w-full py-12 md:py-12 lg:py-12 bg-black overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">
@@ -155,7 +155,7 @@ export default function LandingPage() {
                   Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
                 </ScrollReveal>
               </div>
-              <div style={{ height: '600px', position: 'relative' }}>
+              <div className="relative h-[200px] md:h-[600px]">
                 <CardSwap
                   cardDistance={60}
                   verticalDistance={70}

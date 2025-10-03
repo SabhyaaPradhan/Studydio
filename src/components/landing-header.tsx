@@ -1,22 +1,37 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+"use client";
+
+import StaggeredMenu from './StaggeredMenu';
 import { Logo } from "@/components/icons";
+
+const menuItems = [
+  { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+  { label: 'Pricing', ariaLabel: 'View our pricing', link: '#pricing' },
+  { label: 'Login', ariaLabel: 'Login to your account', link: '/login' },
+  { label: 'Sign Up', ariaLabel: 'Create a new account', link: '/signup' }
+];
+
+const socialItems = [
+  { label: 'Twitter', link: 'https://twitter.com' },
+  { label: 'GitHub', link: 'https://github.com' },
+  { label: 'LinkedIn', link: 'https://linkedin.com' }
+];
+
 
 export default function LandingHeader() {
   return (
-    <header className="px-4 lg:px-6 h-16 flex items-center bg-background/95 backdrop-blur-sm sticky top-0 z-50 border-b">
-      <Link className="flex items-center justify-center gap-2" href="/">
-        <Logo className="h-6 w-6 text-primary" />
-        <span className="font-bold text-lg">LearnFast</span>
-      </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Button asChild variant="ghost">
-            <Link href="/login">Login</Link>
-        </Button>
-        <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link href="/signup">Sign Up</Link>
-        </Button>
-      </nav>
-    </header>
+    <StaggeredMenu
+      position="right"
+      items={menuItems}
+      socialItems={socialItems}
+      displaySocials={true}
+      displayItemNumbering={true}
+      menuButtonColor="#fff"
+      openMenuButtonColor="#000"
+      changeMenuColorOnOpen={true}
+      colors={['#B19EEF', '#5227FF']}
+      accentColor="#ff6b6b"
+      onMenuOpen={() => console.log('Menu opened')}
+      onMenuClose={() => console.log('Menu closed')}
+    />
   );
 }

@@ -6,6 +6,8 @@ import "@/components/FaultyTerminal.css";
 import '@/components/ScrollFloat.css';
 import "@/components/ScrollReveal.css";
 import "@/components/CardSwap.css";
+import "@/components/PixelTrail.css";
+import GlobalPixelTrail from '@/components/GlobalPixelTrail';
 
 
 export const metadata: Metadata = {
@@ -26,6 +28,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="antialiased pb-24">
+        <GlobalPixelTrail />
         {children}
         <Toaster />
       </body>

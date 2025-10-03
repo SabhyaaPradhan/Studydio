@@ -14,7 +14,7 @@ export default function LandingHeader() {
         <div className="w-px h-6 bg-white/10" />
         <div className="flex items-center gap-6 text-sm text-gray-300">
           <Link href="#how-it-works" className="hover:text-white transition-colors">
-            How It Works
+            Features
           </Link>
           <Link href="#pricing" className="hover:text-white transition-colors">
             Pricing

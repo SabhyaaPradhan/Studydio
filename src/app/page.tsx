@@ -10,6 +10,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Shuffle from "@/components/Shuffle";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import dashboard_img from "../public/images/dashboard.png"
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -60,11 +61,11 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-black to-background">
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-transparent via-stone-950 to-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
-                        <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                        <ScrollFloat tag="h2" className="text-5xl md:text-7xl font-bold tracking-tighter font-joystix text-white" textClassName="scroll-float-text-h2">
                           How It Works
                         </ScrollFloat>
                          <ScrollReveal
@@ -82,7 +83,7 @@ export default function LandingPage() {
                       className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
                     >
                         <Image
-                            src="https://picsum.photos/seed/1/1200/800"
+                            src={dashboard_img}
                             alt="Random placeholder image"
                             width={1200}
                             height={800}

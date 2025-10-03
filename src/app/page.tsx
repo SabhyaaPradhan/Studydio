@@ -61,13 +61,13 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-transparent via-stone-950 to-black">
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:pt-12 lg:py-32 bg-gradient-to-b from-transparent via-stone-950 to-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
-                        <ScrollFloat tag="h2" className="text-5xl md:text-7xl font-bold tracking-tighter font-joystix text-white" textClassName="scroll-float-text-h2">
+                        <h1 className="text-[100px] md:text-[300px] font-blackheat text-white">
                           How It Works
-                        </ScrollFloat>
+                        </h1>
                          <ScrollReveal
                             tag="div"
                             textTag="p"

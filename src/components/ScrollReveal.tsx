@@ -44,7 +44,7 @@ const ScrollReveal = ({
     const ctx = gsap.context(() => {
         gsap.fromTo(
           el,
-          { transformOrigin: '0% 50%', rotate: baseRotation },
+          { transformOrigin: '0% 25%', rotate: baseRotation },
           {
             ease: 'none',
             rotate: 0,

@@ -13,6 +13,7 @@ export default {
         body: ['Inter', 'sans-serif'],
         headline: ['Inter', 'sans-serif'],
         joystix: ['Joystix', 'sans-serif'],
+        blackheat: ['BlackHeat', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
         code: ['monospace'],
       },

@@ -7,6 +7,11 @@
   src: url('../public/fonts/joystix\ monospace.otf');
 }
 
+@font-face {
+  font-family: "BlackHeat";
+  src: url('../public/fonts/Blackheat.otf');
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }

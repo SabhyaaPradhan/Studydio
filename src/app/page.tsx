@@ -50,10 +50,10 @@ export default function LandingPage() {
                     triggerOnce={false}
                     triggerOnHover={true}
                     respectReducedMotion={true}
-                    className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white"
+                    className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-joystix text-white"
                     tag="h1"
                   />
-                  <p className="max-w-[600px] text-gray-200 md:text-xl">
+                  <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
                   </p>
                 </div>

@@ -236,7 +236,7 @@ export default function FaultyTerminal({
   tint = '#ffffff',
   mouseReact = true,
   mouseStrength = 0.2,
-  dpr = Math.min(window.devicePixelRatio || 1, 2),
+  dpr: dprProp,
   pageLoadAnimation = true,
   brightness = 1,
   className,
@@ -270,6 +270,7 @@ export default function FaultyTerminal({
     const ctn = containerRef.current;
     if (!ctn) return;
 
+    const dpr = dprProp ?? Math.min(window.devicePixelRatio || 1, 2);
     const renderer = new Renderer({ dpr });
     rendererRef.current = renderer;
     const gl = renderer.gl;
@@ -376,7 +377,7 @@ export default function FaultyTerminal({
       timeOffsetRef.current = Math.random() * 100;
     };
   }, [
-    dpr,
+    dprProp,
     pause,
     timeScale,
     scale,

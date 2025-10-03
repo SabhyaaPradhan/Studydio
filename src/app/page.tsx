@@ -3,6 +3,7 @@
 
 
 
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -120,6 +121,19 @@ export default function LandingPage() {
               <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">
                 Features
               </ScrollFloat>
+            </div>
+            <div className="text-center mb-12">
+              <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                Unlock Your Learning Potential
+              </ScrollFloat>
+              <ScrollReveal
+                  tag="div"
+                  textTag="p"
+                  className="max-w-2xl mx-auto mt-4 !m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
+                Studydio transforms your study materials into powerful, interactive learning tools. Discover how our features can help you master any subject.
+              </ScrollReveal>
             </div>
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-4">

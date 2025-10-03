@@ -1,3 +1,5 @@
+
+"use client";
 /* eslint-disable react/no-unknown-property */
 import { useMemo, Suspense } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';

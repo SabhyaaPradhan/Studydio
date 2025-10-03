@@ -14,9 +14,9 @@ export default function LandingPage() {
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
           <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: 0}}>
             <Ballpit
-              count={200}
-              gravity={0.7}
-              friction={0.8}
+              count={100}
+              gravity={0}
+              friction={0.9975}
               wallBounce={0.95}
               followCursor={true}
             />

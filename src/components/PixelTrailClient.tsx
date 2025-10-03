@@ -79,7 +79,7 @@ const PixelTrailClient = ({ trailSize = 15, maxAge = 1000, color = "#fff", gooey
                                 width: `${size}px`,
                                 height: `${size}px`,
                                 background: color,
-                                borderRadius: '50%',
+                                borderRadius: '0',
                                 transform: 'translate(-50%, -50%)',
                                 opacity: opacity,
                                 willChange: 'transform, opacity',

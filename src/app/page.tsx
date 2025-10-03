@@ -1,14 +1,10 @@
 
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
-import GridDistortion from "@/components/GridDistortion";
-
-const heroImage = PlaceHolderImages.find(img => img.id === 'hero-illustration');
+import Ballpit from "@/components/Ballpit";
 
 export default function LandingPage() {
   return (
@@ -16,16 +12,15 @@ export default function LandingPage() {
       <LandingHeader />
       <main className="flex-1">
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
-          {heroImage && (
-            <GridDistortion
-              imageSrc={heroImage.imageUrl}
-              grid={10}
-              mouse={0.1}
-              strength={0.15}
-              relaxation={0.9}
-              className="absolute inset-0 z-0"
+          <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: 0}}>
+            <Ballpit
+              count={200}
+              gravity={0.7}
+              friction={0.8}
+              wallBounce={0.95}
+              followCursor={true}
             />
-          )}
+          </div>
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
               <div className="flex flex-col justify-center space-y-4 z-20 text-center items-center">

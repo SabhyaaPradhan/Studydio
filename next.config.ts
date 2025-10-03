@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.resolve.alias['three/examples/jsm/environments/RoomEnvironment.js'] =
+      'three/examples/jsm/environments/RoomEnvironment.js';
+    return config;
+  },
 };
 
 export default nextConfig;

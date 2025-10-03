@@ -97,26 +97,34 @@ export default function LandingPage() {
                           />
                       </div>
                     </FadeContent>
+                    <GradualBlur
+                      target="parent"
+                      position="bottom"
+                      height="12rem"
+                      strength={3}
+                      divCount={5}
+                      curve="bezier"
+                      exponential={true}
+                      opacity={0.8}
+                    />
                 </div>
             </div>
         </section>
 
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-              <div className="space-y-2">
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
-                  Everything You Need to Succeed
-                </ScrollFloat>
-                <ScrollReveal
-                    tag="div"
-                    textTag="p"
-                    className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                    textClassName="!text-xl !font-normal !text-muted-foreground"
-                  >
-                  From flashcards to summaries, we've got you covered.
-                </ScrollReveal>
-              </div>
+          <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-4">
+              <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                Everything You Need to Succeed
+              </ScrollFloat>
+              <ScrollReveal
+                  tag="div"
+                  textTag="p"
+                  className="!m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
+                Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
+              </ScrollReveal>
             </div>
             <div style={{ height: '600px', position: 'relative' }}>
               <CardSwap

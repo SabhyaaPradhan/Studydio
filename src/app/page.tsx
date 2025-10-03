@@ -1,5 +1,6 @@
 
 
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,10 +23,10 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main className="flex-1 relative">
+      <main className="relative">
         <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1}}>
             <FaultyTerminal
-              scale={2.7}
+              scale={2.2}
               gridMul={[2, 1]}
               digitSize={1.2}
               timeScale={0.5}
@@ -38,7 +39,7 @@ export default function LandingPage() {
               dither={0}
               curvature={0.1}
               tint="#26CF80"
-              mouseReact={true}
+              mouseReact={false}
               mouseStrength={0.5}
               pageLoadAnimation={true}
               brightness={0.6}

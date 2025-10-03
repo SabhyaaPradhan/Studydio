@@ -84,7 +84,7 @@ export default function LandingPage() {
                 <div className="mx-auto max-w-5xl mt-12 relative">
                     <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                       <div
-                        className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20 p-1"
+                        className="rounded-xl border border-primary shadow-2xl shadow-primary/20 p-1"
                       >
                           <Image
                               src={dashboard_img}

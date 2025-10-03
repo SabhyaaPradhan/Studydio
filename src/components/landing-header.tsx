@@ -13,11 +13,14 @@ export default function LandingHeader() {
         </Link>
         <div className="w-px h-6 bg-white/10" />
         <div className="flex items-center gap-6 text-sm text-gray-300">
-          <Link href="/dashboard" className="hover:text-white transition-colors">
-            Dashboard
+          <Link href="#features" className="hover:text-white transition-colors">
+            Features
           </Link>
           <Link href="#pricing" className="hover:text-white transition-colors">
             Pricing
+          </Link>
+          <Link href="#about" className="hover:text-white transition-colors">
+            About
           </Link>
         </div>
       </nav>

@@ -7,6 +7,7 @@ import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
+import Shuffle from "@/components/Shuffle";
 
 export default function LandingPage() {
   return (
@@ -41,7 +42,7 @@ export default function LandingPage() {
               <div className="flex flex-col justify-center space-y-4 z-20 text-center items-center">
                 <div className="space-y-2">
                   <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-joystix text-white">
-                    Learn anything, 10x faster
+                    <Shuffle text="Learn anything, 10x faster" />
                   </h1>
                   <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto font-poppins">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
@@ -67,8 +68,8 @@ export default function LandingPage() {
                 <ScrollReveal
                     tag="div"
                     textTag="p"
-                    className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
-                    textClassName="!text-xl !font-normal"
+                    className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                    textClassName="!text-xl !font-normal !text-muted-foreground"
                   >
                   Choose the plan that's right for you. Get started for free.
                 </ScrollReveal>

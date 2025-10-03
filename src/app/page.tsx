@@ -28,7 +28,6 @@ export default function LandingPage() {
               data-ai-hint={heroImage.imageHint}
             />
           )}
-          <div className="absolute inset-0 bg-black/50 z-10" />
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
               <div className="flex flex-col justify-center space-y-4 z-20 text-center items-center">

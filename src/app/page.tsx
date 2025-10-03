@@ -10,7 +10,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Shuffle from "@/components/Shuffle";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import dashboard_img from "../public/images/dashboard.png"
+import dashboard_img from "../public/images/dashboard.png";
+import FadeContent from '@/components/FadeContent';
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -61,7 +62,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:pt-12 lg:py-32 bg-gradient-to-b from-stone-950/10 to-black">
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:pt-12 lg:py-32 bg-gradient-to-b from-stone-950 to-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
@@ -79,18 +80,20 @@ export default function LandingPage() {
                     </div>
                 </div>
                 <div className="mx-auto max-w-5xl mt-12">
-                    <div
-                      className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
-                    >
-                        <Image
-                            src={dashboard_img}
-                            alt="Random placeholder image"
-                            width={1200}
-                            height={800}
-                            className="w-full"
-                            data-ai-hint="dashboard ui"
-                        />
-                    </div>
+                    <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                      <div
+                        className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
+                      >
+                          <Image
+                              src={dashboard_img}
+                              alt="Random placeholder image"
+                              width={1200}
+                              height={800}
+                              className="w-full"
+                              data-ai-hint="dashboard ui"
+                          />
+                      </div>
+                    </FadeContent>
                 </div>
             </div>
         </section>
@@ -113,65 +116,71 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
-              <Card className="flex flex-col bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle>Free</CardTitle>
-                  <CardDescription>For casual learners to get a taste of accelerated learning.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1">
-                  <div className="text-4xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                  <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> 3 study packs per month</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Basic AI generation</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Community support</li>
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                    <Link href="/signup">Get Started</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-              <Card className="flex flex-col border-primary shadow-lg bg-card/50 backdrop-blur-sm">
-                 <CardHeader>
-                  <CardTitle>Pro</CardTitle>
-                  <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1">
-                  <div className="text-4xl font-bold">$10<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                  <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Unlimited study packs</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Advanced AI generation</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Spaced repetition reviews</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Priority support</li>
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button asChild className="w-full">
-                    <Link href="/signup">Go Pro</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-              <Card className="flex flex-col bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle>Team</CardTitle>
-                  <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1">
-                  <div className="text-4xl font-bold">Contact Us</div>
-                   <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Everything in Pro, plus:</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Team collaboration features</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Centralized billing</li>
-                    <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Dedicated account manager</li>
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/contact">Contact Sales</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                <Card className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
+                  <CardHeader>
+                    <CardTitle>Free</CardTitle>
+                    <CardDescription>For casual learners to get a taste of accelerated learning.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1">
+                    <div className="text-4xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> 3 study packs per month</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Basic AI generation</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Community support</li>
+                    </ul>
+                  </CardContent>
+                  <CardFooter>
+                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                      <Link href="/signup">Get Started</Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </FadeContent>
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                <Card className="flex flex-col border-primary shadow-lg bg-card/50 backdrop-blur-sm h-full">
+                   <CardHeader>
+                    <CardTitle>Pro</CardTitle>
+                    <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1">
+                    <div className="text-4xl font-bold">$10<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Unlimited study packs</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Advanced AI generation</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Spaced repetition reviews</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Priority support</li>
+                    </ul>
+                  </CardContent>
+                  <CardFooter>
+                    <Button asChild className="w-full">
+                      <Link href="/signup">Go Pro</Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </FadeContent>
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                <Card className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
+                  <CardHeader>
+                    <CardTitle>Team</CardTitle>
+                    <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1">
+                    <div className="text-4xl font-bold">Contact Us</div>
+                     <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Everything in Pro, plus:</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Team collaboration features</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Centralized billing</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Dedicated account manager</li>
+                    </ul>
+                  </CardContent>
+                  <CardFooter>
+                    <Button asChild variant="outline" className="w-full">
+                      <Link href="/contact">Contact Sales</Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </FadeContent>
             </div>
           </div>
         </section>

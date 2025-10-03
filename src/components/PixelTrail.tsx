@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { useMemo } from 'react';
+import { useMemo, Suspense } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTrailTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -125,14 +125,16 @@ export default function PixelTrail({
         className={`pixel-canvas ${className}`}
         style={gooeyFilter && { filter: `url(#${gooeyFilter.id})` }}
       >
-        <Scene
-          gridSize={gridSize}
-          trailSize={trailSize}
-          maxAge={maxAge}
-          interpolate={interpolate}
-          easingFunction={easingFunction}
-          pixelColor={color}
-        />
+        <Suspense fallback={null}>
+          <Scene
+            gridSize={gridSize}
+            trailSize={trailSize}
+            maxAge={maxAge}
+            interpolate={interpolate}
+            easingFunction={easingFunction}
+            pixelColor={color}
+          />
+        </Suspense>
       </Canvas>
     </>
   );

@@ -1,6 +1,7 @@
 
 
 
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -141,16 +142,19 @@ export default function LandingPage() {
                   pauseOnHover={false}
                 >
                   <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                    <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
-                    <p>Generate interactive flashcards from any content.</p>
+                    <h3 className="text-2xl font-bold mb-4">Flashcards</h3>
+                    <Image src="https://picsum.photos/seed/flashcard/400/200" alt="Flashcards" width={400} height={200} className="rounded-lg" data-ai-hint="flashcard illustration" />
+                    <p className="mt-4">Generate interactive flashcards from any content.</p>
                   </Card>
                   <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                    <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
-                    <p>Test your knowledge with auto-generated quizzes.</p>
+                    <h3 className="text-2xl font-bold mb-4">Quizzes</h3>
+                     <Image src="https://picsum.photos/seed/quiz/400/200" alt="Quizzes" width={400} height={200} className="rounded-lg" data-ai-hint="quiz illustration" />
+                    <p className="mt-4">Test your knowledge with auto-generated quizzes.</p>
                   </Card>
                   <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                    <h3 className="text-2xl font-bold mb-2">Summaries</h3>
-                    <p>Get concise AI-powered summaries of long articles.</p>
+                    <h3 className="text-2xl font-bold mb-4">Summaries</h3>
+                    <Image src="https://picsum.photos/seed/summary/400/200" alt="Summaries" width={400} height={200} className="rounded-lg" data-ai-hint="summary document" />
+                    <p className="mt-4">Get concise AI-powered summaries of long articles.</p>
                   </Card>
                 </CardSwap>
               </div>

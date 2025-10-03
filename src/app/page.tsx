@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import GridDistortion from "@/components/GridDistortion";
 
 const heroImage = PlaceHolderImages.find(img => img.id === 'hero-illustration');
 
@@ -13,10 +13,10 @@ export default function LandingPage() {
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
       <main className="flex-1">
-        <section id="hero" className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section id="hero" className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_650px]">
-              <div className="flex flex-col justify-center space-y-4">
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
+              <div className="flex flex-col justify-center space-y-4 z-10">
                 <div className="space-y-2">
                   <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white">
                     Learn anything, 10x faster
@@ -31,16 +31,18 @@ export default function LandingPage() {
                   </Button>
                 </div>
               </div>
-              {heroImage && (
-                <Image
-                  src={heroImage.imageUrl}
-                  alt={heroImage.description}
-                  width={800}
-                  height={600}
-                  className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-                  data-ai-hint={heroImage.imageHint}
-                />
-              )}
+               <div className="w-full h-[400px] lg:h-[500px] relative">
+                {heroImage && (
+                    <GridDistortion
+                        imageSrc={heroImage.imageUrl}
+                        grid={10}
+                        mouse={0.1}
+                        strength={0.15}
+                        relaxation={0.9}
+                        className="custom-class"
+                    />
+                )}
+               </div>
             </div>
           </div>
         </section>

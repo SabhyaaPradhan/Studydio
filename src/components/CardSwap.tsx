@@ -1,7 +1,8 @@
 'use client';
 
-import React, { Children, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useRef } from 'react';
+import React, { Children, cloneElement, forwardRef, isValidElement, useMemo } from 'react';
 import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import './CardSwap.css';
 
 export const Card = forwardRef(({ customClass, ...rest }: any, ref) => (
@@ -65,101 +66,93 @@ const CardSwap = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [childArr.length]
   );
-
-  const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
-
-  const tlRef = useRef<gsap.core.Timeline | null>(null);
-  const intervalRef = useRef<number>();
-  const container = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
+  
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  
+  useGSAP(() => {
+    if(!containerRef.current) return;
+    
+    const order = Array.from({ length: childArr.length }, (_, i) => i);
     const total = refs.length;
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
 
-    const swap = () => {
-      if (order.current.length < 2) return;
+    const masterTl = gsap.timeline({
+      repeat: -1,
+      repeatDelay: delay / 1000,
+      paused: false,
+    });
+    
+    const createSwapAnimation = () => {
+        if (order.length < 2) return null;
 
-      const [front, ...rest] = order.current;
-      const elFront = refs[front].current;
-      const tl = gsap.timeline();
-      tlRef.current = tl;
+        const [front, ...rest] = order;
+        const elFront = refs[front].current;
+        const tl = gsap.timeline();
 
-      tl.to(elFront, {
-        y: '+=500',
-        duration: config.durDrop,
-        ease: config.ease
-      });
-
-      tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
-      rest.forEach((idx, i) => {
-        const el = refs[idx].current;
-        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
-        tl.set(el, { zIndex: slot.zIndex }, 'promote');
-        tl.to(
-          el,
-          {
-            x: slot.x,
-            y: slot.y,
-            z: slot.z,
-            duration: config.durMove,
+        tl.to(elFront, {
+            y: '+=500',
+            duration: config.durDrop,
             ease: config.ease
-          },
-          `promote+=${i * 0.15}`
+        }, 0);
+
+        rest.forEach((idx, i) => {
+            const el = refs[idx].current;
+            const slot = makeSlot(i, cardDistance, verticalDistance, total);
+            tl.set(el, { zIndex: slot.zIndex }, config.durDrop * (1 - config.promoteOverlap));
+            tl.to(
+            el,
+            {
+                x: slot.x,
+                y: slot.y,
+                z: slot.z,
+                duration: config.durMove,
+                ease: config.ease
+            },
+            config.durDrop * (1 - config.promoteOverlap) + i * 0.15
+            );
+        });
+
+        const backSlot = makeSlot(total - 1, cardDistance, verticalDistance, total);
+        tl.set(elFront, { zIndex: backSlot.zIndex }, config.durDrop * (1 - config.promoteOverlap) + config.durMove * config.returnDelay);
+        tl.to(
+            elFront,
+            {
+                x: backSlot.x,
+                y: backSlot.y,
+                z: backSlot.z,
+                duration: config.durReturn,
+                ease: config.ease
+            },
+            config.durDrop * (1 - config.promoteOverlap) + config.durMove * config.returnDelay
         );
-      });
+        
+        order.push(order.shift()!);
+        return tl;
+    }
 
-      const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
-      tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
-      tl.call(
-        () => {
-          gsap.set(elFront, { zIndex: backSlot.zIndex });
-        },
-        undefined,
-        'return'
-      );
-      tl.to(
-        elFront,
-        {
-          x: backSlot.x,
-          y: backSlot.y,
-          z: backSlot.z,
-          duration: config.durReturn,
-          ease: config.ease
-        },
-        'return'
-      );
-
-      tl.call(() => {
-        order.current = [...rest, front];
-      });
-    };
-
-    swap();
-    intervalRef.current = window.setInterval(swap, delay);
-
+    for (let i = 0; i < total; i++) {
+      const anim = createSwapAnimation();
+      if(anim) masterTl.add(anim);
+    }
+    
     if (pauseOnHover) {
-      const node = container.current;
-      if (node) {
-        const pause = () => {
-          tlRef.current?.pause();
-          clearInterval(intervalRef.current);
-        };
-        const resume = () => {
-          tlRef.current?.play();
-          intervalRef.current = window.setInterval(swap, delay);
-        };
+        const node = containerRef.current;
+        const pause = () => masterTl.pause();
+        const resume = () => masterTl.resume();
         node.addEventListener('mouseenter', pause);
         node.addEventListener('mouseleave', resume);
         return () => {
-          node.removeEventListener('mouseenter', pause);
-          node.removeEventListener('mouseleave', resume);
-          clearInterval(intervalRef.current);
+            node.removeEventListener('mouseenter', pause);
+            node.removeEventListener('mouseleave', resume);
+            masterTl.kill();
         };
-      }
     }
-    return () => clearInterval(intervalRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+    
+    return () => {
+        masterTl.kill();
+    }
+
+  }, { scope: containerRef, dependencies: [childArr, cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, config, refs] });
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
@@ -176,12 +169,10 @@ const CardSwap = ({
   );
 
   return (
-    <div ref={container} className="card-swap-container" style={{ width, height }}>
+    <div ref={containerRef} className="card-swap-container" style={{ width, height }}>
       {rendered}
     </div>
   );
 };
 
 export default CardSwap;
-
-    

@@ -1,12 +1,12 @@
 'use client';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 import './ScrollFloat.css';
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger);
 
 const ScrollFloat = ({
   children,
@@ -25,8 +25,8 @@ const ScrollFloat = ({
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
     return text.split('').map((char, index) => (
-      <span className="char" key={index}>
-        {char === ' ' ? ' ' : char}
+      <span className="char" key={index} style={{ display: 'inline-block' }}>
+        {char === ' ' ? '\u00A0' : char}
       </span>
     ));
   }, [children]);
@@ -36,12 +36,10 @@ const ScrollFloat = ({
       const el = containerRef.current;
       if (!el) return;
 
-      const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
       const charElements = el.querySelectorAll('.char');
-      
-      if(charElements.length === 0) return;
+      if (charElements.length === 0) return;
 
-      const tl = gsap.fromTo(
+      gsap.fromTo(
         charElements,
         {
           willChange: 'opacity, transform',
@@ -61,20 +59,14 @@ const ScrollFloat = ({
           stagger: stagger,
           scrollTrigger: {
             trigger: el,
-            scroller,
+            scroller: scrollContainerRef?.current || window,
             start: scrollStart,
-            end: scrollEnd,
-            scrub: false,
             once: true,
           }
         }
       );
-
-      return () => {
-        tl.kill();
-      };
     },
-    { scope: containerRef, dependencies: [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger, children] }
+    { scope: containerRef, dependencies: [children] }
   );
   
   const Tag = tag;

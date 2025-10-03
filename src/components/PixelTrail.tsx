@@ -42,35 +42,45 @@ export default function PixelTrail({
   className = ''
 }: PixelTrailProps) {
   const [dots, setDots] = useState<Dot[]>([]);
-  const lastPosition = useRef<{ x: number; y: number } | null>(null);
   const nextId = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const animationFrameId = useRef<number | null>(null);
+  const lastMousePosition = useRef<{ x: number, y: number }>({ x: 0, y: 0 });
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const gridX = Math.round(e.clientX / gridSize) * gridSize;
-    const gridY = Math.round(e.clientY / gridSize) * gridSize;
+  const handleMouseMove = (e: MouseEvent) => {
+    lastMousePosition.current = { x: e.clientX, y: e.clientY };
+  };
 
-    if (
-      !lastPosition.current ||
-      lastPosition.current.x !== gridX ||
-      lastPosition.current.y !== gridY
-    ) {
-      const newDot = { id: nextId.current++, x: gridX, y: gridY };
-      setDots(prevDots => [...prevDots, newDot]);
-      lastPosition.current = { x: gridX, y: gridY };
+  const createDot = useCallback(() => {
+    const { x, y } = lastMousePosition.current;
 
-      setTimeout(() => {
-        setDots(prevDots => prevDots.filter(dot => dot.id !== newDot.id));
-      }, maxAge);
-    }
-  }, [gridSize, maxAge]);
+    const newDot = { id: nextId.current++, x, y };
+    setDots(prevDots => {
+      const newDots = [...prevDots, newDot];
+      if (newDots.length > 50) { // Keep the array from growing indefinitely
+          return newDots.slice(newDots.length - 50);
+      }
+      return newDots;
+    });
+
+    setTimeout(() => {
+      setDots(prevDots => prevDots.filter(dot => dot.id !== newDot.id));
+    }, maxAge);
+
+    animationFrameId.current = requestAnimationFrame(createDot);
+  }, [maxAge]);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
+    animationFrameId.current = requestAnimationFrame(createDot);
+    
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
     };
-  }, [handleMouseMove]);
+  }, [createDot]);
   
   const pixelSize = gridSize * trailSize;
 

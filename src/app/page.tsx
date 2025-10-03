@@ -1,10 +1,11 @@
+
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import GridDistortion from "@/components/GridDistortion";
 
 const heroImage = PlaceHolderImages.find(img => img.id === 'hero-illustration');
 
@@ -33,13 +34,13 @@ export default function LandingPage() {
               </div>
                <div className="w-full h-[400px] lg:h-[500px] relative">
                 {heroImage && (
-                    <GridDistortion
-                        imageSrc={heroImage.imageUrl}
-                        grid={10}
-                        mouse={0.1}
-                        strength={0.15}
-                        relaxation={0.9}
-                        className="custom-class"
+                    <Image
+                        src={heroImage.imageUrl}
+                        alt={heroImage.description}
+                        fill
+                        className="object-cover rounded-lg shadow-2xl"
+                        data-ai-hint={heroImage.imageHint}
+                        priority
                     />
                 )}
                </div>

@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
+import Shuffle from "@/components/Shuffle";
 
 export default function LandingPage() {
   return (
@@ -37,9 +38,21 @@ export default function LandingPage() {
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
               <div className="flex flex-col justify-center space-y-4 z-20 text-center items-center">
                 <div className="space-y-2">
-                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white">
-                    Learn anything, 10x faster
-                  </h1>
+                  <Shuffle
+                    text="Learn anything, 10x faster"
+                    shuffleDirection="right"
+                    duration={0.7}
+                    animationMode="evenodd"
+                    shuffleTimes={2}
+                    ease="power3.out"
+                    stagger={0.03}
+                    threshold={0.1}
+                    triggerOnce={true}
+                    triggerOnHover={false}
+                    respectReducedMotion={true}
+                    className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white"
+                    tag="h1"
+                  />
                   <p className="max-w-[600px] text-gray-200 md:text-xl">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
                   </p>

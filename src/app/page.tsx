@@ -14,9 +14,9 @@ export default function LandingPage() {
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
           <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: 0}}>
             <FaultyTerminal
-              scale={3}
+              scale={1.5}
               gridMul={[2, 1]}
-              digitSize={0.7}
+              digitSize={1.2}
               timeScale={0.5}
               pause={false}
               scanlineIntensity={0.5}
@@ -30,7 +30,7 @@ export default function LandingPage() {
               mouseReact={true}
               mouseStrength={0.5}
               pageLoadAnimation={true}
-              brightness={0.4}
+              brightness={0.6}
             />
           </div>
           <div className="container mx-auto px-4 md:px-6">

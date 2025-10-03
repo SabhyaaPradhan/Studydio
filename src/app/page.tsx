@@ -48,7 +48,7 @@ export default function LandingPage() {
                       Learn anything, 10x faster
                     </ScrollFloat>
                   </h1>
-                  <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto">
+                  <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto font-poppins">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
                   </p>
                 </div>

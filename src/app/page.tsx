@@ -14,7 +14,7 @@ export default function LandingPage() {
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
       <main className="flex-1">
-        <section id="hero" className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative">
+        <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
           {heroImage && (
             <Image
               alt={heroImage.description}

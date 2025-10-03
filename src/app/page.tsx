@@ -1,4 +1,5 @@
 
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,8 +9,12 @@ import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
 import Shuffle from "@/components/Shuffle";
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function LandingPage() {
+  const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
+
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
@@ -56,6 +61,44 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                    <div className="space-y-2">
+                        <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                          How It Works
+                        </ScrollFloat>
+                         <ScrollReveal
+                            tag="div"
+                            textTag="p"
+                            className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                            textClassName="!text-xl !font-normal !text-muted-foreground"
+                          >
+                          It's as simple as 1, 2, 3. Paste your content, generate your materials, and start studying smarter.
+                        </ScrollReveal>
+                    </div>
+                </div>
+                <div className="mx-auto max-w-5xl mt-12">
+                   {dashboardImage && (
+                    <ScrollReveal
+                      tag="div"
+                      baseRotation={0}
+                      className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
+                    >
+                        <Image
+                            src={dashboardImage.imageUrl}
+                            alt={dashboardImage.description}
+                            width={1200}
+                            height={800}
+                            className="w-full"
+                            data-ai-hint={dashboardImage.imageHint}
+                        />
+                    </ScrollReveal>
+                    )}
+                </div>
+            </div>
         </section>
 
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">

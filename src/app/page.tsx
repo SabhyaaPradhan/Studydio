@@ -15,6 +15,19 @@ export default function LandingPage() {
       <LandingHeader />
       <main className="flex-1">
         <section id="hero" className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative">
+          {heroImage && (
+            <Image
+              alt={heroImage.description}
+              src={heroImage.imageUrl}
+              fill
+              style={{
+                objectFit: 'cover',
+              }}
+              className="z-0 opacity-20"
+              priority
+              data-ai-hint={heroImage.imageHint}
+            />
+          )}
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
               <div className="flex flex-col justify-center space-y-4 z-10 text-center items-center">

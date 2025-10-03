@@ -18,7 +18,7 @@ export default function LandingPage() {
               gravity={0}
               friction={0.9975}
               wallBounce={0.95}
-              followCursor={true}
+              followCursor={false}
             />
           </div>
           <div className="container mx-auto px-4 md:px-6">

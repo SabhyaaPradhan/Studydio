@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
@@ -14,6 +14,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import dashboard_img from "../public/images/dashboard.png";
 import FadeContent from '@/components/FadeContent';
 import GradualBlur from "@/components/GradualBlur";
+import CardSwap, { Card } from '@/components/CardSwap';
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -100,6 +101,33 @@ export default function LandingPage() {
             </div>
         </section>
 
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+          <div className="container mx-auto px-4 md:px-6">
+            <div style={{ height: '600px', position: 'relative' }}>
+              <CardSwap
+                cardDistance={60}
+                verticalDistance={70}
+                delay={5000}
+                pauseOnHover={false}
+              >
+                <Card className="p-6 bg-card/50 backdrop-blur-sm">
+                  <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
+                  <p>Generate interactive flashcards from any content.</p>
+                </Card>
+                <Card className="p-6 bg-card/50 backdrop-blur-sm">
+                  <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
+                  <p>Test your knowledge with auto-generated quizzes.</p>
+                </Card>
+                <Card className="p-6 bg-card/50 backdrop-blur-sm">
+                  <h3 className="text-2xl font-bold mb-2">Summaries</h3>
+                  <p>Get concise AI-powered summaries of long articles.</p>
+                </Card>
+              </CardSwap>
+            </div>
+          </div>
+        </section>
+
+
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -119,7 +147,7 @@ export default function LandingPage() {
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Card className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
+                <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
                   <CardHeader>
                     <CardTitle>Free</CardTitle>
                     <CardDescription>For casual learners to get a taste of accelerated learning.</CardDescription>
@@ -137,10 +165,10 @@ export default function LandingPage() {
                       <Link href="/signup">Get Started</Link>
                     </Button>
                   </CardFooter>
-                </Card>
+                </ShadCard>
               </FadeContent>
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Card className="flex flex-col border-primary shadow-lg bg-card/50 backdrop-blur-sm h-full">
+                <ShadCard className="flex flex-col border-primary shadow-lg bg-card/50 backdrop-blur-sm h-full">
                    <CardHeader>
                     <CardTitle>Pro</CardTitle>
                     <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
@@ -159,10 +187,10 @@ export default function LandingPage() {
                       <Link href="/signup">Go Pro</Link>
                     </Button>
                   </CardFooter>
-                </Card>
+                </ShadCard>
               </FadeContent>
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Card className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
+                <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
                   <CardHeader>
                     <CardTitle>Team</CardTitle>
                     <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
@@ -181,7 +209,7 @@ export default function LandingPage() {
                       <Link href="/contact">Contact Sales</Link>
                     </Button>
                   </CardFooter>
-                </Card>
+                </ShadCard>
               </FadeContent>
             </div>
           </div>
@@ -190,11 +218,11 @@ export default function LandingPage() {
           target="page"
           position="bottom"
           height="6rem"
-          strength={4}
-          divCount={8}
+          strength={3}
+          divCount={5}
           curve="bezier"
           exponential={true}
-          opacity={1}
+          opacity={0.8}
         />
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10">

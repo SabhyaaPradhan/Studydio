@@ -22,7 +22,7 @@ export default function GlobalPixelTrail() {
                 <PixelTrailClient
                     trailSize={15}
                     maxAge={1000}
-                    color="#c59d0d"
+                    color="#fff"
                     gooeyFilter={{ id: "custom-goo-filter", strength: 2 }}
                 />
             </Suspense>

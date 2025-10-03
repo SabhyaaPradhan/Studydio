@@ -23,7 +23,7 @@ export default function LandingPage() {
       <main className="relative">
         <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1}}>
             <FaultyTerminal
-              scale={2.2}
+              scale={1.5}
               gridMul={[2, 1]}
               digitSize={1.2}
               timeScale={0.3}
@@ -287,5 +287,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
 
     

@@ -1,4 +1,5 @@
 
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -82,14 +83,14 @@ export default function LandingPage() {
                 <div className="mx-auto max-w-5xl mt-12 relative">
                     <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                       <div
-                        className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
+                        className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20 p-1"
                       >
                           <Image
                               src={dashboard_img}
                               alt="Random placeholder image"
                               width={1200}
                               height={800}
-                              className="w-full"
+                              className="w-full rounded-lg"
                               data-ai-hint="dashboard ui"
                           />
                       </div>

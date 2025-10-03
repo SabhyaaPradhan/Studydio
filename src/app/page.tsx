@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import GridDistortion from "@/components/GridDistortion";
 
 const heroImage = PlaceHolderImages.find(img => img.id === 'hero-illustration');
 
@@ -16,16 +17,13 @@ export default function LandingPage() {
       <main className="flex-1">
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
           {heroImage && (
-            <Image
-              alt={heroImage.description}
-              src={heroImage.imageUrl}
-              fill
-              style={{
-                objectFit: 'cover',
-              }}
-              className="z-0"
-              priority
-              data-ai-hint={heroImage.imageHint}
+            <GridDistortion
+              imageSrc={heroImage.imageUrl}
+              grid={10}
+              mouse={0.1}
+              strength={0.15}
+              relaxation={0.9}
+              className="absolute inset-0 z-0"
             />
           )}
           <div className="container mx-auto px-4 md:px-6">

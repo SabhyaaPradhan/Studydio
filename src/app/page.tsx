@@ -66,7 +66,7 @@ export default function LandingPage() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
-                        <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">
+                        <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white" scrollStart="top 80%">
                           How It Works
                         </ScrollFloat>
                          <ScrollReveal

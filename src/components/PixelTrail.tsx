@@ -52,7 +52,7 @@ export default function PixelTrail({
   const createDot = useCallback(() => {
     const { x, y } = lastMousePosition.current;
 
-    const newDot = { id: nextId.current++, x, y };
+    const newDot = { id: nextId.current++, x, y: y - 30 }; // Offset y position
     setDots(prevDots => {
       const newDots = [...prevDots, newDot];
       if (newDots.length > 50) { // Keep the array from growing indefinitely

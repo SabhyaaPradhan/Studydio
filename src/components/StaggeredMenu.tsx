@@ -48,16 +48,13 @@ export const StaggeredMenu = ({
       const plusV = plusVRef.current;
       const icon = iconRef.current;
       const textInner = textInnerRef.current;
-      if (!panel || !plusH || !plusV || !icon || !textInner) return;
+      if (!panel || !preContainer || !plusH || !plusV || !icon || !textInner) return;
 
-      let preLayers = [];
-      if (preContainer) {
-        preLayers = Array.from(preContainer.querySelectorAll('.sm-prelayer'));
-      }
+      let preLayers = Array.from(preContainer.querySelectorAll('.sm-prelayer'));
       preLayerElsRef.current = preLayers;
 
       const offscreen = position === 'left' ? -100 : 100;
-      gsap.set([panel, ...preLayers], { xPercent: offscreen });
+      gsap.set([panel, ...preLayers], { xPercent: offscreen, visibility: 'hidden' });
       gsap.set(plusH, { transformOrigin: '50% 50%', rotate: 0 });
       gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 });
       gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
@@ -99,6 +96,8 @@ export const StaggeredMenu = ({
     if (socialLinks.length) {
       gsap.set(socialLinks, { y: 25, opacity: 0 });
     }
+    
+    gsap.set([panel, ...layers], { visibility: 'visible' });
 
     const tl = gsap.timeline({ paused: true });
 
@@ -210,6 +209,7 @@ export const StaggeredMenu = ({
       ease: 'power3.in',
       overwrite: 'auto',
       onComplete: () => {
+        gsap.set(all, { visibility: 'hidden' });
         const itemEls = Array.from(panel.querySelectorAll('.sm-panel-itemLabel'));
         if (itemEls.length) {
           gsap.set(itemEls, { yPercent: 140, rotate: 10 });

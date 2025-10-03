@@ -21,7 +21,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main className="flex-1 relative">
+      <main className="flex-1 relative pb-24">
         <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1}}>
             <FaultyTerminal
               scale={2.7}
@@ -186,8 +186,7 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-      </main>
-       <GradualBlur
+        <GradualBlur
           target="page"
           position="bottom"
           height="6rem"
@@ -197,6 +196,7 @@ export default function LandingPage() {
           exponential={true}
           opacity={1}
         />
+      </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10">
         <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">

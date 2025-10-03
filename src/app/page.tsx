@@ -14,7 +14,7 @@ export default function LandingPage() {
       <main className="flex-1 relative">
         <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1}}>
             <FaultyTerminal
-              scale={1.5}
+              scale={2.7}
               gridMul={[2, 1]}
               digitSize={1.2}
               timeScale={0.5}

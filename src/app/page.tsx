@@ -21,7 +21,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main className="flex-1 relative pb-24">
+      <main className="flex-1 relative">
         <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1}}>
             <FaultyTerminal
               scale={2.7}

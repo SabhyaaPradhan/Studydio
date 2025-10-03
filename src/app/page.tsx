@@ -12,6 +12,7 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import dashboard_img from "../public/images/dashboard.png";
 import FadeContent from '@/components/FadeContent';
+import GradualBlur from "@/components/GradualBlur";
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -79,7 +80,7 @@ export default function LandingPage() {
                         </ScrollReveal>
                     </div>
                 </div>
-                <div className="mx-auto max-w-5xl mt-12">
+                <div className="mx-auto max-w-5xl mt-12 relative">
                     <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                       <div
                         className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
@@ -94,6 +95,16 @@ export default function LandingPage() {
                           />
                       </div>
                     </FadeContent>
+                    <GradualBlur
+                      target="parent"
+                      position="bottom"
+                      height="12rem"
+                      strength={4}
+                      divCount={8}
+                      curve="bezier"
+                      exponential={true}
+                      opacity={1}
+                    />
                 </div>
             </div>
         </section>

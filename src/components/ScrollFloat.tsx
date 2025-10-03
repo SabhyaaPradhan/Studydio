@@ -65,7 +65,7 @@ const ScrollFloat = ({
         }
       }
     );
-  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger]);
+  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger, children]);
   
   const Tag = tag;
 

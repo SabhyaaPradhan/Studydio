@@ -40,13 +40,14 @@ export default function LandingPage() {
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
               <div className="flex flex-col justify-center space-y-4 z-20 text-center items-center">
                 <div className="space-y-2">
-                  <ScrollFloat
-                    tag="h1"
-                    className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-joystix text-white"
-                    textClassName="scroll-float-text-hero"
-                  >
-                    Learn anything, 10x faster
-                  </ScrollFloat>
+                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-joystix text-white">
+                    <ScrollFloat
+                      tag="div"
+                      textClassName="scroll-float-text-hero"
+                    >
+                      Learn anything, 10x faster
+                    </ScrollFloat>
+                  </h1>
                   <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
                   </p>

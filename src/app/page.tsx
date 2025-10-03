@@ -19,6 +19,7 @@ export default function LandingPage() {
               friction={0.9975}
               wallBounce={0.95}
               followCursor={false}
+              colors={[0xffffff, 0xd1d5db, 0x6366f1, 0x1e40af, 0x57534e]}
             />
           </div>
           <div className="container mx-auto px-4 md:px-6">

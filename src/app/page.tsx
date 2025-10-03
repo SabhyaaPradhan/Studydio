@@ -58,7 +58,7 @@ export default function LandingPage() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Button asChild size="lg" className="bg-white/10 text-white backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-colors">
                     <Link href="/signup">Start Free</Link>
                   </Button>
                 </div>

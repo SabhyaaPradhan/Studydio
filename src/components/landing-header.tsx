@@ -8,7 +8,7 @@ export default function LandingHeader() {
     <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
       <nav className="flex items-center gap-6 px-4 py-2 rounded-full bg-black/20 backdrop-blur-md border border-white/10">
         <Link href="/" className="flex items-center gap-2 text-white">
-          <Logo className="size-6" />
+          
           <span className="font-semibold">LearnFast</span>
         </Link>
         <div className="w-px h-6 bg-white/10" />

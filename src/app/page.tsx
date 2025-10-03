@@ -111,7 +111,7 @@ export default function LandingPage() {
             </div>
         </section>
 
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">

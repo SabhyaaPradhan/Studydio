@@ -1,6 +1,4 @@
 
-
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -80,9 +78,7 @@ export default function LandingPage() {
                     </div>
                 </div>
                 <div className="mx-auto max-w-5xl mt-12">
-                    <ScrollReveal
-                      tag="div"
-                      baseRotation={0}
+                    <div
                       className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
                     >
                         <Image
@@ -93,7 +89,7 @@ export default function LandingPage() {
                             className="w-full"
                             data-ai-hint="dashboard ui"
                         />
-                    </ScrollReveal>
+                    </div>
                 </div>
             </div>
         </section>

@@ -9,6 +9,8 @@ import { Wand2, Upload, Link as LinkIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ScrollFloat from "@/components/ScrollFloat";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function CreateNewPage() {
     const [isLoading, setIsLoading] = useState(false);
@@ -27,8 +29,8 @@ export default function CreateNewPage() {
     <div className="container mx-auto max-w-3xl">
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold">Create a New Study Pack</CardTitle>
-          <CardDescription>Paste content, a link, or upload a file to get started.</CardDescription>
+          <ScrollFloat tag={CardTitle} className="text-3xl font-bold" textClassName="scroll-float-text-h1">Create a New Study Pack</ScrollFloat>
+          <ScrollReveal tag={CardDescription} className="!m-0" textClassName="!text-sm !font-normal">Paste content, a link, or upload a file to get started.</ScrollReveal>
         </CardHeader>
         <CardContent>
             <form onSubmit={handleGenerate}>

@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function LandingPage() {
   return (
@@ -46,9 +47,13 @@ export default function LandingPage() {
                   >
                     Learn anything, 10x faster
                   </ScrollFloat>
-                  <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto">
+                  <ScrollReveal
+                    tag="p"
+                    className="max-w-[600px] text-gray-200 md:text-xl mx-auto"
+                    textClassName="!text-xl !font-normal"
+                  >
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
-                  </p>
+                  </ScrollReveal>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button asChild size="lg" className="bg-white/20 text-white backdrop-blur-sm border border-white/20 hover:bg-white/30 transition-colors rounded-full">
@@ -67,9 +72,13 @@ export default function LandingPage() {
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
                   Simple, transparent pricing
                 </ScrollFloat>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                <ScrollReveal
+                    tag="p"
+                    className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                    textClassName="!text-xl !font-normal"
+                  >
                   Choose the plan that's right for you. Get started for free.
-                </p>
+                </ScrollReveal>
               </div>
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">

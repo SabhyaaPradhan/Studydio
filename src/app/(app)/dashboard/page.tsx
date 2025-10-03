@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import ScrollFloat from "@/components/ScrollFloat";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function DashboardPage() {
   return (
@@ -13,7 +14,9 @@ export default function DashboardPage() {
           <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">
             Welcome back, {mockUser.name.split(' ')[0]}!
           </ScrollFloat>
-          <p className="text-muted-foreground">Here are your study packs. Keep up the great work.</p>
+          <ScrollReveal tag="p" className="text-muted-foreground !m-0" textClassName="!text-base !font-normal">
+            Here are your study packs. Keep up the great work.
+          </ScrollReveal>
         </div>
         <Button asChild>
             <Link href="/create">

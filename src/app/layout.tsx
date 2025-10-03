@@ -6,6 +6,7 @@ import "@/components/FaultyTerminal.css";
 import "@/components/PixelTrail.css";
 import GlobalPixelTrail from '@/components/GlobalPixelTrail';
 import '@/components/ScrollFloat.css';
+import "@/components/ScrollReveal.css";
 
 
 export const metadata: Metadata = {

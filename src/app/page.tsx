@@ -47,13 +47,9 @@ export default function LandingPage() {
                   >
                     Learn anything, 10x faster
                   </ScrollFloat>
-                  <ScrollReveal
-                    tag="div"
-                    className="max-w-[600px] text-gray-200 md:text-xl mx-auto"
-                    textClassName="!text-xl !font-normal"
-                  >
+                  <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
-                  </ScrollReveal>
+                  </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button asChild size="lg" className="bg-white/20 text-white backdrop-blur-sm border border-white/20 hover:bg-white/30 transition-colors rounded-full">

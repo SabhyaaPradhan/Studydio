@@ -26,7 +26,7 @@ export default function LandingPage() {
               chromaticAberration={0}
               dither={0}
               curvature={0.1}
-              tint="#ffffff"
+              tint="#26CF80"
               mouseReact={true}
               mouseStrength={0.5}
               pageLoadAnimation={true}

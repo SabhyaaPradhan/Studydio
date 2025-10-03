@@ -19,7 +19,6 @@ const GooeyFilter = ({ id = 'goo-filter', strength = 10 }) => {
 };
 
 export type PixelTrailProps = {
-  gridSize?: number;
   trailSize?: number;
   maxAge?: number;
   color?: string;
@@ -34,8 +33,7 @@ type Dot = {
 };
 
 export default function PixelTrail({
-  gridSize = 40,
-  trailSize = 1,
+  trailSize = 5,
   maxAge = 250,
   color = '#ffffff',
   gooeyFilter,
@@ -82,7 +80,7 @@ export default function PixelTrail({
     };
   }, [createDot]);
   
-  const pixelSize = gridSize * trailSize;
+  const pixelSize = trailSize;
 
   return (
     <>

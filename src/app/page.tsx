@@ -48,7 +48,7 @@ export default function LandingPage() {
                     Learn anything, 10x faster
                   </ScrollFloat>
                   <ScrollReveal
-                    tag="p"
+                    tag="div"
                     className="max-w-[600px] text-gray-200 md:text-xl mx-auto"
                     textClassName="!text-xl !font-normal"
                   >
@@ -73,7 +73,8 @@ export default function LandingPage() {
                   Simple, transparent pricing
                 </ScrollFloat>
                 <ScrollReveal
-                    tag="p"
+                    tag="div"
+                    textTag="p"
                     className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
                     textClassName="!text-xl !font-normal"
                   >

@@ -33,8 +33,8 @@ type Dot = {
 };
 
 export default function PixelTrail({
-  trailSize = 5,
-  maxAge = 250,
+  trailSize = 50,
+  maxAge = 650,
   color = '#ffffff',
   gooeyFilter,
   className = ''

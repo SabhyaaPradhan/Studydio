@@ -112,40 +112,47 @@ export default function LandingPage() {
         </section>
 
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black">
-          <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-4">
-              <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
-                Everything You Need to Succeed
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+              <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">
+                Features
               </ScrollFloat>
-              <ScrollReveal
-                  tag="div"
-                  textTag="p"
-                  className="!m-0"
-                  textClassName="!text-xl !font-normal !text-muted-foreground"
-                >
-                Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
-              </ScrollReveal>
             </div>
-            <div style={{ height: '600px', position: 'relative' }}>
-              <CardSwap
-                cardDistance={60}
-                verticalDistance={70}
-                delay={5000}
-                pauseOnHover={false}
-              >
-                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
-                  <p>Generate interactive flashcards from any content.</p>
-                </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
-                  <p>Test your knowledge with auto-generated quizzes.</p>
-                </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-2">Summaries</h3>
-                  <p>Get concise AI-powered summaries of long articles.</p>
-                </Card>
-              </CardSwap>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-4">
+                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                  Everything You Need to Succeed
+                </ScrollFloat>
+                <ScrollReveal
+                    tag="div"
+                    textTag="p"
+                    className="!m-0"
+                    textClassName="!text-xl !font-normal !text-muted-foreground"
+                  >
+                  Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
+                </ScrollReveal>
+              </div>
+              <div style={{ height: '600px', position: 'relative' }}>
+                <CardSwap
+                  cardDistance={60}
+                  verticalDistance={70}
+                  delay={5000}
+                  pauseOnHover={false}
+                >
+                  <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
+                    <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
+                    <p>Generate interactive flashcards from any content.</p>
+                  </Card>
+                  <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
+                    <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
+                    <p>Test your knowledge with auto-generated quizzes.</p>
+                  </Card>
+                  <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
+                    <h3 className="text-2xl font-bold mb-2">Summaries</h3>
+                    <p>Get concise AI-powered summaries of long articles.</p>
+                  </Card>
+                </CardSwap>
+              </div>
             </div>
           </div>
         </section>

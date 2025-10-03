@@ -16,7 +16,6 @@ export const StaggeredMenu = ({
   openMenuButtonColor = '#fff',
   accentColor = '#5227FF',
   changeMenuColorOnOpen = true,
-  isFixed = false,
   onMenuOpen,
   onMenuClose
 }) => {
@@ -41,7 +40,7 @@ export const StaggeredMenu = ({
   const busyRef = useRef(false);
   const itemEntranceTweenRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const panel = panelRef.current;
       const preContainer = preLayersRef.current;
@@ -316,7 +315,7 @@ export const StaggeredMenu = ({
 
   return (
     <div
-      className={(className ? className + ' ' : '') + 'staggered-menu-wrapper' + (isFixed ? ' fixed-wrapper' : '')}
+      className={(className ? className + ' ' : '') + 'staggered-menu-wrapper fixed-wrapper'}
       style={accentColor ? { ['--sm-accent']: accentColor } : undefined}
       data-position={position}
       data-open={open || undefined}

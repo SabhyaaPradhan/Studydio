@@ -6,7 +6,6 @@ import "@/components/FaultyTerminal.css";
 import '@/components/ScrollFloat.css';
 import "@/components/ScrollReveal.css";
 import "@/components/CardSwap.css";
-import "@/components/PixelTrail.css";
 import GlobalPixelTrail from '@/components/GlobalPixelTrail';
 
 

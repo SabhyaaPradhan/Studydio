@@ -1,16 +1,31 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import PixelTrail from './PixelTrail';
+import { useIsMobile } from "@/hooks/use-mobile";
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
-const GlobalPixelTrail = () => {
-  const [isClient, setIsClient] = useState(false);
+const PixelTrailClient = dynamic(() => import('./PixelTrailClient'), {
+    ssr: false,
+});
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
-  return isClient ? <PixelTrail /> : null;
-};
+export default function GlobalPixelTrail() {
+    const isMobile = useIsMobile();
 
-export default GlobalPixelTrail;
+    if (isMobile) {
+        return null;
+    }
+
+    return (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, pointerEvents: 'none' }}>
+            <Suspense fallback={null}>
+                <PixelTrailClient
+                    trailSize={15}
+                    maxAge={1000}
+                    color="#fff"
+                    gooeyFilter={{ id: "custom-goo-filter", strength: 2 }}
+                />
+            </Suspense>
+        </div>
+    );
+}

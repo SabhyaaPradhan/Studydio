@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -295,3 +288,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    

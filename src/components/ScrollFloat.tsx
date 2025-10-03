@@ -2,10 +2,11 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 import './ScrollFloat.css';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ScrollFloat = ({
   children,
@@ -30,42 +31,50 @@ const ScrollFloat = ({
     ));
   }, [children]);
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+  useGSAP(
+    () => {
+      const el = containerRef.current;
+      if (!el) return;
 
-    const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
+      const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
+      const charElements = el.querySelectorAll('.char');
+      
+      if(charElements.length === 0) return;
 
-    const charElements = el.querySelectorAll('.char');
-
-    gsap.fromTo(
-      charElements,
-      {
-        willChange: 'opacity, transform',
-        opacity: 0,
-        yPercent: 120,
-        scaleY: 2.3,
-        scaleX: 0.7,
-        transformOrigin: '50% 0%'
-      },
-      {
-        duration: animationDuration,
-        ease: ease,
-        opacity: 1,
-        yPercent: 0,
-        scaleY: 1,
-        scaleX: 1,
-        stagger: stagger,
-        scrollTrigger: {
-          trigger: el,
-          scroller,
-          start: scrollStart,
-          end: scrollEnd,
-          scrub: true
+      const tl = gsap.fromTo(
+        charElements,
+        {
+          willChange: 'opacity, transform',
+          opacity: 0,
+          yPercent: 120,
+          scaleY: 2.3,
+          scaleX: 0.7,
+          transformOrigin: '50% 0%'
+        },
+        {
+          duration: animationDuration,
+          ease: ease,
+          opacity: 1,
+          yPercent: 0,
+          scaleY: 1,
+          scaleX: 1,
+          stagger: stagger,
+          scrollTrigger: {
+            trigger: el,
+            scroller,
+            start: scrollStart,
+            end: scrollEnd,
+            scrub: true
+          }
         }
-      }
-    );
-  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger, children]);
+      );
+
+      return () => {
+        tl.kill();
+      };
+    },
+    { scope: containerRef, dependencies: [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger, children] }
+  );
   
   const Tag = tag;
 
@@ -77,3 +86,5 @@ const ScrollFloat = ({
 };
 
 export default ScrollFloat;
+
+    

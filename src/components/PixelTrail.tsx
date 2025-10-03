@@ -24,6 +24,7 @@ export type PixelTrailProps = {
   color?: string;
   gooeyFilter?: { id: string; strength: number };
   className?: string;
+  createInterval?: number;
 };
 
 type Dot = {
@@ -37,13 +38,14 @@ export default function PixelTrail({
   maxAge = 650,
   color = '#ffffff',
   gooeyFilter,
-  className = ''
+  className = '',
+  createInterval = 40,
 }: PixelTrailProps) {
   const [dots, setDots] = useState<Dot[]>([]);
   const nextId = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationFrameId = useRef<number | null>(null);
   const lastMousePosition = useRef<{ x: number, y: number }>({ x: 0, y: 0 });
+  const intervalRef = useRef<number | null>(null);
 
   const handleMouseMove = (e: MouseEvent) => {
     lastMousePosition.current = { x: e.clientX, y: e.clientY };
@@ -52,11 +54,11 @@ export default function PixelTrail({
   const createDot = useCallback(() => {
     const { x, y } = lastMousePosition.current;
 
-    const newDot = { id: nextId.current++, x, y: y - 30 }; // Offset y position
+    const newDot = { id: nextId.current++, x, y: y - 30 };
     setDots(prevDots => {
       const newDots = [...prevDots, newDot];
-      if (newDots.length > 50) { // Keep the array from growing indefinitely
-          return newDots.slice(newDots.length - 50);
+      if (newDots.length > 50) {
+        return newDots.slice(newDots.length - 50);
       }
       return newDots;
     });
@@ -64,21 +66,19 @@ export default function PixelTrail({
     setTimeout(() => {
       setDots(prevDots => prevDots.filter(dot => dot.id !== newDot.id));
     }, maxAge);
-
-    animationFrameId.current = requestAnimationFrame(createDot);
   }, [maxAge]);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
-    animationFrameId.current = requestAnimationFrame(createDot);
+    intervalRef.current = window.setInterval(createDot, createInterval);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
       }
     };
-  }, [createDot]);
+  }, [createDot, createInterval]);
   
   const pixelSize = trailSize;
 
@@ -108,3 +108,5 @@ export default function PixelTrail({
     </>
   );
 }
+
+    

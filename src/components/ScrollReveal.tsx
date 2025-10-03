@@ -15,11 +15,11 @@ const ScrollReveal = ({
   enableBlur = true,
   baseOpacity = 0,
   baseRotation = 3,
-  blurStrength = 8,
+  blurStrength = 10,
   className = '',
   textClassName = '',
   rotationEnd = 'bottom bottom',
-  wordAnimationEnd = 'bottom bottom'
+  wordAnimationEnd = 'bottom center'
 }) => {
   const containerRef = useRef(null);
 
@@ -41,7 +41,7 @@ const ScrollReveal = ({
 
     const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
     
-    gsap.context(() => {
+    const ctx = gsap.context(() => {
         gsap.fromTo(
           el,
           { transformOrigin: '0% 50%', rotate: baseRotation },
@@ -65,7 +65,7 @@ const ScrollReveal = ({
           { 
             opacity: baseOpacity, 
             willChange: 'opacity, transform, filter',
-            y: 20,
+            y: 30,
             filter: enableBlur ? `blur(${blurStrength}px)` : 'none',
           },
           {
@@ -73,11 +73,11 @@ const ScrollReveal = ({
             opacity: 1,
             y: 0,
             filter: 'blur(0px)',
-            stagger: 0.05,
+            stagger: 0.08,
             scrollTrigger: {
               trigger: el,
               scroller,
-              start: 'top bottom-=20%',
+              start: 'top bottom-=15%',
               end: wordAnimationEnd,
               scrub: true
             }
@@ -88,7 +88,7 @@ const ScrollReveal = ({
 
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ctx.revert();
     };
   }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength, children]);
 

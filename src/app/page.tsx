@@ -14,23 +14,23 @@ export default function LandingPage() {
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
           <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: 0}}>
             <FaultyTerminal
-              scale={1.5}
+              scale={3}
               gridMul={[2, 1]}
-              digitSize={1.2}
-              timeScale={1}
+              digitSize={0.7}
+              timeScale={0.5}
               pause={false}
-              scanlineIntensity={1}
+              scanlineIntensity={0.5}
               glitchAmount={1}
               flickerAmount={1}
               noiseAmp={1}
               chromaticAberration={0}
               dither={0}
-              curvature={0}
+              curvature={0.1}
               tint="#ffffff"
               mouseReact={true}
               mouseStrength={0.5}
-              pageLoadAnimation={false}
-              brightness={1}
+              pageLoadAnimation={true}
+              brightness={0.4}
             />
           </div>
           <div className="container mx-auto px-4 md:px-6">

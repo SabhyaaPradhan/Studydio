@@ -63,7 +63,7 @@ const DotMaterial = shaderMaterial(
   `
 );
 
-function Scene({ gridSize, trailSize, maxAge, interpolate, easingFunction, pixelColor }) {
+function Scene({ gridSize, trailSize, maxAge, interpolate, easingFunction, pixelColor }: any) {
   const size = useThree(s => s.size);
   const viewport = useThree(s => s.viewport);
 
@@ -100,6 +100,19 @@ function Scene({ gridSize, trailSize, maxAge, interpolate, easingFunction, pixel
   );
 }
 
+export type PixelTrailProps = {
+  gridSize?: number;
+  trailSize?: number;
+  maxAge?: number;
+  interpolate?: number;
+  easingFunction?: (x: number) => number;
+  canvasProps?: any;
+  glProps?: any;
+  gooeyFilter?: { id: string; strength: number };
+  color?: string;
+  className?: string;
+};
+
 export default function PixelTrail({
   gridSize = 40,
   trailSize = 0.1,
@@ -115,7 +128,7 @@ export default function PixelTrail({
   gooeyFilter,
   color = '#ffffff',
   className = ''
-}) {
+}: PixelTrailProps) {
   return (
     <>
       {gooeyFilter && <GooeyFilter id={gooeyFilter.id} strength={gooeyFilter.strength} />}

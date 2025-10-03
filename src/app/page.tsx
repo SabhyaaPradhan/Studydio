@@ -190,7 +190,7 @@ export default function LandingPage() {
        <GradualBlur
           target="page"
           position="bottom"
-          height="12rem"
+          height="6rem"
           strength={4}
           divCount={8}
           curve="bezier"

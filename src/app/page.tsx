@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
-import Ballpit from "@/components/Ballpit";
+import FaultyTerminal from "@/components/FaultyTerminal";
 
 export default function LandingPage() {
   return (
@@ -13,13 +13,24 @@ export default function LandingPage() {
       <main className="flex-1">
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
           <div style={{position: 'absolute', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: 0}}>
-            <Ballpit
-              count={100}
-              gravity={0}
-              friction={1.001}
-              wallBounce={0.95}
-              followCursor={false}
-              colors={[0xffffff, 0xd1d5db, 0x6366f1, 0x1e40af, 0x57534e]}
+            <FaultyTerminal
+              scale={1.5}
+              gridMul={[2, 1]}
+              digitSize={1.2}
+              timeScale={1}
+              pause={false}
+              scanlineIntensity={1}
+              glitchAmount={1}
+              flickerAmount={1}
+              noiseAmp={1}
+              chromaticAberration={0}
+              dither={0}
+              curvature={0}
+              tint="#ffffff"
+              mouseReact={true}
+              mouseStrength={0.5}
+              pageLoadAnimation={false}
+              brightness={1}
             />
           </div>
           <div className="container mx-auto px-4 md:px-6">

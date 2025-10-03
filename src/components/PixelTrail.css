@@ -1,10 +1,36 @@
 .goo-filter-container {
   position: absolute;
+  width: 0;
+  height: 0;
   overflow: hidden;
-  z-index: 1;
+  z-index: -1;
+  pointer-events: none;
 }
 
-.pixel-canvas {
+.pixel-trail-container {
   position: absolute;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pixel-dot {
+  position: absolute;
+  border-radius: 50%;
+  animation: fade-out var(--max-age, 250ms) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
 }

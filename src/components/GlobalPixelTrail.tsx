@@ -21,9 +21,8 @@ export default function GlobalPixelTrail() {
             <Suspense fallback={null}>
                 <PixelTrailClient
                     gridSize={50}
-                    trailSize={0.1}
+                    trailSize={1}
                     maxAge={250}
-                    interpolate={5}
                     color="#fff"
                     gooeyFilter={{ id: "custom-goo-filter", strength: 2 }}
                 />

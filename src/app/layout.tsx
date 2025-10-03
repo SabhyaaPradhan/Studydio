@@ -5,7 +5,7 @@ import "@/components/Shuffle.css";
 import "@/components/FaultyTerminal.css";
 import "@/components/PixelTrail.css";
 import GlobalPixelTrail from '@/components/GlobalPixelTrail';
-import './ScrollFloat.css';
+import '@/components/ScrollFloat.css';
 
 
 export const metadata: Metadata = {

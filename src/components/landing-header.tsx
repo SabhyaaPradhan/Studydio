@@ -1,37 +1,26 @@
 "use client";
 
-import StaggeredMenu from './StaggeredMenu';
+import Link from "next/link";
 import { Logo } from "@/components/icons";
-
-const menuItems = [
-  { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-  { label: 'Pricing', ariaLabel: 'View our pricing', link: '#pricing' },
-  { label: 'Login', ariaLabel: 'Login to your account', link: '/login' },
-  { label: 'Sign Up', ariaLabel: 'Create a new account', link: '/signup' }
-];
-
-const socialItems = [
-  { label: 'Twitter', link: 'https://twitter.com' },
-  { label: 'GitHub', link: 'https://github.com' },
-  { label: 'LinkedIn', link: 'https://linkedin.com' }
-];
-
 
 export default function LandingHeader() {
   return (
-    <StaggeredMenu
-      position="right"
-      items={menuItems}
-      socialItems={socialItems}
-      displaySocials={true}
-      displayItemNumbering={true}
-      menuButtonColor="#fff"
-      openMenuButtonColor="#000"
-      changeMenuColorOnOpen={true}
-      colors={['#B19EEF', '#5227FF']}
-      accentColor="#ff6b6b"
-      onMenuOpen={() => console.log('Menu opened')}
-      onMenuClose={() => console.log('Menu closed')}
-    />
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+      <nav className="flex items-center gap-6 px-4 py-2 rounded-full bg-black/20 backdrop-blur-md border border-white/10">
+        <Link href="/" className="flex items-center gap-2 text-white">
+          <Logo className="size-6" />
+          <span className="font-semibold">LearnFast</span>
+        </Link>
+        <div className="w-px h-6 bg-white/10" />
+        <div className="flex items-center gap-6 text-sm text-gray-300">
+          <Link href="/dashboard" className="hover:text-white transition-colors">
+            Dashboard
+          </Link>
+          <Link href="#pricing" className="hover:text-white transition-colors">
+            Pricing
+          </Link>
+        </div>
+      </nav>
+    </header>
   );
 }

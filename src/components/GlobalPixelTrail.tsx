@@ -23,7 +23,7 @@ export default function GlobalPixelTrail() {
                     gridSize={50}
                     trailSize={1}
                     maxAge={250}
-                    color="#fff"
+                    color="#5227FF"
                     gooeyFilter={{ id: "custom-goo-filter", strength: 2 }}
                 />
             </Suspense>

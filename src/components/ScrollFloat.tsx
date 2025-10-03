@@ -61,7 +61,7 @@ const ScrollFloat = ({
             trigger: el,
             scroller: scrollContainerRef?.current || window,
             start: scrollStart,
-            toggleActions: "play none none none",
+            toggleActions: "restart none none none",
           }
         }
       );

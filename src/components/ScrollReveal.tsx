@@ -60,7 +60,7 @@ const ScrollReveal = ({
             trigger: el,
             scroller: scrollContainerRef?.current || window,
             start: 'top bottom-=15%',
-            toggleActions: "play none none none",
+            toggleActions: "restart none none none",
         }
         }
     );

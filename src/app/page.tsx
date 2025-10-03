@@ -80,22 +80,20 @@ export default function LandingPage() {
                     </div>
                 </div>
                 <div className="mx-auto max-w-5xl mt-12">
-                   {dashboardImage && (
                     <ScrollReveal
                       tag="div"
                       baseRotation={0}
                       className="rounded-xl overflow-hidden border border-white/10 shadow-2xl shadow-primary/20"
                     >
                         <Image
-                            src={dashboardImage.imageUrl}
-                            alt={dashboardImage.description}
+                            src="https://picsum.photos/seed/1/1200/800"
+                            alt="Random placeholder image"
                             width={1200}
                             height={800}
                             className="w-full"
-                            data-ai-hint={dashboardImage.imageHint}
+                            data-ai-hint="dashboard ui"
                         />
                     </ScrollReveal>
-                    )}
                 </div>
             </div>
         </section>

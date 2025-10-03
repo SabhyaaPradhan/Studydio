@@ -47,8 +47,8 @@ export default function LandingPage() {
                     ease="power3.out"
                     stagger={0.03}
                     threshold={0.1}
-                    triggerOnce={true}
-                    triggerOnHover={false}
+                    triggerOnce={false}
+                    triggerOnHover={true}
                     respectReducedMotion={true}
                     className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white"
                     tag="h1"

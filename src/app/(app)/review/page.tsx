@@ -6,6 +6,7 @@ import { Flashcard } from "@/components/flashcard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Flame, Smile, Meh, Frown } from 'lucide-react';
+import ScrollFloat from '@/components/ScrollFloat';
 
 export default function ReviewPage() {
     const reviewQueue = useMemo(() => mockStudyPacks.flatMap(p => p.flashcards), []);
@@ -54,7 +55,7 @@ export default function ReviewPage() {
     <div className="container mx-auto max-w-3xl">
         <div className="flex justify-between items-center mb-6">
             <div>
-                <h1 className="text-3xl font-bold">Daily Review</h1>
+                <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">Daily Review</ScrollFloat>
                 <p className="text-muted-foreground">Strengthen your memory with spaced repetition.</p>
             </div>
             <div className="flex items-center gap-2 text-orange-500 font-bold text-lg">

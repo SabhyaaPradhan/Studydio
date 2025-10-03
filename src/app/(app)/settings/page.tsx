@@ -4,12 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { mockUser } from "@/lib/mock-data";
+import ScrollFloat from "@/components/ScrollFloat";
 
 export default function SettingsPage() {
   return (
     <div className="container mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Settings</h1>
+        <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">Settings</ScrollFloat>
         <p className="text-muted-foreground">Manage your account settings, plan, and notifications.</p>
       </div>
 

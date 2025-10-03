@@ -3,13 +3,16 @@ import { StudyPackCard } from "@/components/study-pack-card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
+import ScrollFloat from "@/components/ScrollFloat";
 
 export default function DashboardPage() {
   return (
     <div className="container mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Welcome back, {mockUser.name.split(' ')[0]}!</h1>
+          <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">
+            Welcome back, {mockUser.name.split(' ')[0]}!
+          </ScrollFloat>
           <p className="text-muted-foreground">Here are your study packs. Keep up the great work.</p>
         </div>
         <Button asChild>

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
-import Shuffle from "@/components/Shuffle";
+import ScrollFloat from "@/components/ScrollFloat";
 
 export default function LandingPage() {
   return (
@@ -39,21 +39,13 @@ export default function LandingPage() {
             <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
               <div className="flex flex-col justify-center space-y-4 z-20 text-center items-center">
                 <div className="space-y-2">
-                  <Shuffle
-                    text="Learn anything, 10x faster"
-                    shuffleDirection="right"
-                    duration={0.7}
-                    animationMode="evenodd"
-                    shuffleTimes={2}
-                    ease="power3.out"
-                    stagger={0.03}
-                    threshold={0.1}
-                    triggerOnce={false}
-                    triggerOnHover={true}
-                    respectReducedMotion={true}
-                    className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-joystix text-white"
+                  <ScrollFloat
                     tag="h1"
-                  />
+                    className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-joystix text-white"
+                    textClassName="scroll-float-text-hero"
+                  >
+                    Learn anything, 10x faster
+                  </ScrollFloat>
                   <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto">
                     Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
                   </p>
@@ -72,7 +64,9 @@ export default function LandingPage() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">Simple, transparent pricing</h2>
+                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                  Simple, transparent pricing
+                </ScrollFloat>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Choose the plan that's right for you. Get started for free.
                 </p>

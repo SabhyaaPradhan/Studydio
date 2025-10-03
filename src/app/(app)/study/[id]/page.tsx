@@ -11,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
+import ScrollFloat from '@/components/ScrollFloat';
 
 export default function StudyPackPage({ params }: { params: { id: string } }) {
   const pack = mockStudyPacks.find((p) => p.id === params.id || params.id.startsWith('new-pack'));
@@ -41,7 +42,7 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="container mx-auto">
-        <h1 className="text-3xl font-bold mb-1">{studyPack.title}</h1>
+        <ScrollFloat tag="h1" className="text-3xl font-bold mb-1" textClassName="scroll-float-text-h1">{studyPack.title}</ScrollFloat>
         <p className="text-muted-foreground mb-6">Let's get studying. You've got this!</p>
 
       <Tabs defaultValue="flashcards" className="w-full">

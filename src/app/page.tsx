@@ -26,20 +26,19 @@ export default function LandingPage() {
               scale={2.2}
               gridMul={[2, 1]}
               digitSize={1.2}
-              timeScale={0.5}
+              timeScale={0.3}
               pause={false}
               scanlineIntensity={0.5}
-              glitchAmount={1}
-              flickerAmount={1}
+              glitchAmount={0.5}
+              flickerAmount={0.5}
               noiseAmp={1}
               chromaticAberration={0}
               dither={0}
               curvature={0.1}
               tint="#26CF80"
               mouseReact={false}
-              mouseStrength={0.5}
               pageLoadAnimation={true}
-              brightness={0.6}
+              brightness={0.4}
             />
           </div>
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">

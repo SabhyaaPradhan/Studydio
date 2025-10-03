@@ -1,4 +1,5 @@
 
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -95,16 +96,6 @@ export default function LandingPage() {
                           />
                       </div>
                     </FadeContent>
-                    <GradualBlur
-                      target="parent"
-                      position="bottom"
-                      height="12rem"
-                      strength={4}
-                      divCount={8}
-                      curve="bezier"
-                      exponential={true}
-                      opacity={1}
-                    />
                 </div>
             </div>
         </section>
@@ -196,6 +187,16 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
+       <GradualBlur
+          target="page"
+          position="bottom"
+          height="12rem"
+          strength={4}
+          divCount={8}
+          curve="bezier"
+          exponential={true}
+          opacity={1}
+        />
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10">
         <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">

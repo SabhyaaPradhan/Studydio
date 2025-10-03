@@ -110,15 +110,15 @@ export default function LandingPage() {
                 delay={5000}
                 pauseOnHover={false}
               >
-                <Card className="p-6 bg-card/50 backdrop-blur-sm">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
                   <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
                   <p>Generate interactive flashcards from any content.</p>
                 </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
                   <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
                   <p>Test your knowledge with auto-generated quizzes.</p>
                 </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm">
+                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
                   <h3 className="text-2xl font-bold mb-2">Summaries</h3>
                   <p>Get concise AI-powered summaries of long articles.</p>
                 </Card>

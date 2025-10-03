@@ -16,8 +16,8 @@ export default function LandingPage() {
       <main className="flex-1">
         <section id="hero" className="w-full py-12 md:py-24 lg:py-32 xl:py-48 relative">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
-              <div className="flex flex-col justify-center space-y-4 z-10">
+            <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
+              <div className="flex flex-col justify-center space-y-4 z-10 text-center items-center">
                 <div className="space-y-2">
                   <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline text-white">
                     Learn anything, 10x faster
@@ -32,18 +32,6 @@ export default function LandingPage() {
                   </Button>
                 </div>
               </div>
-               <div className="w-full h-[400px] lg:h-[500px] relative">
-                {heroImage && (
-                    <Image
-                        src={heroImage.imageUrl}
-                        alt={heroImage.description}
-                        fill
-                        className="object-cover rounded-lg shadow-2xl"
-                        data-ai-hint={heroImage.imageHint}
-                        priority
-                    />
-                )}
-               </div>
             </div>
           </div>
         </section>

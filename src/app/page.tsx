@@ -61,7 +61,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:pt-12 lg:py-32 bg-gradient-to-b from-transparent via-stone-950 to-black">
+        <section id="how-it-works" className="w-full py-12 md:py-24 lg:pt-12 lg:py-32 bg-gradient-to-b from-stone-950/10 to-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">

@@ -91,16 +91,6 @@ export default function LandingPage() {
                   className="w-full rounded-xl"
                   data-ai-hint="dashboard ui"
                 />
-              <GradualBlur
-                target="parent"
-                position="bottom"
-                height="12rem"
-                strength={3}
-                divCount={5}
-                curve="bezier"
-                exponential={true}
-                opacity={0.8}
-              />
             </div>
           </div>
         </section>

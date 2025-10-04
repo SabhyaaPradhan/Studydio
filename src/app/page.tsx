@@ -40,7 +40,7 @@ export default function LandingPage() {
             tint="#26CF80"
             mouseReact={true}
             pageLoadAnimation={true}
-            brightness={0.5}
+            brightness={1}
             mouseStrength={0}
           />
         </div>
@@ -131,7 +131,7 @@ export default function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} className="order-last md:order-first">
                 <Image src="https://picsum.photos/seed/scheduler/600/400" alt="Scheduler" width={600} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
               </FadeContent>
               <div>
@@ -150,7 +150,7 @@ export default function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-4">
+              <div>
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
                   Everything You Need to Succeed
                 </ScrollFloat>

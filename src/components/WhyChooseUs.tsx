@@ -502,7 +502,7 @@ const WhyChooseUs = ({
           <ScrollReveal
               tag="div"
               textTag="p"
-              className="text-gray-400 pb-8 text-center max-w-2xl mx-auto !m-0"
+              className="text-gray-400 pb-8 text-center max-w-2xl mx-auto"
               textClassName="!text-lg !font-normal"
             >
               AI that adapts to the way you learn — faster, smarter, and personalized.
@@ -682,5 +682,3 @@ const WhyChooseUs = ({
  };
  
 export default WhyChooseUs;
-
-    

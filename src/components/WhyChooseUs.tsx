@@ -24,12 +24,6 @@ const cardData = [
     },
     {
         color: '#060010',
-        title: 'Instant Insights',
-        description: 'Summaries and quizzes in seconds.',
-        label: 'Benefits'
-    },
-    {
-        color: '#060010',
         title: 'Retain Better',
         description: 'Built-in spaced repetition helps memory stick.',
         label: 'Benefits'
@@ -371,7 +365,7 @@ const GlobalSpotlight = ({
         rect && e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
 
       isInsideSection.current = mouseInside || false;
-      const cards = gridRef.current.querySelectorAll('.card');
+      const cards = gridRef.current.querySelectorAll('.magic-bento-card');
 
       if (!mouseInside) {
         gsap.to(spotlightRef.current, {
@@ -432,7 +426,7 @@ const GlobalSpotlight = ({
 
     const handleMouseLeave = () => {
       isInsideSection.current = false;
-      gridRef.current?.querySelectorAll('.card').forEach(card => {
+      gridRef.current?.querySelectorAll('.magic-bento-card').forEach(card => {
         card.style.setProperty('--glow-intensity', '0');
       });
       if (spotlightRef.current) {
@@ -486,7 +480,7 @@ const WhyChooseUs = ({
   disableAnimations = false,
   spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
   particleCount = DEFAULT_PARTICLE_COUNT,
-  enableTilt = false,
+  enableTilt = true,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
   enableMagnetism = true
@@ -496,7 +490,7 @@ const WhyChooseUs = ({
   const shouldDisableAnimations = disableAnimations || isMobile;
 
   return (
-     <section id="why-choose-us" className="w-full py-24 md:py-32 bg-gradient-to-b from-stone-950 via-stone-900 to-black">
+     <section id="why-choose-us" className="w-full py-24 md:py-32 bg-gradient-to-b from-stone-950 via-stone-900 to-black magic-bento-section">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center">
           <h2 className="text-5xl font-blackheat text-center text-white">
@@ -518,7 +512,7 @@ const WhyChooseUs = ({
 
       <BentoCardGrid gridRef={gridRef}>
         {cardData.map((card, index) => {
-          const baseClassName = `card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''}`;
+          const baseClassName = `magic-bento-card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''}`;
           const cardProps = {
             className: baseClassName,
             style: {

@@ -10,7 +10,7 @@
   color-scheme: light dark;
 }
 
-.card-grid {
+.magic-bento-section .card-grid {
   display: grid;
   gap: 0.5em;
   padding: 0.75em;
@@ -19,7 +19,7 @@
   margin: 0 auto;
 }
 
-.card {
+.magic-bento-section .magic-bento-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -42,96 +42,96 @@
   --glow-radius: 200px;
 }
 
-.card:hover {
+.magic-bento-section .magic-bento-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.card__header,
-.card__content {
+.magic-bento-section .card__header,
+.magic-bento-section .card__content {
   display: flex;
   position: relative;
   color: var(--white);
 }
 
-.card__header {
+.magic-bento-section .card__header {
   gap: 0.75em;
   justify-content: space-between;
 }
 
-.card__content {
+.magic-bento-section .card__content {
   flex-direction: column;
 }
 
-.card__label {
+.magic-bento-section .card__label {
   font-size: 16px;
 }
 
-.card__title,
-.card__description {
+.magic-bento-section .card__title,
+.magic-bento-section .card__description {
   --clamp-title: 1;
   --clamp-desc: 2;
 }
 
-.card__title {
+.magic-bento-section .card__title {
   font-weight: 400;
   font-size: 16px;
   margin: 0 0 0.25em;
 }
 
-.card__description {
+.magic-bento-section .card__description {
   font-size: 12px;
   line-height: 1.2;
   opacity: 0.9;
 }
 
-.card--text-autohide .card__title,
-.card--text-autohide .card__description {
+.magic-bento-section .card--text-autohide .card__title,
+.magic-bento-section .card--text-autohide .card__description {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.card--text-autohide .card__title {
+.magic-bento-section .card--text-autohide .card__title {
   -webkit-line-clamp: var(--clamp-title);
   line-clamp: var(--clamp-title);
 }
 
-.card--text-autohide .card__description {
+.magic-bento-section .card--text-autohide .card__description {
   -webkit-line-clamp: var(--clamp-desc);
   line-clamp: var(--clamp-desc);
 }
 
 @media (max-width: 599px) {
-  .card-grid {
+  .magic-bento-section .card-grid {
     grid-template-columns: 1fr;
     width: 90%;
     margin: 0 auto;
     padding: 0.5em;
   }
 
-  .card {
+  .magic-bento-section .magic-bento-card {
     width: 100%;
     min-height: 180px;
   }
 }
 
 @media (min-width: 600px) and (max-width: 1023px) {
-  .card-grid {
+  .magic-bento-section .card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .card-grid {
+  .magic-bento-section .card-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 
 /* Border glow effect */
-.card--border-glow::after {
+.magic-bento-section .card--border-glow::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -156,22 +156,22 @@
   z-index: 1;
 }
 
-.card--border-glow:hover::after {
+.magic-bento-section .card--border-glow:hover::after {
   opacity: 1;
 }
 
-.card--border-glow:hover {
+.magic-bento-section .magic-bento-card:hover {
   box-shadow:
     0 4px 20px rgba(46, 24, 78, 0.4),
     0 0 30px var(--purple-glow);
 }
 
-.particle-container {
+.magic-bento-section .particle-container {
   position: relative;
   overflow: hidden;
 }
 
-.particle::before {
+.magic-bento-section .particle::before {
   content: '';
   position: absolute;
   top: -2px;
@@ -183,7 +183,7 @@
   z-index: -1;
 }
 
-.particle-container:hover {
+.magic-bento-section .particle-container:hover {
   box-shadow:
     0 4px 20px rgba(46, 24, 78, 0.2),
     0 0 30px var(--purple-glow);

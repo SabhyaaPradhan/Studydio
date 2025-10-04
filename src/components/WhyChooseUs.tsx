@@ -509,7 +509,7 @@ const WhyChooseUs = ({
         gyroControls: false,
         minHeight: 200.0,
         minWidth: 200.0,
-        scale: 1.0,
+        scale: 0.5,
         scaleMobile: 1.0,
         color: 0x26cf80,
         backgroundColor: 0x0,

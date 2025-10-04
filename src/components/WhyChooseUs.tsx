@@ -12,24 +12,6 @@ const MOBILE_BREAKPOINT = 768;
 const cardData = [
     {
         color: '#060010',
-        title: 'Save Hours',
-        description: 'Turn long videos into quick study sets.',
-        label: 'Benefits'
-    },
-    {
-        color: '#060010',
-        title: 'Learn Smarter',
-        description: 'Personalized flashcards built for your weak points.',
-        label: 'Benefits'
-    },
-    {
-        color: '#060010',
-        title: 'Retain Better',
-        description: 'Built-in spaced repetition helps memory stick.',
-        label: 'Benefits'
-    },
-    {
-        color: '#060010',
         title: '🎓 Students',
         description: 'Master concepts faster with auto-generated notes.',
         label: 'Who It’s For'
@@ -45,6 +27,24 @@ const cardData = [
         title: '📚 Lifelong Learners',
         description: 'Absorb knowledge efficiently from any source.',
         label: 'Who It’s For'
+    },
+    {
+        color: '#060010',
+        title: 'Save Hours',
+        description: 'Turn long videos into quick study sets.',
+        label: 'Benefits'
+    },
+    {
+        color: '#060010',
+        title: 'Learn Smarter',
+        description: 'Personalized flashcards built for your weak points.',
+        label: 'Benefits'
+    },
+    {
+        color: '#060010',
+        title: 'Retain Better',
+        description: 'Built-in spaced repetition helps memory stick.',
+        label: 'Benefits'
     }
 ];
 

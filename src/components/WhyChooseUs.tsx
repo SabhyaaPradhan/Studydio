@@ -529,7 +529,7 @@ const WhyChooseUs = ({
                 {...cardProps}
                 disableAnimations={shouldDisableAnimations}
                 particleCount={particleCount}
-                glowColor={isWhoFor ? '80, 80, 80' : glowColor}
+                glowColor={isWhoFor ? '0, 0%, 0%' : glowColor}
                 enableTilt={enableTilt}
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}

@@ -5,7 +5,7 @@
   --glow-primary: hsla(var(--hue), var(--sat), 50%, 1);
   --glow-secondary: hsla(var(--hue), var(--sat), 50%, 0.2);
   --glow-border: hsla(var(--hue), var(--sat), 50%, 0.8);
-  --border-color: #392e4e;
+  --border-color: hsla(var(--hue), var(--sat), 50%, 0.3);
   --background-dark: #060010;
   color-scheme: light dark;
 }

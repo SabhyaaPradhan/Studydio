@@ -7,11 +7,11 @@ import './MagicBento.css';
 import ScrollFloat from './ScrollFloat';
 import ScrollReveal from './ScrollReveal';
 import Script from 'next/script';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
 const DEFAULT_GLOW_COLOR = '120, 100%, 50%';
-const MOBILE_BREAKPOINT = 768;
 
 const cardData = [
   {
@@ -461,21 +461,6 @@ const BentoCardGrid = ({ children, gridRef }) => (
   </div>
 );
 
-const useMobileDetection = () => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  return isMobile;
-};
-
 const WhyChooseUs = ({
   textAutoHide = true,
   enableStars = true,
@@ -490,7 +475,7 @@ const WhyChooseUs = ({
   enableMagnetism = true
 }) => {
   const gridRef = useRef(null);
-  const isMobile = useMobileDetection();
+  const isMobile = useIsMobile();
   const shouldDisableAnimations = disableAnimations || isMobile;
 
   const [vantaEffect, setVantaEffect] = useState<any>(null);
@@ -498,7 +483,7 @@ const WhyChooseUs = ({
   const [threeLoaded, setThreeLoaded] = useState(false);
 
   useEffect(() => {
-    if (vantaEffect) return;
+    if (vantaEffect || isMobile) return;
 
     if (threeLoaded && (window as any).VANTA) {
       const vantaInstance = (window as any).VANTA.GLOBE({
@@ -509,7 +494,7 @@ const WhyChooseUs = ({
         gyroControls: false,
         minHeight: 200.0,
         minWidth: 200.0,
-        scale: 0.1,
+        scale: 1.0,
         scaleMobile: 1.0,
         color: 0x26cf80,
         backgroundColor: 0x0,
@@ -520,7 +505,7 @@ const WhyChooseUs = ({
     return () => {
       if (vantaEffect) (vantaEffect as any).destroy();
     };
-  }, [threeLoaded, vantaEffect]);
+  }, [threeLoaded, vantaEffect, isMobile]);
 
 
   return (
@@ -724,3 +709,5 @@ const WhyChooseUs = ({
 };
 
 export default WhyChooseUs;
+
+    

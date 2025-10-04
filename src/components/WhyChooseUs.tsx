@@ -5,6 +5,7 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import './MagicBento.css';
 import ScrollFloat from './ScrollFloat';
+import ScrollReveal from './ScrollReveal';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -498,9 +499,14 @@ const WhyChooseUs = ({
           <ScrollFloat tag="h2" className="text-[100px] md:text-[300px] font-blackheat text-center text-white">
             Why Choose Us
           </ScrollFloat>
-          <p className="text-gray-400 pb-8 text-center max-w-2xl mx-auto mt-4 text-lg">
-            AI that adapts to the way you learn — faster, smarter, and personalized.
-          </p>
+          <ScrollReveal
+              tag="div"
+              textTag="p"
+              className="text-gray-400 pb-8 text-center max-w-2xl mx-auto !m-0"
+              textClassName="!text-lg !font-normal"
+            >
+              AI that adapts to the way you learn — faster, smarter, and personalized.
+            </ScrollReveal>
         </div>
        {enableSpotlight && (
         <GlobalSpotlight

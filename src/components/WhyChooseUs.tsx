@@ -6,7 +6,7 @@ import './MagicBento.css';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = '197, 71%, 73%';
+const DEFAULT_GLOW_COLOR = '120, 100%, 50%';
 const MOBILE_BREAKPOINT = 768;
 
 const cardData = [

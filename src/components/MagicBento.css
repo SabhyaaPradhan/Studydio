@@ -1,10 +1,10 @@
 :root {
-  --hue: 197;
-  --sat: 71%;
+  --hue: 120;
+  --sat: 100%;
   --white: hsl(0, 0%, 100%);
-  --glow-primary: hsla(var(--hue), var(--sat), 73%, 1);
-  --glow-secondary: hsla(var(--hue), var(--sat), 73%, 0.2);
-  --glow-border: hsla(var(--hue), var(--sat), 73%, 0.8);
+  --glow-primary: hsla(var(--hue), var(--sat), 50%, 1);
+  --glow-secondary: hsla(var(--hue), var(--sat), 50%, 0.2);
+  --glow-border: hsla(var(--hue), var(--sat), 50%, 0.8);
   --border-color: #392e4e;
   --background-dark: #060010;
   color-scheme: light dark;
@@ -138,8 +138,8 @@
   padding: 6px;
   background: radial-gradient(
     var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-    hsla(var(--hue), var(--sat), 73%, calc(var(--glow-intensity) * 0.8)) 0%,
-    hsla(var(--hue), var(--sat), 73%, calc(var(--glow-intensity) * 0.4)) 30%,
+    hsla(var(--hue), var(--sat), 50%, calc(var(--glow-intensity) * 0.8)) 0%,
+    hsla(var(--hue), var(--sat), 50%, calc(var(--glow-intensity) * 0.4)) 30%,
     transparent 60%
   );
   border-radius: inherit;
@@ -162,7 +162,7 @@
 
 .magic-bento-section .magic-bento-card:hover {
   box-shadow:
-    0 4px 20px hsla(var(--hue), var(--sat), 73%, 0.2),
+    0 4px 20px hsla(var(--hue), var(--sat), 50%, 0.2),
     0 0 30px var(--glow-secondary);
 }
 
@@ -178,7 +178,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: hsla(var(--hue), var(--sat), 73%, 0.2);
+  background: hsla(var(--hue), var(--sat), 50%, 0.2);
   border-radius: 50%;
   z-index: -1;
 }

@@ -15,6 +15,7 @@ import dashboard_img from "../public/images/dashboard.png";
 import FadeContent from '@/components/FadeContent';
 import GradualBlur from "@/components/GradualBlur";
 import CardSwap, { Card } from '@/components/CardSwap';
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -131,10 +132,10 @@ export default function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} className="order-last md:order-first">
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} className="md:order-last">
                 <Image src="https://picsum.photos/seed/scheduler/600/400" alt="Scheduler" width={600} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
               </FadeContent>
-              <div>
+              <div className="md:order-first">
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
                   Study Smarter, Not Harder
                 </ScrollFloat>
@@ -191,6 +192,7 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <WhyChooseUs />
 
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
           <div className="container mx-auto px-4 md:px-6">

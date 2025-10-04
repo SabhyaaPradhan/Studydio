@@ -23,7 +23,7 @@ export default function LandingPage() {
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
       <main className="relative">
-        <div style={{position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1}}>
+        <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
             scale={1.7}
             gridMul={[2, 1]}
@@ -52,7 +52,7 @@ export default function LandingPage() {
                   <Shuffle text="Learn anything, 10x faster" />
                 </h1>
                 <p className="max-w-[600px] text-gray-200 md:text-xl mx-auto font-poppins">
-                    Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
+                  Paste any content—YouTube links, PDFs, articles, or text—and let our AI generate your personalized study materials in seconds.
                 </p>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button asChild size="lg" className="bg-white/20 text-white backdrop-blur-sm border border-white/20 hover:bg-white/30 transition-colors rounded-full">
@@ -65,45 +65,43 @@ export default function LandingPage() {
         </section>
 
         <section id="how-it-works" className="w-full py-12 md:py-24 lg:pt-12 lg:py-32 bg-gradient-to-b from-transparent via-stone-950 to-black">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                    <div className="space-y-2">
-                        <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white" scrollStart="top 80%">
-                          How It Works
-                        </ScrollFloat>
-                         <ScrollReveal
-                            tag="div"
-                            textTag="p"
-                            className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                            textClassName="!text-xl !font-normal !text-muted-foreground"
-                          >
-                          It's as simple as 1, 2, 3. Paste your content, generate your materials, and start studying smarter.
-                        </ScrollReveal>
-                    </div>
-                </div>
-                <div className="mx-auto max-w-5xl mt-12 relative">
-                    <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                      <Image
-                          src={dashboard_img}
-                          alt="Random placeholder image"
-                          width={1200}
-                          height={800}
-                          className="w-full rounded-xl"
-                          data-ai-hint="dashboard ui"
-                      />
-                    </FadeContent>
-                    <GradualBlur
-                      target="parent"
-                      position="bottom"
-                      height="12rem"
-                      strength={3}
-                      divCount={5}
-                      curve="bezier"
-                      exponential={true}
-                      opacity={0.8}
-                    />
-                </div>
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white" scrollStart="top 80%">
+                  How It Works
+                </ScrollFloat>
+                <ScrollReveal
+                  tag="div"
+                  textTag="p"
+                  className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
+                  It's as simple as 1, 2, 3. Paste your content, generate your materials, and start studying smarter.
+                </ScrollReveal>
+              </div>
             </div>
+            <div className="mx-auto max-w-5xl mt-12 relative">
+                <Image
+                  src={dashboard_img}
+                  alt="Random placeholder image"
+                  width={1200}
+                  height={800}
+                  className="w-full rounded-xl"
+                  data-ai-hint="dashboard ui"
+                />
+              <GradualBlur
+                target="parent"
+                position="bottom"
+                height="12rem"
+                strength={3}
+                divCount={5}
+                curve="bezier"
+                exponential={true}
+                opacity={0.8}
+              />
+            </div>
+          </div>
         </section>
 
         <section id="features" className="w-full py-12 md:py-12 lg:py-12 bg-black overflow-hidden">
@@ -114,34 +112,54 @@ export default function LandingPage() {
               </ScrollFloat>
             </div>
             <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-               <div>
+              <div>
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
                   Unlock Your Learning Potential
                 </ScrollFloat>
                 <ScrollReveal
-                    tag="div"
-                    textTag="p"
-                    className="max-w-2xl mt-4 !m-0"
-                    textClassName="!text-xl !font-normal !text-muted-foreground"
-                  >
+                  tag="div"
+                  textTag="p"
+                  className="max-w-2xl mt-4 !m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
                   Studydio transforms your study materials into powerful, interactive learning tools. Discover how our features can help you master any subject.
                 </ScrollReveal>
               </div>
-               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                 <Image src="https://picsum.photos/seed/features/600/400" alt="Features" width={600} height={400} className="rounded-lg" data-ai-hint="learning process" />
               </FadeContent>
             </div>
+
+            <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                <Image src="https://picsum.photos/seed/scheduler/600/400" alt="Scheduler" width={600} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
+              </FadeContent>
+              <div>
+                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                  Study Smarter, Not Harder
+                </ScrollFloat>
+                <ScrollReveal
+                  tag="div"
+                  textTag="p"
+                  className="max-w-2xl mt-4 !m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
+                  Our AI-powered smart scheduler uses spaced repetition to tell you exactly when to review, reinforcing memory and making your study sessions more effective.
+                </ScrollReveal>
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-4">
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
                   Everything You Need to Succeed
                 </ScrollFloat>
                 <ScrollReveal
-                    tag="div"
-                    textTag="p"
-                    className="!m-0"
-                    textClassName="!text-xl !font-normal !text-muted-foreground"
-                  >
+                  tag="div"
+                  textTag="p"
+                  className="!m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
                   Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
                 </ScrollReveal>
               </div>
@@ -182,11 +200,11 @@ export default function LandingPage() {
                   Simple, transparent pricing
                 </ScrollFloat>
                 <ScrollReveal
-                    tag="div"
-                    textTag="p"
-                    className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                    textClassName="!text-xl !font-normal !text-muted-foreground"
-                  >
+                  tag="div"
+                  textTag="p"
+                  className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                  textClassName="!text-xl !font-normal !text-muted-foreground"
+                >
                   Choose the plan that's right for you. Get started for free.
                 </ScrollReveal>
               </div>
@@ -215,7 +233,7 @@ export default function LandingPage() {
               </FadeContent>
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                 <ShadCard className="flex flex-col border-primary shadow-lg bg-card/50 backdrop-blur-sm h-full">
-                   <CardHeader>
+                  <CardHeader>
                     <CardTitle>Pro</CardTitle>
                     <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
                   </CardHeader>
@@ -243,7 +261,7 @@ export default function LandingPage() {
                   </CardHeader>
                   <CardContent className="flex-1">
                     <div className="text-4xl font-bold">Contact Us</div>
-                     <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Everything in Pro, plus:</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Team collaboration features</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Centralized billing</li>

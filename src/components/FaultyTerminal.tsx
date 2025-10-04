@@ -267,6 +267,8 @@ export default function FaultyTerminal({
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const ctn = containerRef.current;
     if (!ctn) return;
 

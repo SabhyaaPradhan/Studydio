@@ -30,19 +30,19 @@ const cardData = [
         label: 'Who It’s For'
     },
     {
-        color: '#1c1917',
+        color: '#0c0a09',
         title: 'Save Hours',
         description: 'Turn long videos into quick study sets.',
         label: 'Benefits'
     },
     {
-        color: '#1c1917',
+        color: '#0c0a09',
         title: 'Learn Smarter',
         description: 'Personalized flashcards built for your weak points.',
         label: 'Benefits'
     },
     {
-        color: '#1c1917',
+        color: '#0c0a09',
         title: 'Retain Better',
         description: 'Built-in spaced repetition helps memory stick.',
         label: 'Benefits'

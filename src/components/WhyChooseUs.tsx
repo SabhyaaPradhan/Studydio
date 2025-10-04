@@ -6,7 +6,7 @@ import './MagicBento.css';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = '132, 0, 255';
+const DEFAULT_GLOW_COLOR = '197, 71%, 73%';
 const MOBILE_BREAKPOINT = 768;
 
 const cardData = [
@@ -56,8 +56,8 @@ const createParticleElement = (x, y, color = DEFAULT_GLOW_COLOR) => {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: rgba(${color}, 1);
-    box-shadow: 0 0 6px rgba(${color}, 0.6);
+    background: hsla(${color}, 1);
+    box-shadow: 0 0 6px hsla(${color}, 0.6);
     pointer-events: none;
     z-index: 100;
     left: ${x}px;
@@ -268,7 +268,7 @@ const ParticleCard = ({
         width: ${maxDistance * 2}px;
         height: ${maxDistance * 2}px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+        background: radial-gradient(circle, hsla(${glowColor}, 0.4) 0%, hsla(${glowColor}, 0.2) 30%, transparent 70%);
         left: ${x - maxDistance}px;
         top: ${y - maxDistance}px;
         pointer-events: none;
@@ -341,11 +341,11 @@ const GlobalSpotlight = ({
       border-radius: 50%;
       pointer-events: none;
       background: radial-gradient(circle,
-        rgba(${glowColor}, 0.15) 0%,
-        rgba(${glowColor}, 0.08) 15%,
-        rgba(${glowColor}, 0.04) 25%,
-        rgba(${glowColor}, 0.02) 40%,
-        rgba(${glowColor}, 0.01) 65%,
+        hsla(${glowColor}, 0.15) 0%,
+        hsla(${glowColor}, 0.08) 15%,
+        hsla(${glowColor}, 0.04) 25%,
+        hsla(${glowColor}, 0.02) 40%,
+        hsla(${glowColor}, 0.01) 65%,
         transparent 70%
       );
       z-index: 200;
@@ -626,7 +626,7 @@ const WhyChooseUs = ({
                     width: ${maxDistance * 2}px;
                     height: ${maxDistance * 2}px;
                     border-radius: 50%;
-                    background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                    background: radial-gradient(circle, hsla(${glowColor}, 0.4) 0%, hsla(${glowColor}, 0.2) 30%, transparent 70%);
                     left: ${x - maxDistance}px;
                     top: ${y - maxDistance}px;
                     pointer-events: none;

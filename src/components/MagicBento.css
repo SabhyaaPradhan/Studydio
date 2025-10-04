@@ -1,10 +1,10 @@
 :root {
-  --hue: 27;
-  --sat: 69%;
+  --hue: 197;
+  --sat: 71%;
   --white: hsl(0, 0%, 100%);
-  --purple-primary: rgba(132, 0, 255, 1);
-  --purple-glow: rgba(132, 0, 255, 0.2);
-  --purple-border: rgba(132, 0, 255, 0.8);
+  --glow-primary: hsla(var(--hue), var(--sat), 73%, 1);
+  --glow-secondary: hsla(var(--hue), var(--sat), 73%, 0.2);
+  --glow-border: hsla(var(--hue), var(--sat), 73%, 0.8);
   --border-color: #392e4e;
   --background-dark: #060010;
   color-scheme: light dark;
@@ -138,8 +138,8 @@
   padding: 6px;
   background: radial-gradient(
     var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-    rgba(132, 0, 255, calc(var(--glow-intensity) * 0.8)) 0%,
-    rgba(132, 0, 255, calc(var(--glow-intensity) * 0.4)) 30%,
+    hsla(var(--hue), var(--sat), 73%, calc(var(--glow-intensity) * 0.8)) 0%,
+    hsla(var(--hue), var(--sat), 73%, calc(var(--glow-intensity) * 0.4)) 30%,
     transparent 60%
   );
   border-radius: inherit;
@@ -162,8 +162,8 @@
 
 .magic-bento-section .magic-bento-card:hover {
   box-shadow:
-    0 4px 20px rgba(46, 24, 78, 0.4),
-    0 0 30px var(--purple-glow);
+    0 4px 20px hsla(var(--hue), var(--sat), 73%, 0.2),
+    0 0 30px var(--glow-secondary);
 }
 
 .magic-bento-section .particle-container {
@@ -178,15 +178,15 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: rgba(132, 0, 255, 0.2);
+  background: hsla(var(--hue), var(--sat), 73%, 0.2);
   border-radius: 50%;
   z-index: -1;
 }
 
 .magic-bento-section .particle-container:hover {
   box-shadow:
-    0 4px 20px rgba(46, 24, 78, 0.2),
-    0 0 30px var(--purple-glow);
+    0 4px 20px hsla(var(--hue), var(--sat), 20%, 0.2),
+    0 0 30px var(--glow-secondary);
 }
 
 /* Global spotlight styles */

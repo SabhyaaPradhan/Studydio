@@ -4,6 +4,7 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import './MagicBento.css';
+import ScrollFloat from './ScrollFloat';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -494,9 +495,9 @@ const WhyChooseUs = ({
      <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center">
-          <h2 className="text-[100px] md:text-[300px] font-blackheat text-center text-white">
+          <ScrollFloat tag="h2" className="text-[100px] md:text-[300px] font-blackheat text-center text-white">
             Why Choose Us
-          </h2>
+          </ScrollFloat>
           <p className="text-gray-400 pb-8 text-center max-w-2xl mx-auto mt-4 text-lg">
             AI that adapts to the way you learn — faster, smarter, and personalized.
           </p>

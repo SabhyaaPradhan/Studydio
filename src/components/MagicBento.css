@@ -214,13 +214,13 @@
 .magic-bento-section .card--who-its-for::after {
    background: radial-gradient(
     var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-    hsla(240, 5%, 48%, calc(var(--glow-intensity) * 0.8)) 0%, /* stone-500 */
-    hsla(240, 5%, 48%, calc(var(--glow-intensity) * 0.4)) 30%,
+    hsla(0, 0%, 0%, calc(var(--glow-intensity) * 0.8)) 0%,
+    hsla(0, 0%, 0%, calc(var(--glow-intensity) * 0.4)) 30%,
     transparent 60%
   );
 }
 .magic-bento-section .card--who-its-for:hover {
   box-shadow:
-    0 4px 20px hsla(240, 5%, 48%, 0.2),
-    0 0 30px hsla(240, 5%, 48%, 0.2);
+    0 4px 20px hsla(0, 0%, 0%, 0.2),
+    0 0 30px hsla(0, 0%, 0%, 0.2);
 }

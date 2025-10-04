@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useEffect, useCallback, useState } from 'react';
@@ -11,37 +12,37 @@ const MOBILE_BREAKPOINT = 768;
 
 const cardData = [
     {
-        color: '#060010',
+        color: 'rgb(21 128 61)',
         title: '🎓 Students',
         description: 'Master concepts faster with auto-generated notes.',
         label: 'Who It’s For'
     },
     {
-        color: '#060010',
+        color: 'rgb(21 128 61)',
         title: '🧑‍🏫 Teachers',
         description: 'Create quizzes instantly from your lessons.',
         label: 'Who It’s For'
     },
     {
-        color: '#060010',
+        color: 'rgb(21 128 61)',
         title: '📚 Lifelong Learners',
         description: 'Absorb knowledge efficiently from any source.',
         label: 'Who It’s For'
     },
     {
-        color: '#060010',
+        color: '#1c1917',
         title: 'Save Hours',
         description: 'Turn long videos into quick study sets.',
         label: 'Benefits'
     },
     {
-        color: '#060010',
+        color: '#1c1917',
         title: 'Learn Smarter',
         description: 'Personalized flashcards built for your weak points.',
         label: 'Benefits'
     },
     {
-        color: '#060010',
+        color: '#1c1917',
         title: 'Retain Better',
         description: 'Built-in spaced repetition helps memory stick.',
         label: 'Benefits'
@@ -674,3 +675,5 @@ const WhyChooseUs = ({
  };
  
 export default WhyChooseUs;
+
+    

@@ -17,7 +17,7 @@ export default function GlobalPixelTrail() {
     }
 
     return (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, pointerEvents: 'none' }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, pointerEvents: 'none', mixBlendMode: 'difference' }}>
             <Suspense fallback={null}>
                 <PixelTrailClient
                     trailSize={15}

@@ -490,13 +490,13 @@ const WhyChooseUs = ({
   const shouldDisableAnimations = disableAnimations || isMobile;
 
   return (
-     <section id="why-choose-us" className="w-full py-24 md:py-32 bg-gradient-to-b from-stone-950 via-stone-900 to-black magic-bento-section">
+     <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center">
-          <h2 className="text-5xl font-blackheat text-center text-white">
+          <h2 className="text-[100px] md:text-[300px] font-blackheat text-center text-white">
             Why Choose Us
           </h2>
-          <p className="text-gray-400 text-center max-w-2xl mx-auto mt-4 text-lg">
+          <p className="text-gray-400 pb-8 text-center max-w-2xl mx-auto mt-4 text-lg">
             AI that adapts to the way you learn — faster, smarter, and personalized.
           </p>
         </div>

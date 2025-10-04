@@ -6,7 +6,7 @@
   --glow-secondary: hsla(var(--hue), var(--sat), 50%, 0.2);
   --glow-border: hsla(var(--hue), var(--sat), 50%, 0.8);
   --border-color: hsla(var(--hue), var(--sat), 50%, 0.3);
-  --background-dark: #060010;
+  --background-dark: #141414;
   color-scheme: light dark;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .magic-bento-section .card--who-its-for {
-  background-color: #15803d; /* green-700 */
+  background-color:rgb(12, 166, 68); /* green-700 */
   border-color: black;
 }
 

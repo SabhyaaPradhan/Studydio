@@ -132,10 +132,10 @@ export default function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} className="md:order-last">
+              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                 <Image src="https://picsum.photos/seed/scheduler/600/400" alt="Scheduler" width={600} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
               </FadeContent>
-              <div className="md:order-first">
+              <div>
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
                   Study Smarter, Not Harder
                 </ScrollFloat>

@@ -202,7 +202,7 @@
 }
 
 .magic-bento-section .card--who-its-for {
-  background-color: #22c55e; /* green-500 */
+  background-color: #15803d; /* green-700 */
   border-color: black;
 }
 
@@ -223,4 +223,13 @@
   box-shadow:
     0 4px 20px hsla(0, 0%, 0%, 0.2),
     0 0 30px hsla(0, 0%, 0%, 0.2);
+}
+
+.magic-bento-section .card--who-its-for .particle {
+  background: black !important;
+  box-shadow: none !important;
+}
+
+.magic-bento-section .card--who-its-for .particle::before {
+  display: none;
 }

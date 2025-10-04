@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import './MagicBento.css';
 import ScrollFloat from './ScrollFloat';
 import ScrollReveal from './ScrollReveal';
+import Script from 'next/script';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -13,42 +14,42 @@ const DEFAULT_GLOW_COLOR = '120, 100%, 50%';
 const MOBILE_BREAKPOINT = 768;
 
 const cardData = [
-    {
-        color: 'rgb(21 128 61)',
-        title: '🎓 Students',
-        description: 'Master concepts faster with auto-generated notes.',
-        label: 'Who It’s For'
-    },
-    {
-        color: 'rgb(21 128 61)',
-        title: '🧑‍🏫 Teachers',
-        description: 'Create quizzes instantly from your lessons.',
-        label: 'Who It’s For'
-    },
-    {
-        color: 'rgb(21 128 61)',
-        title: '📚 Lifelong Learners',
-        description: 'Absorb knowledge efficiently from any source.',
-        label: 'Who It’s For'
-    },
-    {
-        color: '#0c0a09',
-        title: 'Save Hours',
-        description: 'Turn long videos into quick study sets.',
-        label: 'Benefits'
-    },
-    {
-        color: '#0c0a09',
-        title: 'Learn Smarter',
-        description: 'Personalized flashcards built for your weak points.',
-        label: 'Benefits'
-    },
-    {
-        color: '#0c0a09',
-        title: 'Retain Better',
-        description: 'Built-in spaced repetition helps memory stick.',
-        label: 'Benefits'
-    }
+  {
+    color: 'rgb(21 128 61)',
+    title: '🎓 Students',
+    description: 'Master concepts faster with auto-generated notes.',
+    label: 'Who It’s For'
+  },
+  {
+    color: 'rgb(21 128 61)',
+    title: '🧑‍🏫 Teachers',
+    description: 'Create quizzes instantly from your lessons.',
+    label: 'Who It’s For'
+  },
+  {
+    color: 'rgb(21 128 61)',
+    title: '📚 Lifelong Learners',
+    description: 'Absorb knowledge efficiently from any source.',
+    label: 'Who It’s For'
+  },
+  {
+    color: '#0c0a09',
+    title: 'Save Hours',
+    description: 'Turn long videos into quick study sets.',
+    label: 'Benefits'
+  },
+  {
+    color: '#0c0a09',
+    title: 'Learn Smarter',
+    description: 'Personalized flashcards built for your weak points.',
+    label: 'Benefits'
+  },
+  {
+    color: '#0c0a09',
+    title: 'Retain Better',
+    description: 'Built-in spaced repetition helps memory stick.',
+    label: 'Benefits'
+  }
 ];
 
 const createParticleElement = (x, y, color = DEFAULT_GLOW_COLOR) => {
@@ -492,145 +493,185 @@ const WhyChooseUs = ({
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
 
+  const [vantaEffect, setVantaEffect] = useState<any>(null);
+  const vantaRef = useRef(null);
+  const [threeLoaded, setThreeLoaded] = useState(false);
+
+  useEffect(() => {
+    if (vantaEffect) return;
+
+    if (threeLoaded && (window as any).VANTA) {
+      const vantaInstance = (window as any).VANTA.GLOBE({
+        el: vantaRef.current,
+        THREE: (window as any).THREE,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x26cf80,
+        backgroundColor: 0x0,
+      });
+      setVantaEffect(vantaInstance);
+    }
+    
+    return () => {
+      if (vantaEffect) (vantaEffect as any).destroy();
+    };
+  }, [threeLoaded, vantaEffect]);
+
+
   return (
-     <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
-          <ScrollFloat tag="h2" className="text-[100px] md:text-[300px] font-blackheat text-center text-white">
-            Why Choose Us
-          </ScrollFloat>
-          <ScrollReveal
+    <>
+      <Script
+        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+        strategy="afterInteractive"
+        onLoad={() => setThreeLoaded(true)}
+      />
+      <Script
+        src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"
+        strategy="afterInteractive"
+      />
+      <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section relative" ref={vantaRef}>
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center">
+            <ScrollFloat tag="h2" className="text-[100px] md:text-[300px] font-blackheat text-center text-white" scrollStart="top 80%">
+              Why Choose Us
+            </ScrollFloat>
+            <ScrollReveal
               tag="div"
               textTag="p"
-              className="text-gray-400 pb-8 max-w-2xl mx-auto"
-              textClassName="!text-lg !font-normal"
+              className="max-w-2xl mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed pb-6 text-center"
+              textClassName="!text-xl !font-normal !text-muted-foreground"
             >
               AI that adapts to the way you learn — faster, smarter, and personalized.
             </ScrollReveal>
-        </div>
-       {enableSpotlight && (
-        <GlobalSpotlight
-          gridRef={gridRef}
-          disableAnimations={shouldDisableAnimations}
-          enabled={enableSpotlight}
-          spotlightRadius={spotlightRadius}
-          glowColor={glowColor}
-        />
-      )}
+          </div>
+          {enableSpotlight && (
+            <GlobalSpotlight
+              gridRef={gridRef}
+              disableAnimations={shouldDisableAnimations}
+              enabled={enableSpotlight}
+              spotlightRadius={spotlightRadius}
+              glowColor={glowColor}
+            />
+          )}
 
-      <BentoCardGrid gridRef={gridRef}>
-        {cardData.map((card, index) => {
-          const isWhoFor = card.label === 'Who It’s For';
-          const baseClassName = `magic-bento-card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''}`;
-          const cardProps = {
-            className: `${baseClassName} ${isWhoFor ? 'card--who-its-for' : ''}`,
-            style: {
-              ...(!isWhoFor && { backgroundColor: card.color }),
-              '--glow-color': glowColor
-            }
-          };
+          <BentoCardGrid gridRef={gridRef}>
+            {cardData.map((card, index) => {
+              const isWhoFor = card.label === 'Who It’s For';
+              const baseClassName = `magic-bento-card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''}`;
+              const cardProps = {
+                className: `${baseClassName} ${isWhoFor ? 'card--who-its-for' : ''}`,
+                style: {
+                  ...(!isWhoFor && { backgroundColor: card.color }),
+                  '--glow-color': glowColor
+                }
+              };
 
-          if (enableStars) {
-            return (
-              <ParticleCard
-                key={index}
-                {...cardProps}
-                disableAnimations={shouldDisableAnimations}
-                particleCount={particleCount}
-                glowColor={isWhoFor ? '0, 0%, 0%' : glowColor}
-                enableTilt={enableTilt}
-                clickEffect={clickEffect}
-                enableMagnetism={enableMagnetism}
-              >
-                <div className="card__header">
-                  <div className="card__label">{card.label}</div>
-                </div>
-                <div className="card__content">
-                  <h2 className="card__title">{card.title}</h2>
-                  <p className="card__description">{card.description}</p>
-                </div>
-              </ParticleCard>
-            );
-          }
+              if (enableStars) {
+                return (
+                  <ParticleCard
+                    key={index}
+                    {...cardProps}
+                    disableAnimations={shouldDisableAnimations}
+                    particleCount={particleCount}
+                    glowColor={isWhoFor ? '0, 0%, 0%' : glowColor}
+                    enableTilt={enableTilt}
+                    clickEffect={clickEffect}
+                    enableMagnetism={enableMagnetism}
+                  >
+                    <div className="card__header">
+                      <div className="card__label">{card.label}</div>
+                    </div>
+                    <div className="card__content">
+                      <h2 className="card__title">{card.title}</h2>
+                      <p className="card__description">{card.description}</p>
+                    </div>
+                  </ParticleCard>
+                );
+              }
 
-          return (
-            <div
-              key={index}
-              {...cardProps}
-              ref={el => {
-                if (!el) return;
+              return (
+                <div
+                  key={index}
+                  {...cardProps}
+                  ref={el => {
+                    if (!el) return;
 
-                const handleMouseMove = e => {
-                  if (shouldDisableAnimations) return;
+                    const handleMouseMove = e => {
+                      if (shouldDisableAnimations) return;
 
-                  const rect = el.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-                  const centerX = rect.width / 2;
-                  const centerY = rect.height / 2;
+                      const rect = el.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      const centerX = rect.width / 2;
+                      const centerY = rect.height / 2;
 
-                  if (enableTilt) {
-                    const rotateX = ((y - centerY) / centerY) * -10;
-                    const rotateY = ((x - centerX) / centerX) * 10;
-                    gsap.to(el, {
-                      rotateX,
-                      rotateY,
-                      duration: 0.1,
-                      ease: 'power2.out',
-                      transformPerspective: 1000
-                    });
-                  }
+                      if (enableTilt) {
+                        const rotateX = ((y - centerY) / centerY) * -10;
+                        const rotateY = ((x - centerX) / centerX) * 10;
+                        gsap.to(el, {
+                          rotateX,
+                          rotateY,
+                          duration: 0.1,
+                          ease: 'power2.out',
+                          transformPerspective: 1000
+                        });
+                      }
 
-                  if (enableMagnetism) {
-                    const magnetX = (x - centerX) * 0.05;
-                    const magnetY = (y - centerY) * 0.05;
-                    gsap.to(el, {
-                      x: magnetX,
-                      y: magnetY,
-                      duration: 0.3,
-                      ease: 'power2.out'
-                    });
-                  }
-                };
+                      if (enableMagnetism) {
+                        const magnetX = (x - centerX) * 0.05;
+                        const magnetY = (y - centerY) * 0.05;
+                        gsap.to(el, {
+                          x: magnetX,
+                          y: magnetY,
+                          duration: 0.3,
+                          ease: 'power2.out'
+                        });
+                      }
+                    };
 
-                const handleMouseLeave = () => {
-                  if (shouldDisableAnimations) return;
+                    const handleMouseLeave = () => {
+                      if (shouldDisableAnimations) return;
 
-                  if (enableTilt) {
-                    gsap.to(el, {
-                      rotateX: 0,
-                      rotateY: 0,
-                      duration: 0.3,
-                      ease: 'power2.out'
-                    });
-                  }
+                      if (enableTilt) {
+                        gsap.to(el, {
+                          rotateX: 0,
+                          rotateY: 0,
+                          duration: 0.3,
+                          ease: 'power2.out'
+                        });
+                      }
 
-                  if (enableMagnetism) {
-                    gsap.to(el, {
-                      x: 0,
-                      y: 0,
-                      duration: 0.3,
-                      ease: 'power2.out'
-                    });
-                  }
-                };
+                      if (enableMagnetism) {
+                        gsap.to(el, {
+                          x: 0,
+                          y: 0,
+                          duration: 0.3,
+                          ease: 'power2.out'
+                        });
+                      }
+                    };
 
-                const handleClick = e => {
-                  if (!clickEffect || shouldDisableAnimations) return;
+                    const handleClick = e => {
+                      if (!clickEffect || shouldDisableAnimations) return;
 
-                  const rect = el.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
+                      const rect = el.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
 
-                  const maxDistance = Math.max(
-                    Math.hypot(x, y),
-                    Math.hypot(x - rect.width, y),
-                    Math.hypot(x, y - rect.height),
-                    Math.hypot(x - rect.width, y - rect.height)
-                  );
+                      const maxDistance = Math.max(
+                        Math.hypot(x, y),
+                        Math.hypot(x - rect.width, y),
+                        Math.hypot(x, y - rect.height),
+                        Math.hypot(x - rect.width, y - rect.height)
+                      );
 
-                  const ripple = document.createElement('div');
-                  ripple.style.cssText = `
+                      const ripple = document.createElement('div');
+                      ripple.style.cssText = `
                     position: absolute;
                     width: ${maxDistance * 2}px;
                     height: ${maxDistance * 2}px;
@@ -642,43 +683,44 @@ const WhyChooseUs = ({
                     z-index: 1000;
                   `;
 
-                  el.appendChild(ripple);
+                      el.appendChild(ripple);
 
-                  gsap.fromTo(
-                    ripple,
-                    {
-                      scale: 0,
-                      opacity: 1
-                    },
-                    {
-                      scale: 1,
-                      opacity: 0,
-                      duration: 0.8,
-                      ease: 'power2.out',
-                      onComplete: () => ripple.remove()
-                    }
-                  );
-                };
+                      gsap.fromTo(
+                        ripple,
+                        {
+                          scale: 0,
+                          opacity: 1
+                        },
+                        {
+                          scale: 1,
+                          opacity: 0,
+                          duration: 0.8,
+                          ease: 'power2.out',
+                          onComplete: () => ripple.remove()
+                        }
+                      );
+                    };
 
-                el.addEventListener('mousemove', handleMouseMove);
-                el.addEventListener('mouseleave', handleMouseLeave);
-                el.addEventListener('click', handleClick);
-              }}
-            >
-              <div className="card__header">
-                <div className="card__label">{card.label}</div>
-              </div>
-              <div className="card__content">
-                <h2 className="card__title">{card.title}</h2>
-                <p className="card__description">{card.description}</p>
-              </div>
-             </div>
-           );
-         })}
-       </BentoCardGrid>
-      </div>
-    </section>
-   );
- };
- 
+                    el.addEventListener('mousemove', handleMouseMove);
+                    el.addEventListener('mouseleave', handleMouseLeave);
+                    el.addEventListener('click', handleClick);
+                  }}
+                >
+                  <div className="card__header">
+                    <div className="card__label">{card.label}</div>
+                  </div>
+                  <div className="card__content">
+                    <h2 className="card__title">{card.title}</h2>
+                    <p className="card__description">{card.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </BentoCardGrid>
+        </div>
+      </section>
+    </>
+  );
+};
+
 export default WhyChooseUs;

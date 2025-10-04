@@ -512,11 +512,12 @@ const WhyChooseUs = ({
 
       <BentoCardGrid gridRef={gridRef}>
         {cardData.map((card, index) => {
+          const isWhoFor = card.label === 'Who It’s For';
           const baseClassName = `magic-bento-card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''}`;
           const cardProps = {
-            className: baseClassName,
+            className: `${baseClassName} ${isWhoFor ? 'card--who-its-for' : ''}`,
             style: {
-              backgroundColor: card.color,
+              ...(!isWhoFor && { backgroundColor: card.color }),
               '--glow-color': glowColor
             }
           };
@@ -528,7 +529,7 @@ const WhyChooseUs = ({
                 {...cardProps}
                 disableAnimations={shouldDisableAnimations}
                 particleCount={particleCount}
-                glowColor={glowColor}
+                glowColor={isWhoFor ? '80, 80, 80' : glowColor}
                 enableTilt={enableTilt}
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}

@@ -483,27 +483,33 @@ const WhyChooseUs = ({
   const [threeLoaded, setThreeLoaded] = useState(false);
 
   useEffect(() => {
-    if (vantaEffect || isMobile) return;
-
     if (threeLoaded && (window as any).VANTA) {
-      const vantaInstance = (window as any).VANTA.GLOBE({
-        el: vantaRef.current,
-        THREE: (window as any).THREE,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0x26cf80,
-        backgroundColor: 0x0,
-      });
-      setVantaEffect(vantaInstance);
+      if (!vantaEffect && !isMobile) {
+        const vantaInstance = (window as any).VANTA.GLOBE({
+          el: vantaRef.current,
+          THREE: (window as any).THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          color: 0x26cf80,
+          backgroundColor: 0x0,
+        });
+        setVantaEffect(vantaInstance);
+      } else if (vantaEffect && isMobile) {
+        (vantaEffect as any).destroy();
+        setVantaEffect(null);
+      }
     }
     
     return () => {
-      if (vantaEffect) (vantaEffect as any).destroy();
+      if (vantaEffect) {
+        (vantaEffect as any).destroy();
+        setVantaEffect(null);
+      }
     };
   }, [threeLoaded, vantaEffect, isMobile]);
 

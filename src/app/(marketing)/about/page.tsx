@@ -10,7 +10,6 @@ import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
 import FadeContent from "@/components/FadeContent";
 import { useInView } from "react-intersection-observer";
-import { useSpring, animated } from "@react-spring/web";
 import { Metadata } from "next";
 
 // This is a client component, so we can't export metadata directly.
@@ -20,14 +19,8 @@ import { Metadata } from "next";
 //   description: "Learn about our mission to make learning effortless and accessible for everyone.",
 // };
 
-const AnimatedNumber = ({ n }) => {
-    const { number } = useSpring({
-        from: { number: 0 },
-        to: { number: n },
-        delay: 200,
-        config: { mass: 1, tension: 20, friction: 10 },
-    });
-    return <animated.div>{number.to((val) => Math.floor(val).toLocaleString())}</animated.div>;
+const StaticNumber = ({ n }) => {
+    return <div>{Math.floor(n).toLocaleString()}</div>;
 };
 
 export default function AboutPage() {
@@ -126,7 +119,7 @@ export default function AboutPage() {
                         <FadeContent key={stat.label} delay={index * 150}>
                             <div className="p-6 rounded-lg">
                                 <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary flex items-center justify-center">
-                                    {statsInView && <AnimatedNumber n={stat.value} />}
+                                    {statsInView ? <StaticNumber n={stat.value} /> : '0'}
                                     <span>{stat.suffix}</span>
                                 </div>
                                 <p className="text-sm text-muted-foreground mt-2">{stat.label}</p>
@@ -159,4 +152,12 @@ export default function AboutPage() {
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service
-          </a
+          </Link>
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Privacy
+          </Link>
+        </nav>
+      </footer>
+    </div>
+  );
+}

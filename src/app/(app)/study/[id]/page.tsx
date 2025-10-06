@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { mockStudyPacks } from "@/lib/mock-data";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,45 +14,54 @@ import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
 import { Metadata } from 'next';
-
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const pack = mockStudyPacks.find((p) => p.id === params.id);
-
-  if (!pack) {
-    return {
-      title: "Study Pack Not Found",
-    };
-  }
-
-  return {
-    title: `${pack.title} - Studydio`,
-    description: pack.summary || pack.contentSnippet,
-    openGraph: {
-      title: `${pack.title} - Studydio`,
-      description: pack.summary || pack.contentSnippet,
-      images: [
-        {
-          url: "https://picsum.photos/seed/studydio-og/1200/630",
-          width: 1200,
-          height: 630,
-          alt: "Studydio - Learn anything, 10x faster",
-        },
-      ],
-    },
-  };
-}
+import type { StudyPack } from '@/lib/types';
 
 
 export default function StudyPackPage({ params }: { params: { id: string } }) {
-  const pack = mockStudyPacks.find((p) => p.id === params.id || params.id.startsWith('new-pack'));
+  const [studyPack, setStudyPack] = useState<StudyPack | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
-  if (!pack && !params.id.startsWith('new-pack')) {
-    return notFound();
+  useEffect(() => {
+    if (params.id === 'new-pack-from-creation') {
+        const storedPack = localStorage.getItem('newStudyPack');
+        if (storedPack && storedPack.length > 0) {
+            try {
+                const parsedPack = JSON.parse(storedPack);
+                // Simple validation
+                if(parsedPack.id && parsedPack.title) {
+                    setStudyPack(parsedPack);
+                }
+            } catch (e) {
+                console.error("Failed to parse study pack from localStorage", e);
+            }
+        }
+    } else {
+        const pack = mockStudyPacks.find((p) => p.id === params.id);
+        if (pack) {
+            setStudyPack(pack);
+        }
+    }
+  }, [params.id]);
+
+
+  if (!studyPack) {
+    // This can be a loading state or a not found page if the id is invalid after checking.
+    // Let's check mock data as a fallback before showing a not found error, but not for 'new-pack'
+    if (params.id !== 'new-pack-from-creation') {
+        const pack = mockStudyPacks.find((p) => p.id === params.id);
+        if (pack) {
+            // This is a temporary state before useEffect runs
+            return <div>Loading study pack...</div>
+        }
+    } else if (typeof window !== 'undefined' && !localStorage.getItem('newStudyPack')) {
+         // If it's a new pack and nothing is in local storage, it's likely an invalid direct navigation
+         return notFound();
+    }
+    
+    // Default loading state
+    return <div>Loading...</div>;
   }
-
-  const studyPack = pack || mockStudyPacks[0]; // Fallback to first pack for new packs
-
+  
   const handleNextCard = () => {
     setCurrentCardIndex((prev) => (prev + 1) % studyPack.flashcards.length);
   };
@@ -90,9 +100,9 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
                 <div className="w-full">
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-sm text-muted-foreground">Progress</span>
-                        <span className="text-sm font-medium">{currentCardIndex + 1} / {studyPack.flashcards.length}</span>
+                        <span className="text-sm font-medium">{studyPack.flashcards.length > 0 ? currentCardIndex + 1 : 0} / {studyPack.flashcards.length}</span>
                     </div>
-                    <Progress value={((currentCardIndex + 1) / studyPack.flashcards.length) * 100} />
+                    <Progress value={studyPack.flashcards.length > 0 ? ((currentCardIndex + 1) / studyPack.flashcards.length) * 100 : 0} />
                 </div>
               {studyPack.flashcards.length > 0 ? (
                 <Flashcard flashcard={studyPack.flashcards[currentCardIndex]} />
@@ -117,7 +127,7 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
               <CardDescription>Test your knowledge with this short quiz.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-                {studyPack.quiz.map((q, index) => (
+                {studyPack.quiz && studyPack.quiz.length > 0 ? studyPack.quiz.map((q, index) => (
                     <div key={q.id}>
                         <p className="font-medium mb-4">{index + 1}. {q.question}</p>
                         <RadioGroup 
@@ -147,8 +157,10 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
                             )})}
                         </RadioGroup>
                     </div>
-                ))}
-                 <Button onClick={handleSubmitQuiz} disabled={submitted}>Submit Quiz</Button>
+                )) : (
+                    <div className="text-center text-muted-foreground p-8">No quiz questions available for this pack.</div>
+                )}
+                 <Button onClick={handleSubmitQuiz} disabled={submitted || !studyPack.quiz || studyPack.quiz.length === 0}>Submit Quiz</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -159,7 +171,7 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
               <CardDescription>A concise summary of the content.</CardDescription>
             </CardHeader>
             <CardContent className="prose prose-stone dark:prose-invert max-w-none">
-              <p>{studyPack.summary}</p>
+              {studyPack.summary ? <p>{studyPack.summary}</p> : <div className="text-center text-muted-foreground p-8">No summary available for this pack.</div>}
             </CardContent>
           </Card>
         </TabsContent>
@@ -167,3 +179,35 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+
+// We can't use generateMetadata with 'use client' pages in this way.
+// A different approach is needed for dynamic metadata if this page must be a client component.
+// For now, we remove it to fix the build. A possible solution is to fetch metadata in a parent Server Component.
+/*
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const pack = mockStudyPacks.find((p) => p.id === params.id);
+
+  if (!pack) {
+    return {
+      title: "Study Pack Not Found",
+    };
+  }
+
+  return {
+    title: `${pack.title} - Studydio`,
+    description: pack.summary || pack.contentSnippet,
+    openGraph: {
+      title: `${pack.title} - Studydio`,
+      description: pack.summary || pack.contentSnippet,
+      images: [
+        {
+          url: "https://picsum.photos/seed/studydio-og/1200/630",
+          width: 1200,
+          height: 630,
+          alt: "Studydio - Learn anything, 10x faster",
+        },
+      ],
+    },
+  };
+}
+*/

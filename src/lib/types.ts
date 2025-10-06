@@ -14,16 +14,16 @@ export type Flashcard = {
   id: string;
   front: string;
   back: string;
-  lastReviewed: string | null;
-  nextReviewDate: string;
-  easinessFactor: number;
-  repetitions: number;
-  interval: number;
-  isLearned: boolean;
+  lastReviewed?: string | null;
+  nextReviewDate?: string;
+  easinessFactor?: number;
+  repetitions?: number;
+  interval?: number;
+  isLearned?: boolean;
 };
 
 export type QuizQuestion = {
-  id: string;
+  id:string;
   question: string;
   options: string[];
   correctAnswer: string;

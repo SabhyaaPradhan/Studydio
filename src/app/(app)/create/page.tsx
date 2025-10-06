@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -12,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Metadata } from "next";
+import { generateStudyPackFromContent } from "@/ai/flows/generate-study-pack-from-content";
+import { useToast } from "@/hooks/use-toast";
 
 export const metadata: Metadata = {
   title: "Create New Study Pack - Studydio",
@@ -21,15 +24,50 @@ export const metadata: Metadata = {
 
 export default function CreateNewPage() {
     const [isLoading, setIsLoading] = useState(false);
+    const [pastedText, setPastedText] = useState("");
     const router = useRouter();
+    const { toast } = useToast();
 
-    const handleGenerate = (e: React.FormEvent) => {
+    const handleGenerate = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!pastedText.trim()) {
+            toast({
+                variant: "destructive",
+                title: "Content is empty",
+                description: "Please paste some text to generate a study pack.",
+            });
+            return;
+        }
         setIsLoading(true);
-        // Simulate AI generation
-        setTimeout(() => {
-            router.push('/study/new-pack-123');
-        }, 2000);
+        try {
+            const result = await generateStudyPackFromContent({ content: pastedText });
+            const newPack = {
+                id: 'new-pack-from-creation',
+                title: "Newly Generated Study Pack",
+                contentType: 'text',
+                contentSnippet: pastedText.substring(0, 100) + '...',
+                progress: 0,
+                createdAt: new Date().toISOString(),
+                flashcards: result.flashcards.map((fc, i) => ({ id: `fc-new-${i}`, front: fc, back: 'Generated Answer' })),
+                quiz: result.quizzes.map((q, i) => ({ id: `q-new-${i}`, question: q, options: ['Option A', 'Option B', 'Option C', 'Option D'], correctAnswer: 'Option A' })),
+                summary: result.summaries.join('\n\n'),
+            };
+
+            // This is a temporary solution to pass data to the next page.
+            // In a real app, you'd save this to a database and navigate to the new pack's ID.
+            localStorage.setItem('newStudyPack', JSON.stringify(newPack));
+
+            router.push('/study/new-pack-from-creation');
+        } catch (error) {
+            console.error("Failed to generate study pack:", error);
+            toast({
+                variant: "destructive",
+                title: "Generation Failed",
+                description: "There was an error generating the study pack. Please try again.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
   return (
@@ -44,25 +82,29 @@ export default function CreateNewPage() {
                 <Tabs defaultValue="paste" className="w-full">
                     <TabsList className="grid w-full grid-cols-3">
                         <TabsTrigger value="paste"><Wand2 className="mr-2 h-4 w-4" />Paste Text</TabsTrigger>
-                        <TabsTrigger value="link"><LinkIcon className="mr-2 h-4 w-4" />From Link</TabsTrigger>
-                        <TabsTrigger value="upload"><Upload className="mr-2 h-4 w-4" />Upload</TabsTrigger>
+                        <TabsTrigger value="link" disabled><LinkIcon className="mr-2 h-4 w-4" />From Link</TabsTrigger>
+                        <TabsTrigger value="upload" disabled><Upload className="mr-2 h-4 w-4" />Upload</TabsTrigger>
                     </TabsList>
                     <TabsContent value="paste" className="mt-4">
                         <Textarea
                             placeholder="Paste your article, notes, or any text here..."
                             className="min-h-[250px] text-base"
+                            value={pastedText}
+                            onChange={(e) => setPastedText(e.target.value)}
                         />
                     </TabsContent>
                     <TabsContent value="link" className="mt-4">
                          <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="link">YouTube, Article, or PDF Link</Label>
-                            <Input id="link" type="url" placeholder="https://..." />
+                            <Input id="link" type="url" placeholder="https://..." disabled />
+                             <p className="text-sm text-muted-foreground">Link and upload functionality is coming soon!</p>
                         </div>
                     </TabsContent>
                     <TabsContent value="upload" className="mt-4">
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="picture">Upload PDF</Label>
-                            <Input id="picture" type="file" accept=".pdf" />
+                            <Input id="picture" type="file" accept=".pdf" disabled/>
+                            <p className="text-sm text-muted-foreground">Link and upload functionality is coming soon!</p>
                         </div>
                     </TabsContent>
                 </Tabs>

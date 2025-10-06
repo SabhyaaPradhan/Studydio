@@ -1,0 +1,411 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the LearnFast application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "fullName": {
+          "type": "string",
+          "description": "The user's full name."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user account was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "fullName",
+        "createdAt"
+      ]
+    },
+    "StudyPack": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "StudyPack",
+      "type": "object",
+      "description": "Represents a study pack created by a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the StudyPack entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N StudyPack)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the study pack."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "Type of content in the study pack (e.g., YouTube, PDF, article)."
+        },
+        "contentUrl": {
+          "type": "string",
+          "description": "URL or path to the content used to create the study pack.",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the study pack was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "contentType",
+        "contentUrl",
+        "createdAt"
+      ]
+    },
+    "Flashcard": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Flashcard",
+      "type": "object",
+      "description": "Represents a flashcard within a study pack.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Flashcard entity."
+        },
+        "studyPackId": {
+          "type": "string",
+          "description": "Reference to StudyPack. (Relationship: StudyPack 1:N Flashcard)"
+        },
+        "front": {
+          "type": "string",
+          "description": "The content on the front of the flashcard."
+        },
+        "back": {
+          "type": "string",
+          "description": "The content on the back of the flashcard."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the flashcard was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "studyPackId",
+        "front",
+        "back",
+        "createdAt"
+      ]
+    },
+    "Quiz": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quiz",
+      "type": "object",
+      "description": "Represents a quiz associated with a study pack.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quiz entity."
+        },
+        "studyPackId": {
+          "type": "string",
+          "description": "Reference to StudyPack. (Relationship: StudyPack 1:N Quiz)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the quiz."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the quiz was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "studyPackId",
+        "title",
+        "createdAt"
+      ]
+    },
+    "Question": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Question",
+      "type": "object",
+      "description": "Represents a question within a quiz.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Question entity."
+        },
+        "quizId": {
+          "type": "string",
+          "description": "Reference to Quiz. (Relationship: Quiz 1:N Question)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text of the question."
+        },
+        "correctAnswerId": {
+          "type": "string",
+          "description": "Reference to Answer. (Relationship: Question 1:1 Answer, indicating the correct answer)"
+        }
+      },
+      "required": [
+        "id",
+        "quizId",
+        "text",
+        "correctAnswerId"
+      ]
+    },
+    "Answer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Answer",
+      "type": "object",
+      "description": "Represents an answer option for a question.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Answer entity."
+        },
+        "questionId": {
+          "type": "string",
+          "description": "Reference to Question. (Relationship: Question 1:N Answer)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text of the answer."
+        }
+      },
+      "required": [
+        "id",
+        "questionId",
+        "text"
+      ]
+    },
+    "ReviewSession": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ReviewSession",
+      "type": "object",
+      "description": "Represents a review session for a user, tracking flashcard review history.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ReviewSession entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N ReviewSession)"
+        },
+        "flashcardId": {
+          "type": "string",
+          "description": "Reference to Flashcard. (Relationship: ReviewSession 1:N Flashcard)"
+        },
+        "reviewDate": {
+          "type": "string",
+          "description": "The date and time when the flashcard was reviewed.",
+          "format": "date-time"
+        },
+        "difficultyRating": {
+          "type": "string",
+          "description": "The user's rating of the flashcard's difficulty during the review (e.g., Easy, Medium, Hard)."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "flashcardId",
+        "reviewDate",
+        "difficultyRating"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles.  Path-based ownership for private user data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/studyPacks/{studyPackId}",
+        "definition": {
+          "entityName": "StudyPack",
+          "schema": {
+            "$ref": "#/backend/entities/StudyPack"
+          },
+          "description": "Stores study packs created by a user. Path-based ownership ensures only the user can access their study packs.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "studyPackId",
+              "description": "The unique identifier for the study pack."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}",
+        "definition": {
+          "entityName": "Flashcard",
+          "schema": {
+            "$ref": "#/backend/entities/Flashcard"
+          },
+          "description": "Stores flashcards within a specific study pack.  Path-based ownership inherited from StudyPack.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "studyPackId",
+              "description": "The unique identifier for the study pack."
+            },
+            {
+              "name": "flashcardId",
+              "description": "The unique identifier for the flashcard."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}",
+        "definition": {
+          "entityName": "Quiz",
+          "schema": {
+            "$ref": "#/backend/entities/Quiz"
+          },
+          "description": "Stores quizzes associated with a study pack.  Path-based ownership inherited from StudyPack.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "studyPackId",
+              "description": "The unique identifier for the study pack."
+            },
+            {
+              "name": "quizId",
+              "description": "The unique identifier for the quiz."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}",
+        "definition": {
+          "entityName": "Question",
+          "schema": {
+            "$ref": "#/backend/entities/Question"
+          },
+          "description": "Stores questions within a specific quiz. Path-based ownership inherited from Quiz.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "studyPackId",
+              "description": "The unique identifier for the study pack."
+            },
+            {
+              "name": "quizId",
+              "description": "The unique identifier for the quiz."
+            },
+            {
+              "name": "questionId",
+              "description": "The unique identifier for the question."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}",
+        "definition": {
+          "entityName": "Answer",
+          "schema": {
+            "$ref": "#/backend/entities/Answer"
+          },
+          "description": "Stores answer options for a question. Path-based ownership inherited from Question.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "studyPackId",
+              "description": "The unique identifier for the study pack."
+            },
+            {
+              "name": "quizId",
+              "description": "The unique identifier for the quiz."
+            },
+            {
+              "name": "questionId",
+              "description": "The unique identifier for the question."
+            },
+            {
+              "name": "answerId",
+              "description": "The unique identifier for the answer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/reviewSessions/{reviewSessionId}",
+        "definition": {
+          "entityName": "ReviewSession",
+          "schema": {
+            "$ref": "#/backend/entities/ReviewSession"
+          },
+          "description": "Stores review sessions for a user. Path-based ownership ensures only the user can access their review sessions.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "reviewSessionId",
+              "description": "The unique identifier for the review session."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, Role-Based Access Control using DBAC principles, and scalable list operations. User-owned data is organized under `/users/{userId}`, which ensures that only the user can access their own data. StudyPacks, Flashcards, Quizzes, Questions, Answers, and ReviewSessions are all nested under `/users/{userId}` to maintain this ownership structure. This structure facilitates simple and robust security rules, as access control is primarily based on the user's ID.\n\nThe key aspect of achieving Authorization Independence is that no `get()` calls are needed in the security rules. Access control is determined solely by the `request.auth.uid` and the path structure. This eliminates hierarchical authorization dependencies, simplifying rules and ensuring atomic operations.\n\nQAPs (Rules are not Filters) is achieved by structural segregation and path-based ownership. Listing operations are secured because data with different access needs is stored in separate collections, each with its own set of security rules. For example, listing study packs is performed under `/users/{userId}/studyPacks`, ensuring that a user can only list their own study packs."
+  }
+}

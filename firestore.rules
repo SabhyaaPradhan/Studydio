@@ -1,0 +1,300 @@
+/**
+ * @fileOverview Firestore Security Rules for LearnFast application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model, ensuring that users can only
+ * access data associated with their own user ID. All data is nested under
+ * `/users/{userId}` to establish clear ownership.
+ *
+ * Data Structure:
+ * The Firestore database is structured with a hierarchical model:
+ * - /users/{userId}: User profile information.
+ * - /users/{userId}/studyPacks/{studyPackId}: Study packs created by the user.
+ * - /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}: Flashcards within a study pack.
+ * - /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}: Quizzes within a study pack.
+ * - /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}: Questions within a quiz.
+ * - /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}: Answers for a question.
+ * - /users/{userId}/reviewSessions/{reviewSessionId}: Review sessions for the user.
+ *
+ * Key Security Decisions:
+ * - Strict user-ownership: Users can only create, read, update, and delete data
+ *   associated with their own user ID.
+ * - No listing of all users: Listing the `/users` collection is disallowed.
+ * - Path-based authorization: Authorization is based solely on the path and
+ *   the user's authentication status, avoiding costly `get()` calls.
+ *
+ * Denormalization for Authorization:
+ * No denormalization is needed as the path-based ownership model inherently provides
+ * the necessary information for authorization. The `userId` is already present in
+ * the path, enabling direct access control.
+ *
+ * Structural Segregation:
+ * The hierarchical structure under `/users/{userId}` inherently segregates user-specific
+ * data, ensuring that users can only access their own resources.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Enforces user-ownership for user profiles.
+     * @path /users/{userId}
+     * @allow (create) User with ID 'user123' can create their profile.
+     *   - request.auth.uid: 'user123'
+     *   - request.resource.data.id: 'user123'
+     * @allow (get) User with ID 'user123' can read their profile.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their profile.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their profile.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create a profile for 'user456'.
+     *   - request.auth.uid: 'user123'
+     *   - request.resource.data.id: 'user456'
+     * @deny (get) User with ID 'user123' cannot read the profile of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Enforces user-ownership for study packs.
+     * @path /users/{userId}/studyPacks/{studyPackId}
+     * @allow (create) User with ID 'user123' can create a study pack.
+     *   - request.auth.uid: 'user123'
+     * @allow (get) User with ID 'user123' can read their study pack.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their study pack.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their study pack.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create a study pack for 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @deny (get) User with ID 'user123' cannot read the study pack of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/studyPacks/{studyPackId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Enforces user-ownership for flashcards.
+     * @path /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}
+     * @allow (create) User with ID 'user123' can create a flashcard.
+     *   - request.auth.uid: 'user123'
+     * @allow (get) User with ID 'user123' can read their flashcard.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their flashcard.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their flashcard.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create a flashcard for 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @deny (get) User with ID 'user123' cannot read the flashcard of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Enforces user-ownership for quizzes.
+     * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}
+     * @allow (create) User with ID 'user123' can create a quiz.
+     *   - request.auth.uid: 'user123'
+     * @allow (get) User with ID 'user123' can read their quiz.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their quiz.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their quiz.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create a quiz for 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @deny (get) User with ID 'user123' cannot read the quiz of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Enforces user-ownership for questions.
+     * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}
+     * @allow (create) User with ID 'user123' can create a question.
+     *   - request.auth.uid: 'user123'
+     * @allow (get) User with ID 'user123' can read their question.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their question.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their question.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create a question for 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @deny (get) User with ID 'user123' cannot read the question of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Enforces user-ownership for answers.
+     * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}
+     * @allow (create) User with ID 'user123' can create an answer.
+     *   - request.auth.uid: 'user123'
+     * @allow (get) User with ID 'user123' can read their answer.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their answer.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their answer.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create an answer for 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @deny (get) User with ID 'user123' cannot read the answer of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Enforces user-ownership for review sessions.
+     * @path /users/{userId}/reviewSessions/{reviewSessionId}
+     * @allow (create) User with ID 'user123' can create a review session.
+     *   - request.auth.uid: 'user123'
+     * @allow (get) User with ID 'user123' can read their review session.
+     *   - request.auth.uid: 'user123'
+     * @allow (update) User with ID 'user123' can update their review session.
+     *   - request.auth.uid: 'user123'
+     * @allow (delete) User with ID 'user123' can delete their review session.
+     *   - request.auth.uid: 'user123'
+     * @deny (create) User with ID 'user123' cannot create a review session for 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @deny (get) User with ID 'user123' cannot read the review session of 'user456'.
+     *   - request.auth.uid: 'user123'
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/reviewSessions/{reviewSessionId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && existsAfter(resource);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+  }
+}

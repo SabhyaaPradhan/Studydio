@@ -1,32 +1,27 @@
 
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Wand2, Bot, FileText, BookOpen, Clock, Brain, BarChart } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
-import Shuffle from "@/components/Shuffle";
 import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
-import dashboard_img from "../../../public/images/dashboard.png";
 import FadeContent from '@/components/FadeContent';
 import GradualBlur from "@/components/GradualBlur";
 import CardSwap, { Card } from '@/components/CardSwap';
-import WhyChooseUs from "@/components/WhyChooseUs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Features - Studydio",
-    description: "Explore the powerful features of Studydio that help you learn faster and smarter.",
+    description: "Explore the tools that help you understand, not just memorize.",
 };
 
 export default function FeaturesPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-black">
-      <main className="relative">
+    <div className="flex min-h-screen flex-col bg-black text-white">
+      <main className="relative flex-grow">
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
             scale={1.0}
@@ -49,101 +44,155 @@ export default function FeaturesPage() {
           />
         </div>
         
-        <section id="features" className="w-full py-24 md:py-32 lg:py-40 bg-gradient-to-b from-transparent via-stone-950 to-black">
+        <section id="hero" className="w-full py-24 md:py-32 lg:py-40 bg-gradient-to-b from-transparent via-stone-950/80 to-black text-center">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-              <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">
-                Features
-              </ScrollFloat>
-               <ScrollReveal
-                  tag="div"
-                  textTag="p"
-                  className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                  textClassName="!text-xl !font-normal !text-muted-foreground"
-                >
-                  Studydio is packed with AI-powered tools designed to accelerate your learning and boost retention.
-                </ScrollReveal>
-            </div>
-            <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-              <div>
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
-                  Unlock Your Learning Potential
-                </ScrollFloat>
-                <ScrollReveal
-                  tag="div"
-                  textTag="p"
-                  className="max-w-2xl mt-4 !m-0"
-                  textClassName="!text-xl !font-normal !text-muted-foreground"
-                >
-                  Studydio transforms your study materials into powerful, interactive learning tools. Discover how our features can help you master any subject.
-                </ScrollReveal>
-              </div>
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Image src="https://picsum.photos/seed/features/600/400" alt="Features" width={600} height={400} className="rounded-lg" data-ai-hint="learning process" />
-              </FadeContent>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Image src="https://picsum.photos/seed/scheduler/600/400" alt="Scheduler" width={600} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
-              </FadeContent>
-              <div>
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
-                  Study Smarter, Not Harder
-                </ScrollFloat>
-                <ScrollReveal
-                  tag="div"
-                  textTag="p"
-                  className="max-w-2xl mt-4 !m-0"
-                  textClassName="!text-xl !font-normal !text-muted-foreground"
-                >
-                  Our AI-powered smart scheduler uses spaced repetition to tell you exactly when to review, reinforcing memory and making your study sessions more effective.
-                </ScrollReveal>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
-                  Everything You Need to Succeed
-                </ScrollFloat>
-                <ScrollReveal
-                  tag="div"
-                  textTag="p"
-                  className="!m-0"
-                  textClassName="!text-xl !font-normal !text-muted-foreground"
-                >
-                  Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
-                </ScrollReveal>
-              </div>
-              <div className="relative h-[200px] md:h-[600px]">
-                <CardSwap
-                  cardDistance={60}
-                  verticalDistance={70}
-                  delay={5000}
-                  pauseOnHover={false}
-                >
-                  <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                    <h3 className="text-2xl font-bold mb-4">Flashcards</h3>
-                    <p className="mt-4">Generate interactive flashcards from any content.</p>
-                    <Image src="https://picsum.photos/seed/flashcard/400/200" alt="Flashcards" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
-                  </Card>
-                  <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                    <h3 className="text-2xl font-bold mb-4">Quizzes</h3>
-                    <p className="mt-4">Test your knowledge with auto-generated quizzes.</p>
-                    <Image src="https://picsum.photos/seed/quiz/400/200" alt="Quizzes" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
-                  </Card>
-                  <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                    <h3 className="text-2xl font-bold mb-4">Summaries</h3>
-                    <p className="mt-4">Get concise AI-powered summaries of long articles.</p>
-                    <Image src="https://picsum.photos/seed/summary/400/200" alt="Summaries" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="summary document" />
-                  </Card>
-                </CardSwap>
-              </div>
-            </div>
+            <ScrollFloat tag="h1" className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline">
+              Built to make learning effortless.
+            </ScrollFloat>
+             <ScrollReveal
+                tag="div"
+                textTag="p"
+                className="max-w-[700px] mx-auto mt-4 md:text-xl/relaxed !m-0"
+                textClassName="!text-xl !font-normal !text-muted-foreground"
+              >
+                Explore the tools that help you understand, not just memorize.
+              </ScrollReveal>
           </div>
         </section>
-        
+
+        <section id="feature-grid" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+          <div className="container mx-auto px-4 md:px-6">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                    <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-6 h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                        <div className="mb-4"><Wand2 className="size-8 text-primary" /></div>
+                        <h3 className="text-xl font-bold mb-2">Instant Generation</h3>
+                        <p className="text-muted-foreground">Paste a YouTube link, upload a PDF, or drop in text. Get a complete study set in seconds.</p>
+                    </ShadCard>
+                </FadeContent>
+                 <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} delay={200}>
+                    <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-6 h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                        <div className="mb-4"><BookOpen className="size-8 text-primary" /></div>
+                        <h3 className="text-xl font-bold mb-2">AI-Powered Flashcards</h3>
+                        <p className="text-muted-foreground">Go beyond simple terms. Our AI creates flashcards that help you grasp complex concepts.</p>
+                    </ShadCard>
+                </FadeContent>
+                 <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} delay={400}>
+                    <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-6 h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                        <div className="mb-4"><Bot className="size-8 text-primary" /></div>
+                        <h3 className="text-xl font-bold mb-2">Adaptive Quizzes</h3>
+                        <p className="text-muted-foreground">Test your knowledge with auto-generated quizzes that adapt to your learning progress.</p>
+                    </ShadCard>
+                </FadeContent>
+                 <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                    <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-6 h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                        <div className="mb-4"><FileText className="size-8 text-primary" /></div>
+                        <h3 className="text-xl font-bold mb-2">Concise Summaries</h3>
+                        <p className="text-muted-foreground">Get the key takeaways from long articles and videos, summarized by AI for quick revision.</p>
+                    </ShadCard>
+                </FadeContent>
+                 <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} delay={200}>
+                    <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-6 h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                        <div className="mb-4"><Brain className="size-8 text-primary" /></div>
+                        <h3 className="text-xl font-bold mb-2">Smart Review</h3>
+                        <p className="text-muted-foreground">Our smart scheduler uses spaced repetition to tell you what to review and when.</p>
+                    </ShadCard>
+                </FadeContent>
+                 <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0} delay={400}>
+                    <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-6 h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                        <div className="mb-4"><BarChart className="size-8 text-primary" /></div>
+                        <h3 className="text-xl font-bold mb-2">Progress Tracking</h3>
+                        <p className="text-muted-foreground">Visually track your mastery over subjects and identify areas for improvement.</p>
+                    </ShadCard>
+                </FadeContent>
+             </div>
+          </div>
+        </section>
+
+        <section id="interactive-demo" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                     <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                        See Studydio in Action
+                    </ScrollFloat>
+                    <ScrollReveal
+                        tag="div"
+                        textTag="p"
+                        className="max-w-2xl mx-auto mt-4 !m-0"
+                        textClassName="!text-xl !font-normal !text-muted-foreground"
+                    >
+                        From raw content to a full study suite. It’s that simple.
+                    </ScrollReveal>
+                </div>
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                        <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-8">
+                            <h3 className="text-2xl font-bold mb-4">1. Provide Your Content</h3>
+                            <p className="text-muted-foreground mb-6">Just paste a link to a YouTube video, a web article, or upload a PDF document.</p>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4 bg-black/30 p-4 rounded-lg">
+                                    <Link size={24} className="text-primary" />
+                                    <p className="font-mono text-sm text-white/80 truncate">https://www.youtube.com/watch?v=...</p>
+                                </div>
+                                <div className="flex items-center gap-4 bg-black/30 p-4 rounded-lg">
+                                    <FileText size={24} className="text-primary" />
+                                    <p className="font-mono text-sm text-white/80 truncate">quantum_physics_101.pdf</p>
+                                </div>
+                            </div>
+                        </ShadCard>
+                    </FadeContent>
+                    <div className="relative h-[400px] md:h-[500px]">
+                         <ScrollFloat tag="h3" className="text-2xl font-bold mb-4 text-center" textClassName="scroll-float-text-h2">
+                            2. Get Your Study Pack
+                        </ScrollFloat>
+                        <CardSwap
+                            cardDistance={40}
+                            verticalDistance={50}
+                            delay={4000}
+                            pauseOnHover={true}
+                        >
+                            <Card className="p-6 bg-card/50 backdrop-blur-sm text-white border-white/10">
+                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><BookOpen/>Flashcards</h3>
+                                <p className="mt-4 text-muted-foreground">Interactive flashcards to reinforce key concepts.</p>
+                                <Image src="https://picsum.photos/seed/flashcard-demo/400/200" alt="Flashcards" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
+                            </Card>
+                            <Card className="p-6 bg-card/50 backdrop-blur-sm text-white border-white/10">
+                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><Bot/>Quizzes</h3>
+                                <p className="mt-4 text-muted-foreground">Auto-generated quizzes to test your knowledge.</p>
+                                <Image src="https://picsum.photos/seed/quiz-demo/400/200" alt="Quizzes" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
+                            </Card>
+                            <Card className="p-6 bg-card/50 backdrop-blur-sm text-white border-white/10">
+                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><FileText/>Summaries</h3>
+                                <p className="mt-4 text-muted-foreground">Concise AI summaries for quick revision.</p>
+                                <Image src="https://picsum.photos/seed/summary-demo/400/200" alt="Summaries" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="summary document" />
+                            </Card>
+                        </CardSwap>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-t from-black via-stone-950 to-stone-950/80">
+            <div className="container mx-auto px-4 md:px-6 text-center">
+                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                    Ready to study smarter?
+                </ScrollFloat>
+                 <ScrollReveal
+                    tag="div"
+                    textTag="p"
+                    className="max-w-xl mx-auto mt-4 !m-0"
+                    textClassName="!text-lg !font-normal !text-muted-foreground"
+                >
+                    Start generating your first study set in seconds. No credit card required.
+                </ScrollReveal>
+                <div className="mt-8">
+                    <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 transition-transform hover:scale-105">
+                        <Link href="/signup">Get Started for Free</Link>
+                    </Button>
+                </div>
+            </div>
+        </section>
+
         <GradualBlur
           target="page"
           position="bottom"
@@ -169,3 +218,5 @@ export default function FeaturesPage() {
     </div>
   );
 }
+
+    

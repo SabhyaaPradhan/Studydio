@@ -124,7 +124,7 @@ export default function FeaturesPage() {
                         From raw content to a full study suite. It’s that simple.
                     </ScrollReveal>
                 </div>
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div className="grid md:grid-cols-1 gap-12 items-center max-w-2xl mx-auto">
                     <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                         <ShadCard className="bg-card/50 backdrop-blur-md border-white/10 p-8">
                             <h3 className="text-2xl font-bold mb-4">1. Provide Your Content</h3>
@@ -141,33 +141,6 @@ export default function FeaturesPage() {
                             </div>
                         </ShadCard>
                     </FadeContent>
-                    <div className="relative h-[400px] md:h-[500px]">
-                         <ScrollFloat tag="h3" className="text-2xl font-bold mb-4 text-center" textClassName="scroll-float-text-h2">
-                            2. Get Your Study Pack
-                        </ScrollFloat>
-                        <CardSwap
-                            cardDistance={40}
-                            verticalDistance={50}
-                            delay={4000}
-                            pauseOnHover={true}
-                        >
-                            <Card className="p-6 bg-card/50 backdrop-blur-sm text-white border-white/10">
-                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><BookOpen/>Flashcards</h3>
-                                <p className="mt-4 text-muted-foreground">Interactive flashcards to reinforce key concepts.</p>
-                                <Image src="https://picsum.photos/seed/flashcard-demo/400/200" alt="Flashcards" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
-                            </Card>
-                            <Card className="p-6 bg-card/50 backdrop-blur-sm text-white border-white/10">
-                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><Bot/>Quizzes</h3>
-                                <p className="mt-4 text-muted-foreground">Auto-generated quizzes to test your knowledge.</p>
-                                <Image src="https://picsum.photos/seed/quiz-demo/400/200" alt="Quizzes" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
-                            </Card>
-                            <Card className="p-6 bg-card/50 backdrop-blur-sm text-white border-white/10">
-                                <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><FileText/>Summaries</h3>
-                                <p className="mt-4 text-muted-foreground">Concise AI summaries for quick revision.</p>
-                                <Image src="https://picsum.photos/seed/summary-demo/400/200" alt="Summaries" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="summary document" />
-                            </Card>
-                        </CardSwap>
-                    </div>
                 </div>
             </div>
         </section>

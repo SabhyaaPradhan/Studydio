@@ -35,7 +35,8 @@ export function SignupForm() {
 
     useEffect(() => {
         if (!isUserLoading && user) {
-            // Update user profile and firestore document after user is created
+            // New user, redirect to onboarding.
+            // Profile update and doc creation will happen in the background.
             if (auth.currentUser) {
                 updateProfile(auth.currentUser, { displayName: fullName });
                 const userDocRef = doc(firestore, "users", auth.currentUser.uid);
@@ -45,7 +46,7 @@ export function SignupForm() {
                     createdAt: new Date().toISOString(),
                 }, { merge: true });
             }
-            router.push('/dashboard');
+            router.push('/onboarding');
         }
     }, [user, isUserLoading, router, auth, firestore, fullName]);
 

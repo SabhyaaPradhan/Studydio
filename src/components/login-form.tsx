@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/icons";
-import { useAuth, useUser } from "@/firebase";
+import { useAuth, useUser, useFirestore, useMemoFirebase } from "@/firebase";
 import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
 import { useState, useEffect } from "react";
+import { collection, getDocs, query, limit } from "firebase/firestore";
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (
@@ -24,19 +25,45 @@ function SocialIcon({ children }: { children: React.ReactNode }) {
 export function LoginForm() {
     const router = useRouter();
     const auth = useAuth();
+    const firestore = useFirestore();
     const { user, isUserLoading } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isCheckingPacks, setIsCheckingPacks] = useState(false);
 
     useEffect(() => {
-        if (!isUserLoading && user) {
-            router.push('/dashboard');
-        }
-    }, [user, isUserLoading, router]);
+        const checkUserAndRedirect = async () => {
+            if (!isUserLoading && user && firestore) {
+                setIsCheckingPacks(true);
+                try {
+                    // Check if the user has any study packs
+                    const studyPacksRef = collection(firestore, `users/${user.uid}/studyPacks`);
+                    const q = query(studyPacksRef, limit(1));
+                    const snapshot = await getDocs(q);
+
+                    if (snapshot.empty) {
+                        router.push('/onboarding');
+                    } else {
+                        router.push('/dashboard');
+                    }
+                } catch (error) {
+                    console.error("Error checking for study packs:", error);
+                    // Default to dashboard on error, but consider sending to onboarding
+                    // if the error suggests the collection doesn't exist.
+                    router.push('/dashboard'); 
+                } finally {
+                    setIsCheckingPacks(false);
+                }
+            }
+        };
+        checkUserAndRedirect();
+    }, [user, isUserLoading, router, firestore]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        initiateEmailSignIn(auth, email, password);
+        if (auth) {
+            initiateEmailSignIn(auth, email, password);
+        }
     }
 
   return (
@@ -87,7 +114,7 @@ export function LoginForm() {
                 <div className="flex justify-center gap-4">
                    <SocialIcon>
                         <img src="https://www.google.com/images/hpp/ic_wahlberg_product_core_48.png8.png" alt="Google logo" width="24" height="24" />
-                    </SocialIcon>
+                   </SocialIcon>
                 </div>
                 <div className="mt-6 text-center text-sm">
                 <span className="text-white/60">New here? </span> 

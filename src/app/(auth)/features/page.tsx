@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Wand2, Bot, FileText, BookOpen, Clock, Brain, BarChart } from "lucide-react";
+import { Check, Wand2, Bot, FileText, BookOpen, Clock, Brain, BarChart, Link as LinkIcon } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
@@ -131,7 +131,7 @@ export default function FeaturesPage() {
                             <p className="text-muted-foreground mb-6">Just paste a link to a YouTube video, a web article, or upload a PDF document.</p>
                             <div className="space-y-4">
                                 <div className="flex items-center gap-4 bg-black/30 p-4 rounded-lg">
-                                    <Link size={24} className="text-primary" />
+                                    <LinkIcon size={24} className="text-primary" />
                                     <p className="font-mono text-sm text-white/80 truncate">https://www.youtube.com/watch?v=...</p>
                                 </div>
                                 <div className="flex items-center gap-4 bg-black/30 p-4 rounded-lg">
@@ -218,5 +218,3 @@ export default function FeaturesPage() {
     </div>
   );
 }
-
-    

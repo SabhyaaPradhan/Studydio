@@ -11,6 +11,13 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create New Study Pack - Studydio",
+  description: "Paste content, a link, or upload a file to get started.",
+};
+
 
 export default function CreateNewPage() {
     const [isLoading, setIsLoading] = useState(false);

@@ -12,6 +12,35 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const pack = mockStudyPacks.find((p) => p.id === params.id);
+
+  if (!pack) {
+    return {
+      title: "Study Pack Not Found",
+    };
+  }
+
+  return {
+    title: `${pack.title} - Studydio`,
+    description: pack.summary || pack.contentSnippet,
+    openGraph: {
+      title: `${pack.title} - Studydio`,
+      description: pack.summary || pack.contentSnippet,
+      images: [
+        {
+          url: "https://picsum.photos/seed/studydio-og/1200/630",
+          width: 1200,
+          height: 630,
+          alt: "Studydio - Learn anything, 10x faster",
+        },
+      ],
+    },
+  };
+}
+
 
 export default function StudyPackPage({ params }: { params: { id: string } }) {
   const pack = mockStudyPacks.find((p) => p.id === params.id || params.id.startsWith('new-pack'));

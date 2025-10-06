@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Flame, Smile, Meh, Frown } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Daily Review - Studydio",
+    description: "Strengthen your memory with spaced repetition.",
+};
 
 export default function ReviewPage() {
     const reviewQueue = useMemo(() => mockStudyPacks.flatMap(p => p.flashcards), []);

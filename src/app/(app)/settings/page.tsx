@@ -5,6 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { mockUser } from "@/lib/mock-data";
 import ScrollFloat from "@/components/ScrollFloat";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Settings - Studydio",
+  description: "Manage your account settings, plan, and notifications.",
+};
+
 
 export default function SettingsPage() {
   return (

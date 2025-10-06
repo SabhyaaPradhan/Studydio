@@ -5,6 +5,13 @@ import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard - Studydio",
+  description: "Your personal dashboard for all your study packs.",
+};
+
 
 export default function DashboardPage() {
   return (

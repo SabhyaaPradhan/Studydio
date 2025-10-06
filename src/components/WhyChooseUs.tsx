@@ -504,7 +504,7 @@ const WhyChooseUs = ({
         setVantaEffect(null);
       }
     }
-    
+
     return () => {
       if (vantaEffect) {
         (vantaEffect as any).destroy();
@@ -527,18 +527,20 @@ const WhyChooseUs = ({
       />
       <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section relative" ref={vantaRef}>
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center">
-            <ScrollFloat tag="h2" className="text-[100px] md:text-[300px] font-blackheat text-center text-white" scrollStart="top 80%">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white" scrollStart="top 80%">
               Why Choose Us
-            </ScrollFloat>
-            <ScrollReveal
-              tag="div"
-              textTag="p"
-              className="max-w-2xl mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed pb-6 text-center"
-              textClassName="!text-xl !font-normal !text-muted-foreground"
-            >
-              AI that adapts to the way you learn — faster, smarter, and personalized.
-            </ScrollReveal>
+              </ScrollFloat>
+              <ScrollReveal
+                tag="div"
+                textTag="p"
+                className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                textClassName="!text-xl !font-normal !text-muted-foreground"
+              >
+                AI that adapts to the way you learn — faster, smarter, and personalized.
+                </ScrollReveal>
+            </div>
           </div>
           {enableSpotlight && (
             <GlobalSpotlight
@@ -716,4 +718,4 @@ const WhyChooseUs = ({
 
 export default WhyChooseUs;
 
-    
+

@@ -13,7 +13,6 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
-import { Metadata } from 'next';
 import type { StudyPack } from '@/lib/types';
 
 
@@ -24,15 +23,16 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (params.id === 'new-pack-from-creation') {
         const storedPack = localStorage.getItem('newStudyPack');
-        if (storedPack && storedPack.length > 0) {
+        if (storedPack) {
             try {
                 const parsedPack = JSON.parse(storedPack);
-                // Simple validation
+                // Simple validation to ensure it's a valid pack
                 if(parsedPack.id && parsedPack.title) {
                     setStudyPack(parsedPack);
                 }
             } catch (e) {
                 console.error("Failed to parse study pack from localStorage", e);
+                // If parsing fails, don't set the pack, leading to the notFound() call later
             }
         }
     } else {
@@ -58,7 +58,16 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
          return notFound();
     }
     
-    // Default loading state
+    // Default loading state, but if it persists and no pack is found, it will lead to not found eventually
+    // after useEffect runs and fails to set a pack.
+    if (typeof window !== 'undefined' && studyPack === null) {
+      const packFromMocks = mockStudyPacks.find((p) => p.id === params.id);
+      if (!packFromMocks && params.id !== 'new-pack-from-creation') {
+        return notFound();
+      }
+    }
+
+
     return <div>Loading...</div>;
   }
   

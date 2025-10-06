@@ -12,14 +12,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ScrollFloat from "@/components/ScrollFloat";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Metadata } from "next";
 import { generateStudyPackFromContent } from "@/ai/flows/generate-study-pack-from-content";
 import { useToast } from "@/hooks/use-toast";
-
-export const metadata: Metadata = {
-  title: "Create New Study Pack - Studydio",
-  description: "Paste content, a link, or upload a file to get started.",
-};
 
 
 export default function CreateNewPage() {
@@ -41,6 +35,12 @@ export default function CreateNewPage() {
         setIsLoading(true);
         try {
             const result = await generateStudyPackFromContent({ content: pastedText });
+
+            // Validate that the AI returned the expected data structure
+            if (!result || !result.flashcards || !result.quizzes || !result.summaries) {
+                 throw new Error("AI response is missing required fields.");
+            }
+
             const newPack = {
                 id: 'new-pack-from-creation',
                 title: "Newly Generated Study Pack",
@@ -52,9 +52,7 @@ export default function CreateNewPage() {
                 quiz: result.quizzes.map((q, i) => ({ id: `q-new-${i}`, question: q, options: ['Option A', 'Option B', 'Option C', 'Option D'], correctAnswer: 'Option A' })),
                 summary: result.summaries.join('\n\n'),
             };
-
-            // This is a temporary solution to pass data to the next page.
-            // In a real app, you'd save this to a database and navigate to the new pack's ID.
+            
             localStorage.setItem('newStudyPack', JSON.stringify(newPack));
 
             router.push('/study/new-pack-from-creation');
@@ -63,7 +61,7 @@ export default function CreateNewPage() {
             toast({
                 variant: "destructive",
                 title: "Generation Failed",
-                description: "There was an error generating the study pack. Please try again.",
+                description: "There was an error generating the study pack. The AI might have returned an invalid response. Please try again.",
             });
         } finally {
             setIsLoading(false);

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -19,7 +20,7 @@ export default function LandingHeader() {
           <Link href="/pricing" className="hover:text-white transition-colors">
             Pricing
           </Link>
-          <Link href="/#why-choose-us" className="hover:text-white transition-colors">
+          <Link href="/about" className="hover:text-white transition-colors">
             About
           </Link>
         </div>

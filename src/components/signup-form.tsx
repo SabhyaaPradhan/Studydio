@@ -8,6 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/icons";
+import { useAuth, useFirestore, useUser } from "@/firebase";
+import { initiateEmailSignUp } from "@/firebase/non-blocking-login";
+import { doc } from "firebase/firestore";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { updateProfile } from "firebase/auth";
+import { useState, useEffect } from "react";
+
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (
@@ -19,10 +26,33 @@ function SocialIcon({ children }: { children: React.ReactNode }) {
 
 export function SignupForm() {
     const router = useRouter();
+    const auth = useAuth();
+    const firestore = useFirestore();
+    const { user, isUserLoading } = useUser();
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (!isUserLoading && user) {
+            // Update user profile and firestore document after user is created
+            if (auth.currentUser) {
+                updateProfile(auth.currentUser, { displayName: fullName });
+                const userDocRef = doc(firestore, "users", auth.currentUser.uid);
+                setDocumentNonBlocking(userDocRef, {
+                    fullName: fullName,
+                    email: auth.currentUser.email,
+                    createdAt: new Date().toISOString(),
+                }, { merge: true });
+            }
+            router.push('/dashboard');
+        }
+    }, [user, isUserLoading, router, auth, firestore, fullName]);
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        router.push('/dashboard');
+        initiateEmailSignUp(auth, email, password);
     }
 
   return (
@@ -43,17 +73,17 @@ export function SignupForm() {
                 <form onSubmit={handleSubmit} className="grid gap-4">
                 <div className="grid gap-2">
                     <Label htmlFor="full-name">Full name</Label>
-                    <Input id="full-name" placeholder="Alex Doe" required className="bg-black/30 border-white/10" />
+                    <Input id="full-name" placeholder="Alex Doe" required className="bg-black/30 border-white/10" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="m@example.com" required className="bg-black/30 border-white/10" />
+                    <Input id="email" type="email" placeholder="m@example.com" required className="bg-black/30 border-white/10" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" required className="bg-black/30 border-white/10" />
+                    <Input id="password" type="password" required className="bg-black/30 border-white/10" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-                <Button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90 transition-opacity text-white font-bold shadow-lg">
+                <Button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90 transition-opacity text-white font-bold shadow-lg" suppressHydrationWarning>
                     Create Account
                 </Button>
                 </form>

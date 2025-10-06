@@ -16,9 +16,14 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Home, Package, PlusCircle, Settings, Flame, LogOut, User } from "lucide-react";
 import { Logo } from "@/components/icons";
-import { mockUser } from "@/lib/mock-data";
+import { useUser } from "@/firebase";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const { user } = useUser();
+  const userName = user?.displayName?.split(' ')[0] || "User";
+  const userAvatar = user?.photoURL || "";
+  const userFallback = userName.charAt(0) || "U";
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -79,8 +84,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <Avatar>
-                  <AvatarImage src={mockUser.avatarUrl} alt={mockUser.name} />
-                  <AvatarFallback>{mockUser.name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={userAvatar} alt={userName} />
+                  <AvatarFallback>{userFallback}</AvatarFallback>
                 </Avatar>
                 <span className="sr-only">Toggle user menu</span>
               </Button>

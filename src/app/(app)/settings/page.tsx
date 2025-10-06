@@ -1,19 +1,16 @@
+
+'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { mockUser } from "@/lib/mock-data";
+import { useUser } from "@/firebase";
 import ScrollFloat from "@/components/ScrollFloat";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Settings - Studydio",
-  description: "Manage your account settings, plan, and notifications.",
-};
-
-
 export default function SettingsPage() {
+  const { user } = useUser();
   return (
     <div className="container mx-auto space-y-8">
       <div>
@@ -29,11 +26,11 @@ export default function SettingsPage() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" defaultValue={mockUser.name} />
+            <Input id="name" defaultValue={user?.displayName || ""} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" defaultValue={mockUser.email} />
+            <Input id="email" type="email" defaultValue={user?.email || ""} />
           </div>
           <Button>Save Changes</Button>
         </CardContent>

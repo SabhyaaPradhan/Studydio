@@ -7,6 +7,7 @@ import '@/components/ScrollFloat.css';
 import "@/components/ScrollReveal.css";
 import "@/components/CardSwap.css";
 import GlobalPixelTrail from '@/components/GlobalPixelTrail';
+import { FirebaseClientProvider } from '@/firebase';
 
 const title = "Studydio - Learn anything, 10x faster";
 const description = "Paste any content (YouTube link, PDF, article, text) and automatically generate study materials like flashcards, quizzes, and summaries.";
@@ -58,9 +59,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="antialiased">
-        <GlobalPixelTrail />
-        {children}
-        <Toaster />
+        <FirebaseClientProvider>
+          <GlobalPixelTrail />
+          {children}
+          <Toaster />
+        </FirebaseClientProvider>
       </body>
     </html>
   );

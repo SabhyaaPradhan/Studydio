@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/icons";
+import { useAuth, useUser } from "@/firebase";
+import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
+import { useState, useEffect } from "react";
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (
@@ -20,10 +23,20 @@ function SocialIcon({ children }: { children: React.ReactNode }) {
 
 export function LoginForm() {
     const router = useRouter();
+    const auth = useAuth();
+    const { user, isUserLoading } = useUser();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (!isUserLoading && user) {
+            router.push('/dashboard');
+        }
+    }, [user, isUserLoading, router]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        router.push('/dashboard');
+        initiateEmailSignIn(auth, email, password);
     }
 
   return (
@@ -44,11 +57,11 @@ export function LoginForm() {
                 <form onSubmit={handleSubmit} className="grid gap-4">
                 <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="m@example.com" required className="bg-black/30 border-white/10" />
+                    <Input id="email" type="email" placeholder="m@example.com" required className="bg-black/30 border-white/10" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" required className="bg-black/30 border-white/10" />
+                    <Input id="password" type="password" required className="bg-black/30 border-white/10" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
@@ -59,7 +72,7 @@ export function LoginForm() {
                         Forgot password?
                     </Link>
                 </div>
-                <Button type="submit" className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:opacity-90 transition-opacity text-white font-bold shadow-lg">
+                <Button type="submit" className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:opacity-90 transition-opacity text-white font-bold shadow-lg" suppressHydrationWarning>
                     Log In
                 </Button>
                 </form>

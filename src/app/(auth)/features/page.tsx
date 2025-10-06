@@ -20,29 +20,8 @@ export const metadata: Metadata = {
 
 export default function FeaturesPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-black text-white">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <main className="relative flex-grow">
-        <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
-          <FaultyTerminal
-            scale={1.0}
-            gridMul={[2, 1]}
-            digitSize={2.3}
-            timeScale={0.6}
-            pause={false}
-            scanlineIntensity={0.5}
-            glitchAmount={0.5}
-            flickerAmount={0.5}
-            noiseAmp={0.6}
-            chromaticAberration={0}
-            dither={0}
-            curvature={0.12}
-            tint="#26CF80"
-            mouseReact={true}
-            pageLoadAnimation={true}
-            brightness={1}
-            mouseStrength={0}
-          />
-        </div>
         
         <section id="hero" className="w-full py-24 md:py-32 lg:py-40 bg-gradient-to-b from-transparent via-stone-950/80 to-black text-center">
           <div className="container mx-auto px-4 md:px-6">

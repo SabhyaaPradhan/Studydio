@@ -16,7 +16,7 @@ export default function LandingHeader() {
           <Link href="/features" className="hover:text-white transition-colors">
             Features
           </Link>
-          <Link href="/#pricing" className="hover:text-white transition-colors">
+          <Link href="/pricing" className="hover:text-white transition-colors">
             Pricing
           </Link>
           <Link href="/#why-choose-us" className="hover:text-white transition-colors">
@@ -27,5 +27,3 @@ export default function LandingHeader() {
     </header>
   );
 }
-
-    

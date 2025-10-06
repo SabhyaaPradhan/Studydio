@@ -146,16 +146,6 @@ export default function FeaturesPage() {
             </div>
         </section>
 
-        <GradualBlur
-          target="page"
-          position="bottom"
-          height="6rem"
-          strength={3}
-          divCount={5}
-          curve="bezier"
-          exponential={true}
-          opacity={0.8}
-        />
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10 bg-black">
         <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>

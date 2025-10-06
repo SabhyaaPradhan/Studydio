@@ -93,20 +93,20 @@ export default function CreateNewPage() {
         try {
             const result = await generateStudyPackFromContent({ content: contentToGenerate });
 
-            if (!result || !result.flashcards || !result.quizzes || !result.summaries) {
+            if (!result || !result.title || !result.flashcards || !result.quiz || !result.summary) {
                  throw new Error("AI response is missing required fields.");
             }
 
             const newPack = {
                 id: 'new-pack-from-creation',
-                title: "Newly Generated Study Pack",
-                contentType: 'text',
+                title: result.title,
+                contentType: activeTab === 'paste' ? 'text' : activeTab,
                 contentSnippet: contentToGenerate.substring(0, 100) + '...',
                 progress: 0,
                 createdAt: new Date().toISOString(),
-                flashcards: result.flashcards.map((fc, i) => ({ id: `fc-new-${i}`, front: fc, back: 'Generated Answer' })),
-                quiz: result.quizzes.map((q, i) => ({ id: `q-new-${i}`, question: q.question, options: q.options, correctAnswer: q.answer })),
-                summary: result.summaries.join('\n\n'),
+                flashcards: result.flashcards.map((fc, i) => ({ id: `fc-new-${i}`, ...fc })),
+                quiz: result.quiz.quiz.map((q, i) => ({ id: `q-new-${i}`, ...q })),
+                summary: result.summary,
             };
             
             localStorage.setItem('newStudyPack', JSON.stringify(newPack));
@@ -185,3 +185,5 @@ export default function CreateNewPage() {
     </div>
   );
 }
+
+    

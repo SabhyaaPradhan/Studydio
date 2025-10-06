@@ -20,15 +20,15 @@ const QuizGenerationInputSchema = z.object({
 });
 export type QuizGenerationInput = z.infer<typeof QuizGenerationInputSchema>;
 
+const QuizQuestionSchema = z.object({
+  question: z.string().describe('The quiz question.'),
+  options: z.array(z.string()).describe('The multiple choice options.'),
+  correctAnswer: z.string().describe('The correct answer.'),
+});
+
 const QuizGenerationOutputSchema = z.object({
   quiz: z
-    .array(
-      z.object({
-        question: z.string().describe('The quiz question.'),
-        options: z.array(z.string()).describe('The multiple choice options.'),
-        answer: z.string().describe('The correct answer.'),
-      })
-    )
+    .array(QuizQuestionSchema)
     .describe('The generated quiz questions and answers.'),
 });
 export type QuizGenerationOutput = z.infer<typeof QuizGenerationOutputSchema>;
@@ -47,21 +47,23 @@ const prompt = ai.definePrompt({
 
 Content: {{{content}}}
 
-Output the quiz as a JSON array of question objects. Each question object should contain the question text, an array of answer options, and the correct answer.
+Output the quiz as a JSON object containing a "quiz" array of question objects. Each question object should contain the question text, an array of answer options, and the correct answer text.
 
 Example output format:
-[
-  {
-    "question": "What is the capital of France?",
-    "options": ["Berlin", "Paris", "Rome", "Madrid"],
-    "answer": "Paris"
-  },
-  {
-    "question": "What is the highest mountain in the world?",
-    "options": ["K2", "Kangchenjunga", "Matterhorn", "Mount Everest"],
-    "answer": "Mount Everest"
-  }
-]
+{
+  "quiz": [
+    {
+      "question": "What is the capital of France?",
+      "options": ["Berlin", "Paris", "Rome", "Madrid"],
+      "correctAnswer": "Paris"
+    },
+    {
+      "question": "What is the highest mountain in the world?",
+      "options": ["K2", "Kangchenjunga", "Matterhorn", "Mount Everest"],
+      "correctAnswer": "Mount Everest"
+    }
+  ]
+}
 `,
 });
 
@@ -76,3 +78,5 @@ const quizGenerationFlow = ai.defineFlow(
     return output!;
   }
 );
+
+    

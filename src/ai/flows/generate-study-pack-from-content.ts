@@ -9,16 +9,23 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { QuizGenerationOutput, generateQuiz } from './quiz-generation';
 
 const GenerateStudyPackInputSchema = z.object({
   content: z.string().describe('The content to generate a study pack from.'),
 });
 export type GenerateStudyPackInput = z.infer<typeof GenerateStudyPackInputSchema>;
 
+const FlashcardSchema = z.object({
+  front: z.string().describe("The front of the flashcard (question or term)."),
+  back: z.string().describe("The back of the flashcard (answer or definition).")
+});
+
 const GenerateStudyPackOutputSchema = z.object({
-  flashcards: z.array(z.string()).describe('The generated flashcards.'),
-  quizzes: z.array(z.string()).describe('The generated quizzes.'),
-  summaries: z.array(z.string()).describe('The generated summaries.'),
+  title: z.string().describe('A concise and relevant title for the study pack based on the content.'),
+  flashcards: z.array(FlashcardSchema).describe('An array of generated flashcard objects.'),
+  quiz: z.lazy(() => QuizGenerationOutputSchema).describe('A generated quiz with multiple choice questions.'),
+  summary: z.string().describe('A concise summary of the provided content.'),
 });
 export type GenerateStudyPackOutput = z.infer<typeof GenerateStudyPackOutputSchema>;
 
@@ -26,22 +33,25 @@ export async function generateStudyPackFromContent(input: GenerateStudyPackInput
   return generateStudyPackFromContentFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const studyPackPrompt = ai.definePrompt({
   name: 'generateStudyPackFromContentPrompt',
   input: {schema: GenerateStudyPackInputSchema},
-  output: {schema: GenerateStudyPackOutputSchema},
-  prompt: `You are an AI assistant that generates study packs from content.
+  output: {schema: z.object({
+    title: z.string(),
+    flashcards: z.array(FlashcardSchema),
+    summary: z.string(),
+  })},
+  prompt: `You are an AI assistant that generates study materials from content.
+  Based on the content provided below, please generate the following:
+  1. A short, descriptive title for the study pack (e.g., "Quantum Superposition Principles").
+  2. A set of flashcards with a clear 'front' (term/question) and 'back' (definition/answer).
+  3. A concise summary of the key points.
 
-  Given the following content:
-  {{content}}
+  Content:
+  {{{content}}}
 
-  Generate flashcards, quizzes, and summaries from the content.
-  Return them in the following JSON format:
-  {
-    "flashcards": ["flashcard 1", "flashcard 2"],
-    "quizzes": ["quiz 1", "quiz 2"],
-    "summaries": ["summary 1", "summary 2"]
-  }`,
+  Please return your response in a valid JSON format.
+  `,
 });
 
 const generateStudyPackFromContentFlow = ai.defineFlow(
@@ -51,7 +61,16 @@ const generateStudyPackFromContentFlow = ai.defineFlow(
     outputSchema: GenerateStudyPackOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    const [studyPackBase, quizResult] = await Promise.all([
+        studyPackPrompt(input).then(res => res.output!),
+        generateQuiz({ content: input.content, numberOfQuestions: 5 }),
+    ]);
+
+    return {
+        ...studyPackBase,
+        quiz: quizResult,
+    };
   }
 );
+
+    

@@ -18,21 +18,6 @@ function SocialIcon({ children }: { children: React.ReactNode }) {
     )
 }
 
-function GoogleIcon() {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15.545 6.545a9.01 9.01 0 0 0-13.09 0" />
-            <path d="M15.545 6.545a9.01 9.01 0 0 1 0 10.91" />
-            <path d="M3.455 17.455a9.01 9.01 0 0 0 10.91 0" />
-            <path d="M3.455 17.455a9.01 9.01 0 0 1 0-10.91" />
-            <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-            <path d="M12 12v6" />
-            <path d="M12 21a9 9 0 0 0 0-18" />
-        </svg>
-    )
-}
-
-
 export function LoginForm() {
     const router = useRouter();
 
@@ -87,10 +72,12 @@ export function LoginForm() {
                     </div>
                 </div>
                 <div className="flex justify-center gap-4">
-                   <SocialIcon><GoogleIcon /></SocialIcon>
+                   <SocialIcon>
+                        <img src="https://www.google.com/images/hpp/ic_wahlberg_product_core_48.png8.png" alt="Google logo" width="24" height="24" />
+                    </SocialIcon>
                 </div>
                 <div className="mt-6 text-center text-sm">
-                <span className="text-white/60">New here? </span>
+                <span className="text-white/60">New here? </span> 
                 <Link href="/signup" className="text-primary hover:underline">
                     Create an account
                 </Link>

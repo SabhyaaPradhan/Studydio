@@ -12,7 +12,7 @@ import { Logo } from "@/components/icons";
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (
-        <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+        <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors" suppressHydrationWarning>
             {children}
         </button>
     )
@@ -83,7 +83,7 @@ export function LoginForm() {
                         <span className="w-full border-t border-white/10" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-white/60">or continue with</span>
+                        <span className="bg-card px-2 text-white/60">or continue with</span>
                     </div>
                 </div>
                 <div className="flex justify-center gap-4">

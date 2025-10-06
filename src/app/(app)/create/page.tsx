@@ -19,24 +19,80 @@ import { useToast } from "@/hooks/use-toast";
 export default function CreateNewPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [pastedText, setPastedText] = useState("");
+    const [linkUrl, setLinkUrl] = useState("");
+    const [file, setFile] = useState<File | null>(null);
+    const [activeTab, setActiveTab] = useState("paste");
     const router = useRouter();
     const { toast } = useToast();
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const getContent = async () => {
+        switch (activeTab) {
+            case 'paste':
+                return pastedText;
+            case 'link':
+                const response = await fetch('/api/fetch-url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: linkUrl }),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch content from URL.');
+                }
+                const { content } = await response.json();
+                return content;
+            case 'upload':
+                if (!file) throw new Error("No file selected.");
+                const formData = new FormData();
+                formData.append('file', file);
+                const uploadResponse = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!uploadResponse.ok) {
+                    throw new Error('Failed to upload or process file.');
+                }
+                const { content: fileContent } = await uploadResponse.json();
+                return fileContent;
+            default:
+                return '';
+        }
+    }
+
+
     const handleGenerate = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!pastedText.trim()) {
+        
+        let contentToGenerate = '';
+        try {
+             contentToGenerate = await getContent();
+        } catch(error: any) {
+             toast({
+                variant: "destructive",
+                title: "Error fetching content",
+                description: error.message || "Could not retrieve content.",
+            });
+            return;
+        }
+
+        if (!contentToGenerate.trim()) {
             toast({
                 variant: "destructive",
                 title: "Content is empty",
-                description: "Please paste some text to generate a study pack.",
+                description: "Please provide some content to generate a study pack.",
             });
             return;
         }
         setIsLoading(true);
         try {
-            const result = await generateStudyPackFromContent({ content: pastedText });
+            const result = await generateStudyPackFromContent({ content: contentToGenerate });
 
-            // Validate that the AI returned the expected data structure
             if (!result || !result.flashcards || !result.quizzes || !result.summaries) {
                  throw new Error("AI response is missing required fields.");
             }
@@ -45,11 +101,11 @@ export default function CreateNewPage() {
                 id: 'new-pack-from-creation',
                 title: "Newly Generated Study Pack",
                 contentType: 'text',
-                contentSnippet: pastedText.substring(0, 100) + '...',
+                contentSnippet: contentToGenerate.substring(0, 100) + '...',
                 progress: 0,
                 createdAt: new Date().toISOString(),
                 flashcards: result.flashcards.map((fc, i) => ({ id: `fc-new-${i}`, front: fc, back: 'Generated Answer' })),
-                quiz: result.quizzes.map((q, i) => ({ id: `q-new-${i}`, question: q, options: ['Option A', 'Option B', 'Option C', 'Option D'], correctAnswer: 'Option A' })),
+                quiz: result.quizzes.map((q, i) => ({ id: `q-new-${i}`, question: q.question, options: q.options, correctAnswer: q.answer })),
                 summary: result.summaries.join('\n\n'),
             };
             
@@ -77,11 +133,11 @@ export default function CreateNewPage() {
         </CardHeader>
         <CardContent>
             <form onSubmit={handleGenerate}>
-                <Tabs defaultValue="paste" className="w-full">
+                <Tabs defaultValue="paste" className="w-full" onValueChange={setActiveTab}>
                     <TabsList className="grid w-full grid-cols-3">
                         <TabsTrigger value="paste"><Wand2 className="mr-2 h-4 w-4" />Paste Text</TabsTrigger>
-                        <TabsTrigger value="link" disabled><LinkIcon className="mr-2 h-4 w-4" />From Link</TabsTrigger>
-                        <TabsTrigger value="upload" disabled><Upload className="mr-2 h-4 w-4" />Upload</TabsTrigger>
+                        <TabsTrigger value="link"><LinkIcon className="mr-2 h-4 w-4" />From Link</TabsTrigger>
+                        <TabsTrigger value="upload"><Upload className="mr-2 h-4 w-4" />Upload</TabsTrigger>
                     </TabsList>
                     <TabsContent value="paste" className="mt-4">
                         <Textarea
@@ -94,15 +150,13 @@ export default function CreateNewPage() {
                     <TabsContent value="link" className="mt-4">
                          <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="link">YouTube, Article, or PDF Link</Label>
-                            <Input id="link" type="url" placeholder="https://..." disabled />
-                             <p className="text-sm text-muted-foreground">Link and upload functionality is coming soon!</p>
+                            <Input id="link" type="url" placeholder="https://..." value={linkUrl} onChange={e => setLinkUrl(e.target.value)} />
                         </div>
                     </TabsContent>
                     <TabsContent value="upload" className="mt-4">
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="picture">Upload PDF</Label>
-                            <Input id="picture" type="file" accept=".pdf" disabled/>
-                            <p className="text-sm text-muted-foreground">Link and upload functionality is coming soon!</p>
+                            <Input id="picture" type="file" accept=".pdf" onChange={handleFileChange} />
                         </div>
                     </TabsContent>
                 </Tabs>

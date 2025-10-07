@@ -1,5 +1,6 @@
 
 'use client';
+import { useState, useEffect } from 'react';
 import { mockStudyPacks } from "@/lib/mock-data";
 import { StudyPackCard } from "@/components/study-pack-card";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,8 @@ import Link from "next/link";
 import { useUser } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import type { StudyPack } from '@/lib/types';
+
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -26,7 +29,26 @@ const cardVariants = {
 export default function DashboardPage() {
   const { user } = useUser();
   const userName = user?.displayName?.split(' ')[0] || "User";
-  const hasStudyPacks = mockStudyPacks && mockStudyPacks.length > 0;
+  const [allStudyPacks, setAllStudyPacks] = useState<StudyPack[]>(mockStudyPacks);
+
+  useEffect(() => {
+    const storedPacks = localStorage.getItem('userStudyPacks');
+    if (storedPacks) {
+      try {
+        const userPacks = JSON.parse(storedPacks);
+        // Create a map of mock pack IDs for efficient lookup
+        const mockPackIds = new Set(mockStudyPacks.map(p => p.id));
+        // Filter out any user packs that are already in the mock data
+        const uniqueUserPacks = userPacks.filter((pack: StudyPack) => !mockPackIds.has(pack.id));
+        setAllStudyPacks(prevPacks => [...uniqueUserPacks, ...prevPacks]);
+      } catch (error) {
+        console.error("Failed to parse study packs from local storage", error);
+        setAllStudyPacks(mockStudyPacks);
+      }
+    }
+  }, []);
+  
+  const hasStudyPacks = allStudyPacks && allStudyPacks.length > 0;
 
   return (
     <div className="container mx-auto relative">
@@ -93,7 +115,7 @@ export default function DashboardPage() {
             <h2 className="text-2xl font-bold mb-6">Recent Activity</h2>
             {hasStudyPacks ? (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {mockStudyPacks.map((pack, i) => (
+                    {allStudyPacks.map((pack, i) => (
                          <motion.div key={pack.id} custom={i} initial="hidden" animate="visible" variants={cardVariants}>
                             <StudyPackCard pack={pack} />
                          </motion.div>

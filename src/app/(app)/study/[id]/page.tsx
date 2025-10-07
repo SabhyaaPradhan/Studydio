@@ -24,21 +24,24 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    if (id === 'new-pack-from-creation') {
-        const storedPack = localStorage.getItem('newStudyPack');
-        if (storedPack) {
-            try {
-                const parsedPack = JSON.parse(storedPack);
-                // Simple validation to ensure it's a valid pack
-                if(parsedPack.id && parsedPack.title) {
-                    setStudyPack(parsedPack);
-                }
-            } catch (e) {
-                console.error("Failed to parse study pack from localStorage", e);
-                // If parsing fails, don't set the pack, leading to the notFound() call later
+    // First, try to find the pack in localStorage
+    const storedPacks = localStorage.getItem('userStudyPacks');
+    let packFound = false;
+    if (storedPacks) {
+        try {
+            const userPacks = JSON.parse(storedPacks);
+            const pack = userPacks.find((p: StudyPack) => p.id === id);
+            if (pack) {
+                setStudyPack(pack);
+                packFound = true;
             }
+        } catch (e) {
+            console.error("Failed to parse study packs from localStorage", e);
         }
-    } else {
+    }
+    
+    // If not found in localStorage, check mock data
+    if (!packFound) {
         const pack = mockStudyPacks.find((p) => p.id === id);
         if (pack) {
             setStudyPack(pack);
@@ -48,30 +51,18 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
 
 
   if (!studyPack) {
-    // This can be a loading state or a not found page if the id is invalid after checking.
-    // Let's check mock data as a fallback before showing a not found error, but not for 'new-pack'
-    if (id !== 'new-pack-from-creation') {
-        const pack = mockStudyPacks.find((p) => p.id === id);
-        if (pack) {
-            // This is a temporary state before useEffect runs
-            return <div>Loading study pack...</div>
-        }
-    } else if (typeof window !== 'undefined' && !localStorage.getItem('newStudyPack')) {
-         // If it's a new pack and nothing is in local storage, it's likely an invalid direct navigation
-         return notFound();
-    }
-    
-    // Default loading state, but if it persists and no pack is found, it will lead to not found eventually
-    // after useEffect runs and fails to set a pack.
-    if (typeof window !== 'undefined' && studyPack === null) {
-      const packFromMocks = mockStudyPacks.find((p) => p.id === id);
-      if (!packFromMocks && id !== 'new-pack-from-creation') {
-        return notFound();
+      if (typeof window !== 'undefined') {
+          // After useEffect has run and still no pack, it's a true 404
+          const packFromMocks = mockStudyPacks.find((p) => p.id === id);
+          const packsFromStorage = JSON.parse(localStorage.getItem('userStudyPacks') || '[]');
+          const packFromStorage = packsFromStorage.find((p: StudyPack) => p.id === id);
+
+          if (!packFromMocks && !packFromStorage) {
+            return notFound();
+          }
       }
-    }
-
-
-    return <div>Loading...</div>;
+      // Show loading state until useEffect completes
+      return <div>Loading...</div>;
   }
   
   const handleNextCard = () => {

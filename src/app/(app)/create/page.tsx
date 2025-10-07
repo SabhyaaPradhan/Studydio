@@ -96,22 +96,26 @@ export default function CreateNewPage() {
             if (!result || !result.title || !result.flashcards || !result.quiz || !result.summary) {
                  throw new Error("AI response is missing required fields.");
             }
-
+            
+            const newPackId = `new-pack-${Date.now()}`;
             const newPack = {
-                id: 'new-pack-from-creation',
+                id: newPackId,
                 title: result.title,
                 contentType: activeTab === 'paste' ? 'text' : activeTab,
                 contentSnippet: contentToGenerate.substring(0, 100) + '...',
                 progress: 0,
                 createdAt: new Date().toISOString(),
-                flashcards: result.flashcards.map((fc, i) => ({ id: `fc-new-${i}`, ...fc })),
-                quiz: result.quiz.quiz.map((q, i) => ({ id: `q-new-${i}`, ...q })),
+                flashcards: result.flashcards.map((fc, i) => ({ id: `fc-${newPackId}-${i}`, ...fc })),
+                quiz: result.quiz.quiz.map((q, i) => ({ id: `q-${newPackId}-${i}`, ...q })),
                 summary: result.summary,
             };
             
+            const existingPacks = JSON.parse(localStorage.getItem('userStudyPacks') || '[]');
+            localStorage.setItem('userStudyPacks', JSON.stringify([newPack, ...existingPacks]));
             localStorage.setItem('newStudyPack', JSON.stringify(newPack));
 
-            router.push('/study/new-pack-from-creation');
+
+            router.push(`/study/${newPackId}`);
         } catch (error) {
             console.error("Failed to generate study pack:", error);
             toast({

@@ -1,299 +1,193 @@
 /**
- * @fileOverview Firestore Security Rules for LearnFast application.
+ * @fileoverview Firestore Security Rules for LearnFast application.
  *
  * Core Philosophy:
- * This ruleset enforces a strict user-ownership model, ensuring that users can only
- * access data associated with their own user ID. All data is nested under
- * `/users/{userId}` to establish clear ownership.
+ * This ruleset enforces a strict user-ownership model for all data. Each user has a dedicated data tree under `/users/{userId}`,
+ * and only that user can read or write data within their own tree. This design prioritizes data privacy and prevents unauthorized access.
  *
  * Data Structure:
- * The Firestore database is structured with a hierarchical model:
- * - /users/{userId}: User profile information.
- * - /users/{userId}/studyPacks/{studyPackId}: Study packs created by the user.
- * - /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}: Flashcards within a study pack.
- * - /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}: Quizzes within a study pack.
- * - /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}: Questions within a quiz.
- * - /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}: Answers for a question.
- * - /users/{userId}/reviewSessions/{reviewSessionId}: Review sessions for the user.
+ * All data is nested under /users/{userId}. This includes study packs, flashcards, quizzes, questions, answers, and review sessions.
+ * This hierarchical structure simplifies security rules and ensures that all user-generated content is private by default.
  *
  * Key Security Decisions:
- * - Strict user-ownership: Users can only create, read, update, and delete data
- *   associated with their own user ID.
- * - No listing of all users: Listing the `/users` collection is disallowed.
- * - Path-based authorization: Authorization is based solely on the path and
- *   the user's authentication status, avoiding costly `get()` calls.
- *
- * Denormalization for Authorization:
- * No denormalization is needed as the path-based ownership model inherently provides
- * the necessary information for authorization. The `userId` is already present in
- * the path, enabling direct access control.
- *
- * Structural Segregation:
- * The hierarchical structure under `/users/{userId}` inherently segregates user-specific
- * data, ensuring that users can only access their own resources.
+ * - No user listing: Listing the `/users` collection is explicitly denied to prevent unauthorized enumeration of user accounts.
+ * - Strict ownership: All write operations require the user to be the owner of the target document, enforced through path-based checks.
+ * - No external lookups: Rules are designed to avoid `get()` calls to other documents or collections, improving performance and security.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Enforces user-ownership for user profiles.
+     * @description Ensures the user is signed in.
+     * @returns {boolean} True if the user is signed in, false otherwise.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * @description Checks if the requested user ID matches the authenticated user's ID.
+     * @param {string} userId - The user ID to compare against the authenticated user's ID.
+     * @returns {boolean} True if the user IDs match, false otherwise.
+     */
+    function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * @description Checks if the user is the owner of an existing document.
+     * @param {string} userId - The user ID to compare against the authenticated user's ID.
+     * @returns {boolean} True if the user IDs match and the document exists, false otherwise.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * @description Rules for the /users/{userId} document.
      * @path /users/{userId}
-     * @allow (create) User with ID 'user123' can create their profile.
-     *   - request.auth.uid: 'user123'
-     *   - request.resource.data.id: 'user123'
-     * @allow (get) User with ID 'user123' can read their profile.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their profile.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their profile.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create a profile for 'user456'.
-     *   - request.auth.uid: 'user123'
-     *   - request.resource.data.id: 'user456'
-     * @deny (get) User with ID 'user123' cannot read the profile of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create their own profile.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'user123', email: 'test@example.com', fullName: 'Test User', createdAt: '2024-01-01T00:00:00Z' }
+     * @deny (create) User 'user456' cannot create a profile for user 'user123'.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'user123', email: 'test@example.com', fullName: 'Test User', createdAt: '2024-01-01T00:00:00Z' }
+     * @principle Enforces user-ownership for profile creation.
      */
     match /users/{userId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
       allow list: if false;
-      allow create: if isSignedIn() && request.auth.uid == userId;
-      allow update: if isExistingOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces user-ownership for study packs.
+     * @description Rules for the /users/{userId}/studyPacks/{studyPackId} document.
      * @path /users/{userId}/studyPacks/{studyPackId}
-     * @allow (create) User with ID 'user123' can create a study pack.
-     *   - request.auth.uid: 'user123'
-     * @allow (get) User with ID 'user123' can read their study pack.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their study pack.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their study pack.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create a study pack for 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @deny (get) User with ID 'user123' cannot read the study pack of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create a study pack in their own profile.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'pack456', userId: 'user123', title: 'Test Pack', contentType: 'article', contentUrl: 'http://example.com', createdAt: '2024-01-02T00:00:00Z' }
+     * @deny (create) User 'user456' cannot create a study pack in user 'user123's profile.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'pack456', userId: 'user123', title: 'Test Pack', contentType: 'article', contentUrl: 'http://example.com', createdAt: '2024-01-02T00:00:00Z' }
+     * @principle Enforces user-ownership for study pack creation.
      */
     match /users/{userId}/studyPacks/{studyPackId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == userId;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces user-ownership for flashcards.
+     * @description Rules for the /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId} document.
      * @path /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}
-     * @allow (create) User with ID 'user123' can create a flashcard.
-     *   - request.auth.uid: 'user123'
-     * @allow (get) User with ID 'user123' can read their flashcard.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their flashcard.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their flashcard.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create a flashcard for 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @deny (get) User with ID 'user123' cannot read the flashcard of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create a flashcard in their own study pack.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'card789', studyPackId: 'pack456', front: 'Front Text', back: 'Back Text', createdAt: '2024-01-03T00:00:00Z' }
+     * @deny (create) User 'user456' cannot create a flashcard in user 'user123's study pack.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'card789', studyPackId: 'pack456', front: 'Front Text', back: 'Back Text', createdAt: '2024-01-03T00:00:00Z' }
+     * @principle Enforces user-ownership for flashcard creation.
      */
     match /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.studyPackId == studyPackId;
+      allow update: if isExistingOwner(userId) && request.resource.data.studyPackId == studyPackId;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces user-ownership for quizzes.
+     * @description Rules for the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId} document.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}
-     * @allow (create) User with ID 'user123' can create a quiz.
-     *   - request.auth.uid: 'user123'
-     * @allow (get) User with ID 'user123' can read their quiz.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their quiz.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their quiz.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create a quiz for 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @deny (get) User with ID 'user123' cannot read the quiz of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create a quiz in their own study pack.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'quiz101', studyPackId: 'pack456', title: 'Test Quiz', createdAt: '2024-01-04T00:00:00Z' }
+     * @deny (create) User 'user456' cannot create a quiz in user 'user123's study pack.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'quiz101', studyPackId: 'pack456', title: 'Test Quiz', createdAt: '2024-01-04T00:00:00Z' }
+     * @principle Enforces user-ownership for quiz creation.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.studyPackId == studyPackId;
+      allow update: if isExistingOwner(userId) && request.resource.data.studyPackId == studyPackId;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces user-ownership for questions.
+     * @description Rules for the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId} document.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}
-     * @allow (create) User with ID 'user123' can create a question.
-     *   - request.auth.uid: 'user123'
-     * @allow (get) User with ID 'user123' can read their question.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their question.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their question.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create a question for 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @deny (get) User with ID 'user123' cannot read the question of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create a question in their own quiz.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'q111', quizId: 'quiz101', text: 'Question Text', correctAnswerId: 'answer222' }
+     * @deny (create) User 'user456' cannot create a question in user 'user123's quiz.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'q111', quizId: 'quiz101', text: 'Question Text', correctAnswerId: 'answer222' }
+     * @principle Enforces user-ownership for question creation.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.quizId == quizId;
+      allow update: if isExistingOwner(userId) && request.resource.data.quizId == quizId;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces user-ownership for answers.
+     * @description Rules for the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId} document.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}
-     * @allow (create) User with ID 'user123' can create an answer.
-     *   - request.auth.uid: 'user123'
-     * @allow (get) User with ID 'user123' can read their answer.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their answer.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their answer.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create an answer for 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @deny (get) User with ID 'user123' cannot read the answer of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create an answer in their own question.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'answer222', questionId: 'q111', text: 'Answer Text' }
+     * @deny (create) User 'user456' cannot create an answer in user 'user123's question.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'answer222', questionId: 'q111', text: 'Answer Text' }
+     * @principle Enforces user-ownership for answer creation.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.questionId == questionId;
+      allow update: if isExistingOwner(userId) && request.resource.data.questionId == questionId;
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces user-ownership for review sessions.
+     * @description Rules for the /users/{userId}/reviewSessions/{reviewSessionId} document.
      * @path /users/{userId}/reviewSessions/{reviewSessionId}
-     * @allow (create) User with ID 'user123' can create a review session.
-     *   - request.auth.uid: 'user123'
-     * @allow (get) User with ID 'user123' can read their review session.
-     *   - request.auth.uid: 'user123'
-     * @allow (update) User with ID 'user123' can update their review session.
-     *   - request.auth.uid: 'user123'
-     * @allow (delete) User with ID 'user123' can delete their review session.
-     *   - request.auth.uid: 'user123'
-     * @deny (create) User with ID 'user123' cannot create a review session for 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @deny (get) User with ID 'user123' cannot read the review session of 'user456'.
-     *   - request.auth.uid: 'user123'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) User 'user123' can create a review session in their own profile.
+     *   - Auth: { uid: 'user123' }
+     *   - Operation: create
+     *   - Data: { id: 'session333', userId: 'user123', flashcardId: 'card789', reviewDate: '2024-01-05T00:00:00Z', difficultyRating: 'Easy' }
+     * @deny (create) User 'user456' cannot create a review session in user 'user123's profile.
+     *   - Auth: { uid: 'user456' }
+     *   - Operation: create
+     *   - Data: { id: 'session333', userId: 'user123', flashcardId: 'card789', reviewDate: '2024-01-05T00:00:00Z', difficultyRating: 'Easy' }
+     * @principle Enforces user-ownership for review session creation.
      */
     match /users/{userId}/reviewSessions/{reviewSessionId} {
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      function isOwner(userId) {
-        return request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && existsAfter(resource);
-      }
-
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == userId;
       allow delete: if isExistingOwner(userId);
     }
   }

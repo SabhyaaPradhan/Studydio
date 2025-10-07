@@ -17,11 +17,12 @@ import type { StudyPack } from '@/lib/types';
 
 
 export default function StudyPackPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const [studyPack, setStudyPack] = useState<StudyPack | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
   useEffect(() => {
-    if (params.id === 'new-pack-from-creation') {
+    if (id === 'new-pack-from-creation') {
         const storedPack = localStorage.getItem('newStudyPack');
         if (storedPack) {
             try {
@@ -36,19 +37,19 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
             }
         }
     } else {
-        const pack = mockStudyPacks.find((p) => p.id === params.id);
+        const pack = mockStudyPacks.find((p) => p.id === id);
         if (pack) {
             setStudyPack(pack);
         }
     }
-  }, [params.id]);
+  }, [id]);
 
 
   if (!studyPack) {
     // This can be a loading state or a not found page if the id is invalid after checking.
     // Let's check mock data as a fallback before showing a not found error, but not for 'new-pack'
-    if (params.id !== 'new-pack-from-creation') {
-        const pack = mockStudyPacks.find((p) => p.id === params.id);
+    if (id !== 'new-pack-from-creation') {
+        const pack = mockStudyPacks.find((p) => p.id === id);
         if (pack) {
             // This is a temporary state before useEffect runs
             return <div>Loading study pack...</div>
@@ -61,8 +62,8 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
     // Default loading state, but if it persists and no pack is found, it will lead to not found eventually
     // after useEffect runs and fails to set a pack.
     if (typeof window !== 'undefined' && studyPack === null) {
-      const packFromMocks = mockStudyPacks.find((p) => p.id === params.id);
-      if (!packFromMocks && params.id !== 'new-pack-from-creation') {
+      const packFromMocks = mockStudyPacks.find((p) => p.id === id);
+      if (!packFromMocks && id !== 'new-pack-from-creation') {
         return notFound();
       }
     }

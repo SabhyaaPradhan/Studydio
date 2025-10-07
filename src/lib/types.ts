@@ -1,10 +1,13 @@
+
 export type StudyPack = {
   id: string;
+  userId: string;
   title: string;
   contentType: 'youtube' | 'pdf' | 'text' | 'article';
+  contentUrl: string;
   contentSnippet: string;
   progress: number;
-  createdAt: string;
+  createdAt: string; // Will be a server timestamp
   flashcards: Flashcard[];
   quiz: QuizQuestion[];
   summary: string;

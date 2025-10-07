@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useEffect, use } from 'react';
-import { mockStudyPacks } from "@/lib/mock-data";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,55 +13,42 @@ import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
+import { useDoc, useFirestore, useUser, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 
 
 export default function StudyPackPage({ params }: { params: { id: string } }) {
   const { id } = use(params);
-  const [studyPack, setStudyPack] = useState<StudyPack | null>(null);
+  const { user } = useUser();
+  const firestore = useFirestore();
+
+  const studyPackRef = useMemoFirebase(() => {
+    if (!user || !id) return null;
+    return doc(firestore, `users/${user.uid}/studyPacks/${id}`);
+  }, [firestore, user, id]);
+
+  const { data: studyPack, isLoading } = useDoc<StudyPack>(studyPackRef);
+
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    // First, try to find the pack in localStorage
-    const storedPacks = localStorage.getItem('userStudyPacks');
-    let packFound = false;
-    if (storedPacks) {
-        try {
-            const userPacks = JSON.parse(storedPacks);
-            const pack = userPacks.find((p: StudyPack) => p.id === id);
-            if (pack) {
-                setStudyPack(pack);
-                packFound = true;
-            }
-        } catch (e) {
-            console.error("Failed to parse study packs from localStorage", e);
-        }
-    }
-    
-    // If not found in localStorage, check mock data
-    if (!packFound) {
-        const pack = mockStudyPacks.find((p) => p.id === id);
-        if (pack) {
-            setStudyPack(pack);
-        }
-    }
+    // This effect can be used to reset state if the id changes,
+    // although with Next.js App Router, the component will likely remount.
+    setCurrentCardIndex(0);
+    setQuizAnswers({});
+    setSubmitted(false);
   }, [id]);
 
 
-  if (!studyPack) {
-      if (typeof window !== 'undefined') {
-          // After useEffect has run and still no pack, it's a true 404
-          const packFromMocks = mockStudyPacks.find((p) => p.id === id);
-          const packsFromStorage = JSON.parse(localStorage.getItem('userStudyPacks') || '[]');
-          const packFromStorage = packsFromStorage.find((p: StudyPack) => p.id === id);
+  if (isLoading) {
+    return <div>Loading study pack...</div>; // Or a skeleton loader
+  }
 
-          if (!packFromMocks && !packFromStorage) {
-            return notFound();
-          }
-      }
-      // Show loading state until useEffect completes
-      return <div>Loading...</div>;
+  if (!studyPack) {
+    // If loading is finished and there's still no study pack, it's a 404
+    notFound();
   }
   
   const handleNextCard = () => {
@@ -78,6 +64,12 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
   };
 
   const handleSubmitQuiz = () => setSubmitted(true);
+
+  // Convert Firestore Timestamp to JS Date for display if needed
+  const createdAtDate = studyPack.createdAt && typeof (studyPack.createdAt as any).toDate === 'function' 
+    ? (studyPack.createdAt as any).toDate() 
+    : new Date(studyPack.createdAt);
+
 
   return (
     <div className="container mx-auto">
@@ -179,35 +171,3 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
-
-// We can't use generateMetadata with 'use client' pages in this way.
-// A different approach is needed for dynamic metadata if this page must be a client component.
-// For now, we remove it to fix the build. A possible solution is to fetch metadata in a parent Server Component.
-/*
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const pack = mockStudyPacks.find((p) => p.id === params.id);
-
-  if (!pack) {
-    return {
-      title: "Study Pack Not Found",
-    };
-  }
-
-  return {
-    title: `${pack.title} - Studydio`,
-    description: pack.summary || pack.contentSnippet,
-    openGraph: {
-      title: `${pack.title} - Studydio`,
-      description: pack.summary || pack.contentSnippet,
-      images: [
-        {
-          url: "https://picsum.photos/seed/studydio-og/1200/630",
-          width: 1200,
-          height: 630,
-          alt: "Studydio - Learn anything, 10x faster",
-        },
-      ],
-    },
-  };
-}
-*/

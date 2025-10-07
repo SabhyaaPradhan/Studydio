@@ -1,16 +1,16 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import { mockStudyPacks } from "@/lib/mock-data";
 import { StudyPackCard } from "@/components/study-pack-card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, BookOpen, BarChart, FileText, ArrowRight, Wand2 } from "lucide-react";
+import { PlusCircle, BookOpen, BarChart, ArrowRight, Wand2 } from "lucide-react";
 import Link from "next/link";
-import { useUser } from "@/firebase";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { useUser, useFirestore, useCollection, useMemoFirebase } from "@/firebase";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import type { StudyPack } from '@/lib/types';
-
+import { collection, query, orderBy } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -28,27 +28,41 @@ const cardVariants = {
 
 export default function DashboardPage() {
   const { user } = useUser();
+  const firestore = useFirestore();
   const userName = user?.displayName?.split(' ')[0] || "User";
-  const [allStudyPacks, setAllStudyPacks] = useState<StudyPack[]>(mockStudyPacks);
-
-  useEffect(() => {
-    const storedPacks = localStorage.getItem('userStudyPacks');
-    if (storedPacks) {
-      try {
-        const userPacks = JSON.parse(storedPacks);
-        // Create a map of mock pack IDs for efficient lookup
-        const mockPackIds = new Set(mockStudyPacks.map(p => p.id));
-        // Filter out any user packs that are already in the mock data
-        const uniqueUserPacks = userPacks.filter((pack: StudyPack) => !mockPackIds.has(pack.id));
-        setAllStudyPacks(prevPacks => [...uniqueUserPacks, ...prevPacks]);
-      } catch (error) {
-        console.error("Failed to parse study packs from local storage", error);
-        setAllStudyPacks(mockStudyPacks);
-      }
-    }
-  }, []);
   
-  const hasStudyPacks = allStudyPacks && allStudyPacks.length > 0;
+  const studyPacksQuery = useMemoFirebase(() => {
+    if (!user) return null;
+    return query(collection(firestore, `users/${user.uid}/studyPacks`), orderBy('createdAt', 'desc'));
+  }, [firestore, user]);
+
+  const { data: studyPacks, isLoading } = useCollection<StudyPack>(studyPacksQuery);
+  
+  const hasStudyPacks = !isLoading && studyPacks && studyPacks.length > 0;
+
+  const renderSkeletons = () => (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {[...Array(4)].map((_, i) => (
+        <Card key={i} className="flex flex-col h-full">
+          <CardHeader>
+            <Skeleton className="h-5 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+          </CardHeader>
+          <CardContent className="flex-1 space-y-4">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <div className="pt-4">
+              <Skeleton className="h-2 w-1/4 mb-1" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Skeleton className="h-10 w-full" />
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  );
 
   return (
     <div className="container mx-auto relative">
@@ -113,15 +127,17 @@ export default function DashboardPage() {
         {/* Recent Activity */}
         <div>
             <h2 className="text-2xl font-bold mb-6">Recent Activity</h2>
-            {hasStudyPacks ? (
+            {isLoading && renderSkeletons()}
+            {!isLoading && hasStudyPacks && (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {allStudyPacks.map((pack, i) => (
+                    {studyPacks.map((pack, i) => (
                          <motion.div key={pack.id} custom={i} initial="hidden" animate="visible" variants={cardVariants}>
                             <StudyPackCard pack={pack} />
                          </motion.div>
                     ))}
                 </div>
-            ) : (
+            )}
+            {!isLoading && !hasStudyPacks && (
                 <div className="text-center py-20 px-6 rounded-2xl bg-white/5 border border-dashed border-white/10 flex flex-col items-center">
                     <div className="mb-4 text-6xl">📚</div>
                     <h3 className="text-xl font-semibold mb-2">No study sets yet</h3>

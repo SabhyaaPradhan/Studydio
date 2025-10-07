@@ -22,6 +22,10 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
   const { id } = use(params);
   const { user } = useUser();
   const firestore = useFirestore();
+  
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
 
   const studyPackRef = useMemoFirebase(() => {
     if (!user || !id) return null;
@@ -30,18 +34,11 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
 
   const { data: studyPack, isLoading } = useDoc<StudyPack>(studyPackRef);
 
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
-
   useEffect(() => {
-    // This effect can be used to reset state if the id changes,
-    // although with Next.js App Router, the component will likely remount.
     setCurrentCardIndex(0);
     setQuizAnswers({});
     setSubmitted(false);
   }, [id]);
-
 
   if (isLoading) {
     return (
@@ -67,8 +64,7 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
     );
   }
 
-  if (!isLoading && !studyPack) {
-    // If loading is finished and there's still no study pack, it's a 404
+  if (!studyPack) {
     notFound();
   }
   

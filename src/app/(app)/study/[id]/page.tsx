@@ -19,6 +19,8 @@ import type { StudyPack } from '@/lib/types';
 export default function StudyPackPage({ params: { id } }: { params: { id: string } }) {
   const [studyPack, setStudyPack] = useState<StudyPack | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (id === 'new-pack-from-creation') {
@@ -78,9 +80,6 @@ export default function StudyPackPage({ params: { id } }: { params: { id: string
   const handlePrevCard = () => {
     setCurrentCardIndex((prev) => (prev - 1 + studyPack.flashcards.length) % studyPack.flashcards.length);
   };
-  
-  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
 
   const handleAnswerChange = (questionId: string, value: string) => {
     setQuizAnswers(prev => ({...prev, [questionId]: value}));

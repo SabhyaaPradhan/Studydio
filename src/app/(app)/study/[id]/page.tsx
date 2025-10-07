@@ -16,8 +16,7 @@ import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
 
 
-export default function StudyPackPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function StudyPackPage({ params: { id } }: { params: { id: string } }) {
   const [studyPack, setStudyPack] = useState<StudyPack | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 

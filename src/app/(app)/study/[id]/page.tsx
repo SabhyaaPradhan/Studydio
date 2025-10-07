@@ -15,6 +15,7 @@ import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
 import { useDoc, useFirestore, useUser, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 export default function StudyPackPage({ params }: { params: { id: string } }) {
@@ -43,10 +44,30 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
 
 
   if (isLoading) {
-    return <div>Loading study pack...</div>; // Or a skeleton loader
+    return (
+        <div className="container mx-auto">
+            <Skeleton className="h-8 w-2/3 mb-1" />
+            <Skeleton className="h-5 w-1/3 mb-6" />
+
+            <div className="grid w-full grid-cols-3 gap-2">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+            <Card className="mt-2">
+                <CardHeader>
+                    <Skeleton className="h-6 w-1/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                </CardHeader>
+                <CardContent className="flex flex-col items-center gap-6">
+                    <Skeleton className="w-full h-80" />
+                </CardContent>
+            </Card>
+        </div>
+    );
   }
 
-  if (!studyPack) {
+  if (!isLoading && !studyPack) {
     // If loading is finished and there's still no study pack, it's a 404
     notFound();
   }

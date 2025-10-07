@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { mockStudyPacks } from "@/lib/mock-data";
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,7 +16,8 @@ import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
 
 
-export default function StudyPackPage({ params: { id } }: { params: { id: string } }) {
+export default function StudyPackPage({ params }: { params: { id: string } }) {
+  const { id } = use(params);
   const [studyPack, setStudyPack] = useState<StudyPack | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});

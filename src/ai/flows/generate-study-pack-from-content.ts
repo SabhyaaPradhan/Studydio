@@ -9,7 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { QuizGenerationOutput, generateQuiz } from './quiz-generation';
+import { generateQuiz } from './quiz-generation';
 
 const GenerateStudyPackInputSchema = z.object({
   content: z.string().describe('The content to generate a study pack from.'),
@@ -19,6 +19,18 @@ export type GenerateStudyPackInput = z.infer<typeof GenerateStudyPackInputSchema
 const FlashcardSchema = z.object({
   front: z.string().describe("The front of the flashcard (question or term)."),
   back: z.string().describe("The back of the flashcard (answer or definition).")
+});
+
+const QuizQuestionSchema = z.object({
+  question: z.string().describe('The quiz question.'),
+  options: z.array(z.string()).describe('The multiple choice options.'),
+  correctAnswer: z.string().describe('The correct answer.'),
+});
+
+const QuizGenerationOutputSchema = z.object({
+  quiz: z
+    .array(QuizQuestionSchema)
+    .describe('The generated quiz questions and answers.'),
 });
 
 const GenerateStudyPackOutputSchema = z.object({

@@ -5,14 +5,47 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useUser } from "@/firebase";
+import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import ScrollFloat from "@/components/ScrollFloat";
-import { Metadata } from "next";
+import { doc } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { useToast } from "@/hooks/use-toast";
+
 
 export default function SettingsPage() {
   const { user } = useUser();
+  const firestore = useFirestore();
+  const { toast } = useToast();
+
+  const userProfileRef = useMemoFirebase(() => {
+    if (!user) return null;
+    return doc(firestore, `users/${user.uid}`);
+  }, [firestore, user]);
+
+  const { data: userProfile, isLoading } = useDoc<{ fullName: string, email: string }>(userProfileRef);
+
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    if (userProfile) {
+      setFullName(userProfile.fullName || '');
+      setEmail(userProfile.email || '');
+    }
+  }, [userProfile]);
+
+  const handleSaveChanges = () => {
+    if (!userProfileRef) return;
+    updateDocumentNonBlocking(userProfileRef, { fullName });
+    toast({
+      title: "Profile Updated",
+      description: "Your changes have been saved.",
+    });
+  }
+
   return (
-    <div className="container mx-auto space-y-8">
+    <div className="container mx-auto space-y-8 max-w-3xl">
       <div>
         <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">Settings</ScrollFloat>
         <p className="text-muted-foreground">Manage your account settings, plan, and notifications.</p>
@@ -26,13 +59,13 @@ export default function SettingsPage() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" defaultValue={user?.displayName || ""} />
+            <Input id="name" value={fullName} onChange={(e) => setFullName(e.target.value)} disabled={isLoading} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" defaultValue={user?.email || ""} />
+            <Input id="email" type="email" value={email} disabled />
           </div>
-          <Button>Save Changes</Button>
+          <Button onClick={handleSaveChanges} disabled={isLoading}>Save Changes</Button>
         </CardContent>
       </Card>
       

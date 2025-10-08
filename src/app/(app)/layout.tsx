@@ -5,10 +5,12 @@ import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Home, Package, PlusCircle, Settings, Flame, LogOut, User } from "lucide-react";
+import { Settings, User, LogOut } from "lucide-react";
 import { Logo } from "@/components/icons";
-import { useUser } from "@/firebase";
+import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { cn } from "@/lib/utils";
+import { doc } from "firebase/firestore";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -27,10 +29,20 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user } = useUser();
-  const userName = user?.displayName?.split(' ')[0] || "User";
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
+
+  const userProfileRef = useMemoFirebase(() => {
+    if (!user) return null;
+    return doc(firestore, `users/${user.uid}`);
+  }, [firestore, user]);
+
+  const { data: userProfile, isLoading: isLoadingProfile } = useDoc<{ fullName: string }>(userProfileRef);
+
+  const isLoading = isUserLoading || isLoadingProfile;
+  const userName = userProfile?.fullName || user?.displayName || "User";
   const userAvatar = user?.photoURL || "";
-  const userFallback = userName.charAt(0) || "U";
+  const userFallback = userName.charAt(0).toUpperCase() || "U";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -48,21 +60,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <Avatar>
-                  <AvatarImage src={userAvatar} alt={userName} />
-                  <AvatarFallback>{userFallback}</AvatarFallback>
-                </Avatar>
+                {isLoading ? (
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                ) : (
+                  <Avatar>
+                    <AvatarImage src={userAvatar} alt={userName} />
+                    <AvatarFallback>{userFallback}</AvatarFallback>
+                  </Avatar>
+                )}
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{userName}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/settings"><Settings className="mr-2 h-4 w-4" />Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/settings"><User className="mr-2 h-4 w-4" />Profile</Link>
+                <Link href="/settings/profile"><User className="mr-2 h-4 w-4" />Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild><Link href="/"><LogOut className="mr-2 h-4 w-4" /> Logout</Link></DropdownMenuItem>

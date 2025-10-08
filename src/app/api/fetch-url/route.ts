@@ -1,5 +1,31 @@
 
 import { NextRequest, NextResponse } from 'next/server';
+import { parse } from 'node-html-parser';
+
+
+async function getTextFromUrl(url: string) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const html = await response.text();
+        const doc = parse(html);
+        // Remove script and style tags
+        doc.querySelectorAll('script, style').forEach(node => node.remove());
+        // Get text from body, or fallback to root
+        let text = doc.querySelector('body')?.innerText;
+        if (!text) {
+          text = doc.innerText;
+        }
+        // Basic cleanup
+        return text.replace(/\s\s+/g, ' ').trim();
+    } catch (error) {
+        console.error('Error fetching or parsing URL:', error);
+        throw new Error('Failed to fetch and parse content from the URL.');
+    }
+}
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,18 +34,16 @@ export async function POST(req: NextRequest) {
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
     }
-    // In a real application, you'd use a library like Cheerio to scrape the content
-    // For now, we'll return a mock content string.
+    
+    // In a real application, you'd use a library like Cheerio or node-html-parser to scrape the content
     console.log(`Fetching content from ${url}`);
     
-    // This is a placeholder. A real implementation would fetch the URL
-    // and extract the text content from the HTML.
-    const mockContent = `This is placeholder content fetched from the URL: ${url}. A real implementation would involve scraping the actual text from the page. This could involve using libraries like Cheerio on the server-side to parse the HTML and extract meaningful text.`;
+    const content = await getTextFromUrl(url);
 
-    return NextResponse.json({ content: mockContent });
+    return NextResponse.json({ content });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching URL:', error);
-    return NextResponse.json({ error: 'Failed to fetch content from URL' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to fetch content from URL' }, { status: 500 });
   }
 }

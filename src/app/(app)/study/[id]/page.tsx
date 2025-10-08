@@ -35,6 +35,7 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
   const { data: studyPack, isLoading } = useDoc<StudyPack>(studyPackRef);
 
   useEffect(() => {
+    // Reset component state when the study pack ID changes
     setCurrentCardIndex(0);
     setQuizAnswers({});
     setSubmitted(false);
@@ -64,15 +65,25 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
     );
   }
 
-  if (!studyPack) {
+  // Only call notFound if loading is complete and no data was found
+  if (!isLoading && !studyPack) {
     notFound();
   }
   
+  // This check is necessary because studyPack could be null before notFound() is called
+  if (!studyPack) {
+    // This should ideally not be reached if the above logic is correct,
+    // but it's a safeguard.
+    return null;
+  }
+
   const handleNextCard = () => {
+    if (!studyPack) return;
     setCurrentCardIndex((prev) => (prev + 1) % studyPack.flashcards.length);
   };
 
   const handlePrevCard = () => {
+    if (!studyPack) return;
     setCurrentCardIndex((prev) => (prev - 1 + studyPack.flashcards.length) % studyPack.flashcards.length);
   };
 
@@ -81,13 +92,7 @@ export default function StudyPackPage({ params }: { params: { id: string } }) {
   };
 
   const handleSubmitQuiz = () => setSubmitted(true);
-
-  // Convert Firestore Timestamp to JS Date for display if needed
-  const createdAtDate = studyPack.createdAt && typeof (studyPack.createdAt as any).toDate === 'function' 
-    ? (studyPack.createdAt as any).toDate() 
-    : new Date(studyPack.createdAt);
-
-
+  
   return (
     <div className="container mx-auto">
         <ScrollFloat tag="h1" className="text-3xl font-bold mb-1" textClassName="scroll-float-text-h1">{studyPack.title}</ScrollFloat>

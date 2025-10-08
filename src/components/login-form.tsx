@@ -29,12 +29,11 @@ export function LoginForm() {
     const { user, isUserLoading } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isChecking, setIsChecking] = useState(false);
+    const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
         const checkUserAndRedirect = async () => {
-            if (user && firestore && !isUserLoading && !isChecking) {
-                setIsChecking(true);
+            if (user && firestore && !isUserLoading) {
                 // Check if user has any study packs
                 const studyPacksRef = collection(firestore, `users/${user.uid}/studyPacks`);
                 const q = query(studyPacksRef, limit(1));
@@ -47,10 +46,12 @@ export function LoginForm() {
                     // Existing user with packs, go to dashboard
                     router.push('/dashboard');
                 }
+            } else if (!isUserLoading) {
+                setIsChecking(false);
             }
         };
         checkUserAndRedirect();
-    }, [user, firestore, isUserLoading, router, isChecking]);
+    }, [user, firestore, isUserLoading, router]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,6 +59,35 @@ export function LoginForm() {
             initiateEmailSignIn(auth, email, password);
         }
     }
+
+  if (isChecking) {
+    return (
+        <div className="w-full max-w-md mx-auto">
+            <div className="relative">
+                <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full blur-xl opacity-20"></div>
+                <Card className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl text-white">
+                <CardHeader className="text-center">
+                    <div className="flex justify-center mb-4">
+                        <Logo className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold">Checking Session...</CardTitle>
+                    <CardDescription className="text-white/60">
+                        Please wait while we log you in.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex justify-center items-center p-8">
+                        <svg className="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -93,7 +123,7 @@ export function LoginForm() {
                     </Link>
                 </div>
                 <Button type="submit" className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:opacity-90 transition-opacity text-white font-bold shadow-lg" suppressHydrationWarning>
-                    {isChecking || isUserLoading ? 'Logging In...' : 'Log In'}
+                    {isUserLoading ? 'Logging In...' : 'Log In'}
                 </Button>
                 </form>
                 <div className="relative my-6">

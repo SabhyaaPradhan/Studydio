@@ -5,11 +5,11 @@ import { StudyPackCard } from "@/components/study-pack-card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, BookOpen, BarChart, ArrowRight, Wand2 } from "lucide-react";
 import Link from "next/link";
-import { useUser, useFirestore, useCollection, useMemoFirebase } from "@/firebase";
+import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import type { StudyPack } from '@/lib/types';
-import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
+import { collection, query, orderBy, getDocs, limit, doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
 
@@ -31,7 +31,15 @@ export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
   const router = useRouter();
-  const userName = user?.displayName?.split(' ')[0] || "Learner";
+  
+  const userProfileRef = useMemoFirebase(() => {
+    if (!user) return null;
+    return doc(firestore, `users/${user.uid}`);
+  }, [firestore, user]);
+
+  const { data: userProfile, isLoading: isLoadingProfile } = useDoc<{ fullName: string }>(userProfileRef);
+
+  const userName = userProfile?.fullName?.split(' ')[0] || "Learner";
   
   const studyPacksQuery = useMemoFirebase(() => {
     if (!user) return null;
@@ -43,10 +51,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     // This effect determines the initial loading state, considering both user and packs.
-    if (!isUserLoading) {
+    if (!isUserLoading && !isLoadingProfile) {
       setIsLoading(isLoadingPacks);
     }
-  }, [isUserLoading, isLoadingPacks])
+  }, [isUserLoading, isLoadingProfile, isLoadingPacks])
 
   useEffect(() => {
     // This effect handles redirection for new users.
@@ -199,5 +207,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    

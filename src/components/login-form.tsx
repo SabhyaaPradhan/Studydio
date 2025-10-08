@@ -9,12 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/icons";
-import { useAuth, useUser, useFirestore, useMemoFirebase } from "@/firebase";
+import { useAuth, useUser, useFirestore } from "@/firebase";
 import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
 import { useState, useEffect } from "react";
-import { collection, getDocs, query, limit, doc, getDoc, serverTimestamp } from "firebase/firestore";
-import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { updateProfile } from "firebase/auth";
+import { collection, getDocs, query, limit } from "firebase/firestore";
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (
@@ -31,47 +29,28 @@ export function LoginForm() {
     const { user, isUserLoading } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isCheckingUserDoc, setIsCheckingUserDoc] = useState(false);
+    const [isChecking, setIsChecking] = useState(false);
 
     useEffect(() => {
         const checkUserAndRedirect = async () => {
-            if (!isUserLoading && user && firestore && !isCheckingUserDoc) {
-                setIsCheckingUserDoc(true);
-                try {
-                    const userDocRef = doc(firestore, `users/${user.uid}`);
-                    const userDocSnap = await getDoc(userDocRef);
+            if (user && firestore && !isUserLoading && !isChecking) {
+                setIsChecking(true);
+                // Check if user has any study packs
+                const studyPacksRef = collection(firestore, `users/${user.uid}/studyPacks`);
+                const q = query(studyPacksRef, limit(1));
+                const snapshot = await getDocs(q);
 
-                    if (!userDocSnap.exists()) {
-                        // This is likely the user's first login after signup.
-                        // Let's create their document.
-                        await setDocumentNonBlocking(userDocRef, {
-                            fullName: user.displayName || 'New User',
-                            email: user.email,
-                            createdAt: serverTimestamp(),
-                        }, { merge: true });
-                        router.push('/onboarding');
-                    } else {
-                        // User doc exists, check for study packs for redirection logic
-                        const studyPacksRef = collection(firestore, `users/${user.uid}/studyPacks`);
-                        const q = query(studyPacksRef, limit(1));
-                        const snapshot = await getDocs(q);
-
-                        if (snapshot.empty) {
-                            router.push('/onboarding');
-                        } else {
-                            router.push('/dashboard');
-                        }
-                    }
-                } catch (error) {
-                    console.error("Error during user document check/creation:", error);
-                    router.push('/dashboard'); 
-                } finally {
-                    setIsCheckingUserDoc(false);
+                if (snapshot.empty) {
+                    // New user or user with no packs, go to onboarding
+                    router.push('/onboarding');
+                } else {
+                    // Existing user with packs, go to dashboard
+                    router.push('/dashboard');
                 }
             }
         };
         checkUserAndRedirect();
-    }, [user, isUserLoading, router, firestore, isCheckingUserDoc]);
+    }, [user, firestore, isUserLoading, router, isChecking]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -114,7 +93,7 @@ export function LoginForm() {
                     </Link>
                 </div>
                 <Button type="submit" className="w-full bg-gradient-to-r from-cyan-400 to-blue-600 hover:opacity-90 transition-opacity text-white font-bold shadow-lg" suppressHydrationWarning>
-                    Log In
+                    {isChecking || isUserLoading ? 'Logging In...' : 'Log In'}
                 </Button>
                 </form>
                 <div className="relative my-6">

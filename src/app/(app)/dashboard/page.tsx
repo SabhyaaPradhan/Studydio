@@ -9,7 +9,7 @@ import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from "@
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import type { StudyPack, ReviewSession } from '@/lib/types';
-import { collection, query, orderBy, getDocs, limit, doc } from 'firebase/firestore';
+import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
 
@@ -54,7 +54,7 @@ export default function DashboardPage() {
   const { data: studyPacks, isLoading: isLoadingPacks } = useCollection<StudyPack>(studyPacksQuery);
   const { data: reviewSessions, isLoading: isLoadingSessions } = useCollection<ReviewSession>(reviewSessionsQuery);
   
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = isUserLoading || isLoadingProfile || isLoadingPacks || isLoadingSessions;
 
   const analytics = useMemo(() => {
     if (!reviewSessions) {
@@ -117,34 +117,6 @@ export default function DashboardPage() {
     };
   }, [reviewSessions]);
 
-
-  useEffect(() => {
-    // This effect determines the initial loading state.
-    if (!isUserLoading && !isLoadingProfile) {
-      setIsLoading(isLoadingPacks || isLoadingSessions);
-    }
-  }, [isUserLoading, isLoadingProfile, isLoadingPacks, isLoadingSessions])
-
-  useEffect(() => {
-    // This effect handles redirection for new users.
-    if (!isUserLoading && user && firestore && !isLoadingPacks) {
-      if (!studyPacks || studyPacks.length === 0) {
-        // To be certain, double-check if there are any packs at all.
-        // This handles cases where the real-time listener might be slow.
-        const checkPacks = async () => {
-          if (!user) return;
-          const packsRef = collection(firestore, `users/${user.uid}/studyPacks`);
-          const q = query(packsRef, limit(1));
-          const snapshot = await getDocs(q);
-          if (snapshot.empty) {
-            router.push('/onboarding');
-          }
-        };
-        checkPacks();
-      }
-    }
-  }, [user, isUserLoading, firestore, studyPacks, isLoadingPacks, router]);
-
   const hasStudyPacks = !isLoading && studyPacks && studyPacks.length > 0;
 
   const renderSkeletons = () => (
@@ -192,7 +164,7 @@ export default function DashboardPage() {
         className="mb-8"
       >
         <h1 className="text-4xl font-bold">
-          Welcome back, {userName} 👋
+          Welcome back, {isLoading ? <Skeleton className="h-10 w-40 inline-block" /> : `${userName} 👋`}
         </h1>
         <p className="text-muted-foreground text-lg mt-1">Ready to create your next study set?</p>
       </motion.div>
@@ -314,5 +286,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    

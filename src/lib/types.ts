@@ -4,7 +4,7 @@ export type StudyPack = {
   id: string;
   userId: string;
   title: string;
-  contentType: 'youtube' | 'pdf' | 'text' | 'article';
+  contentType: 'youtube' | 'pdf' | 'text' | 'article' | 'link' | 'upload' | 'paste';
   contentUrl: string;
   contentSnippet: string;
   progress: number;

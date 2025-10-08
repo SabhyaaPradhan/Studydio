@@ -36,7 +36,7 @@ const QuizGenerationOutputSchema = z.object({
 const GenerateStudyPackOutputSchema = z.object({
   title: z.string().describe('A concise and relevant title for the study pack based on the content.'),
   flashcards: z.array(FlashcardSchema).describe('An array of generated flashcard objects.'),
-  quiz: z.lazy(() => QuizGenerationOutputSchema).describe('A generated quiz with multiple choice questions.'),
+  quiz: QuizGenerationOutputSchema.describe('A generated quiz with multiple choice questions.'),
   summary: z.string().describe('A concise summary of the provided content.'),
 });
 export type GenerateStudyPackOutput = z.infer<typeof GenerateStudyPackOutputSchema>;
@@ -84,5 +84,3 @@ const generateStudyPackFromContentFlow = ai.defineFlow(
     };
   }
 );
-
-    

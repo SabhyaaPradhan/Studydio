@@ -36,13 +36,7 @@ export default function FeaturesPage() {
 
     try {
       const result = await generateStudyPackFromContent({ content: inputText });
-      // To make the demo more realistic, we'll format the output a bit
-      const formattedResult: GenerateStudyPackOutput = {
-          flashcards: result.flashcards.slice(0, 2),
-          quizzes: result.quizzes.slice(0, 2),
-          summaries: result.summaries.slice(0, 1),
-      };
-      setOutput(formattedResult);
+      setOutput(result);
 
     } catch (error) {
       console.error("Failed to generate study pack:", error);
@@ -160,10 +154,10 @@ export default function FeaturesPage() {
                 {/* Result Mock */}
                 {output && (
                     <div className="text-left space-y-4 animate-fadeIn">
-                        {output.summaries && output.summaries.length > 0 && (
+                        {output.summary && (
                             <>
                                 <p className="font-semibold text-lg">✨ Summary:</p>
-                                <p className="text-gray-300">{output.summaries[0]}</p>
+                                <p className="text-gray-300">{output.summary}</p>
                             </>
                         )}
                         
@@ -171,19 +165,19 @@ export default function FeaturesPage() {
                              <>
                                 <p className="font-semibold text-lg">🃏 Flashcards:</p>
                                 <div className="flex flex-wrap gap-3">
-                                {output.flashcards.map((fc, index) => (
-                                    <div key={index} className="p-3 bg-white/10 rounded-lg">{fc}</div>
+                                {output.flashcards.slice(0, 2).map((fc, index) => (
+                                    <div key={index} className="p-3 bg-white/10 rounded-lg">{fc.front} / {fc.back}</div>
                                 ))}
                                 </div>
                             </>
                         )}
 
-                        {output.quizzes && output.quizzes.length > 0 && (
+                        {output.quiz && output.quiz.quiz.length > 0 && (
                             <>
                                 <p className="font-semibold text-lg">🧠 Quiz Preview:</p>
                                 <ul className="list-disc ml-5 text-gray-300">
-                                {output.quizzes.map((quiz, index) => (
-                                    <li key={index}>{quiz}</li>
+                                {output.quiz.quiz.slice(0, 1).map((quizItem, index) => (
+                                    <li key={index}>{quizItem.question}</li>
                                 ))}
                                 </ul>
                             </>

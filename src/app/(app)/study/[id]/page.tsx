@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { notFound } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,7 +18,8 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
-export default function StudyPackPage({ params: { id } }: { params: { id: string } }) {
+export default function StudyPackPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const { user } = useUser();
   const firestore = useFirestore();
   

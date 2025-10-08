@@ -67,7 +67,7 @@ export default function CreateNewPage() {
                 const { content: fileContent } = await fileResponse.json();
                 return fileContent;
             default:
-                return '';
+                throw new Error("Invalid content source.");
         }
     }
 

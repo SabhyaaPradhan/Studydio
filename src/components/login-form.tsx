@@ -12,7 +12,9 @@ import { Logo } from "@/components/icons";
 import { useAuth, useUser, useFirestore, useMemoFirebase } from "@/firebase";
 import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
 import { useState, useEffect } from "react";
-import { collection, getDocs, query, limit } from "firebase/firestore";
+import { collection, getDocs, query, limit, doc, getDoc } from "firebase/firestore";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { updateProfile, serverTimestamp } from "firebase/auth";
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (
@@ -29,35 +31,47 @@ export function LoginForm() {
     const { user, isUserLoading } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isCheckingPacks, setIsCheckingPacks] = useState(false);
+    const [isCheckingUserDoc, setIsCheckingUserDoc] = useState(false);
 
     useEffect(() => {
         const checkUserAndRedirect = async () => {
-            if (!isUserLoading && user && firestore) {
-                setIsCheckingPacks(true);
+            if (!isUserLoading && user && firestore && !isCheckingUserDoc) {
+                setIsCheckingUserDoc(true);
                 try {
-                    // Check if the user has any study packs
-                    const studyPacksRef = collection(firestore, `users/${user.uid}/studyPacks`);
-                    const q = query(studyPacksRef, limit(1));
-                    const snapshot = await getDocs(q);
+                    const userDocRef = doc(firestore, `users/${user.uid}`);
+                    const userDocSnap = await getDoc(userDocRef);
 
-                    if (snapshot.empty) {
+                    if (!userDocSnap.exists()) {
+                        // This is likely the user's first login after signup.
+                        // Let's create their document.
+                        await setDocumentNonBlocking(userDocRef, {
+                            fullName: user.displayName || 'New User',
+                            email: user.email,
+                            createdAt: serverTimestamp(),
+                        }, { merge: true });
                         router.push('/onboarding');
                     } else {
-                        router.push('/dashboard');
+                        // User doc exists, check for study packs for redirection logic
+                        const studyPacksRef = collection(firestore, `users/${user.uid}/studyPacks`);
+                        const q = query(studyPacksRef, limit(1));
+                        const snapshot = await getDocs(q);
+
+                        if (snapshot.empty) {
+                            router.push('/onboarding');
+                        } else {
+                            router.push('/dashboard');
+                        }
                     }
                 } catch (error) {
-                    console.error("Error checking for study packs:", error);
-                    // Default to dashboard on error, but consider sending to onboarding
-                    // if the error suggests the collection doesn't exist.
+                    console.error("Error during user document check/creation:", error);
                     router.push('/dashboard'); 
                 } finally {
-                    setIsCheckingPacks(false);
+                    setIsCheckingUserDoc(false);
                 }
             }
         };
         checkUserAndRedirect();
-    }, [user, isUserLoading, router, firestore]);
+    }, [user, isUserLoading, router, firestore, isCheckingUserDoc]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

@@ -14,6 +14,7 @@ import { doc } from "firebase/firestore";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { updateProfile } from "firebase/auth";
 import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
@@ -27,33 +28,25 @@ function SocialIcon({ children }: { children: React.ReactNode }) {
 export function SignupForm() {
     const router = useRouter();
     const auth = useAuth();
-    const firestore = useFirestore();
-    const { user, isUserLoading } = useUser();
+    const { toast } = useToast();
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        if (!isUserLoading && user) {
-            // New user, redirect to onboarding.
-            // Profile update and doc creation will happen in the background.
-            if (auth.currentUser) {
-                updateProfile(auth.currentUser, { displayName: fullName });
-                const userDocRef = doc(firestore, "users", auth.currentUser.uid);
-                setDocumentNonBlocking(userDocRef, {
-                    fullName: fullName,
-                    email: auth.currentUser.email,
-                    createdAt: new Date().toISOString(),
-                }, { merge: true });
-            }
-            router.push('/onboarding');
-        }
-    }, [user, isUserLoading, router, auth, firestore, fullName]);
-
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        initiateEmailSignUp(auth, email, password);
+        initiateEmailSignUp(auth, email, password, fullName)
+          .then(() => {
+                toast({
+                    title: "Account Created!",
+                    description: "Please log in to continue.",
+                });
+                router.push('/login');
+          })
+          .catch((error) => {
+            // Error is already handled by toast in initiateEmailSignUp
+            console.error(error);
+          });
     }
 
   return (

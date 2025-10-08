@@ -1,4 +1,5 @@
 
+
 export type StudyPack = {
   id: string;
   userId: string;
@@ -37,3 +38,13 @@ export type User = {
     email: string;
     avatarUrl: string;
 }
+
+export type ReviewSession = {
+    id: string;
+    userId: string;
+    flashcardId: string;
+    reviewDate: string; // ISO String
+    difficultyRating: 'easy' | 'medium' | 'hard';
+};
+
+    

@@ -1,6 +1,6 @@
 
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { StudyPackCard } from "@/components/study-pack-card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, BookOpen, BarChart, ArrowRight, Wand2, Flame } from "lucide-react";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import type { StudyPack } from '@/lib/types';
+import type { StudyPack, ReviewSession } from '@/lib/types';
 import { collection, query, orderBy, getDocs, limit, doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
@@ -45,16 +45,85 @@ export default function DashboardPage() {
     if (!user) return null;
     return query(collection(firestore, `users/${user.uid}/studyPacks`), orderBy('createdAt', 'desc'));
   }, [firestore, user]);
+  
+  const reviewSessionsQuery = useMemoFirebase(() => {
+    if (!user) return null;
+    return query(collection(firestore, `users/${user.uid}/reviewSessions`), orderBy('reviewDate', 'desc'));
+    }, [firestore, user]);
 
   const { data: studyPacks, isLoading: isLoadingPacks } = useCollection<StudyPack>(studyPacksQuery);
+  const { data: reviewSessions, isLoading: isLoadingSessions } = useCollection<ReviewSession>(reviewSessionsQuery);
+  
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    // This effect determines the initial loading state, considering both user and packs.
-    if (!isUserLoading && !isLoadingProfile) {
-      setIsLoading(isLoadingPacks);
+  const analytics = useMemo(() => {
+    if (!reviewSessions) {
+      return {
+        cardsLearned: 0,
+        accuracy: 0,
+        minutesStudied: 0,
+        streak: 0,
+      };
     }
-  }, [isUserLoading, isLoadingProfile, isLoadingPacks])
+
+    const cardsLearned = new Set(reviewSessions.map(s => s.flashcardId)).size;
+    
+    const correctReviews = reviewSessions.filter(s => s.difficultyRating !== 'hard').length;
+    const accuracy = reviewSessions.length > 0 ? Math.round((correctReviews / reviewSessions.length) * 100) : 0;
+
+    const minutesStudied = reviewSessions.length * 0.5; // Assuming 30s per card
+
+    // Calculate streak
+    let streak = 0;
+    if (reviewSessions.length > 0) {
+        const uniqueDates = [...new Set(reviewSessions.map(s => new Date(s.reviewDate).toDateString()))]
+            .map(dateStr => new Date(dateStr))
+            .sort((a, b) => b.getTime() - a.getTime());
+
+        if (uniqueDates.length > 0) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const mostRecentReviewDay = new Date(uniqueDates[0]);
+            mostRecentReviewDay.setHours(0, 0, 0, 0);
+
+            const dayDiff = (today.getTime() - mostRecentReviewDay.getTime()) / (1000 * 60 * 60 * 24);
+
+            if (dayDiff <= 1) {
+                streak = 1;
+                for (let i = 0; i < uniqueDates.length - 1; i++) {
+                    const current = new Date(uniqueDates[i]);
+                    current.setHours(0,0,0,0);
+                    const previous = new Date(uniqueDates[i+1]);
+                    previous.setHours(0,0,0,0);
+                    
+                    const diff = (current.getTime() - previous.getTime()) / (1000 * 60 * 60 * 24);
+
+                    if (diff === 1) {
+                        streak++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    return {
+      cardsLearned,
+      accuracy,
+      minutesStudied: Math.round(minutesStudied),
+      streak,
+    };
+  }, [reviewSessions]);
+
+
+  useEffect(() => {
+    // This effect determines the initial loading state.
+    if (!isUserLoading && !isLoadingProfile) {
+      setIsLoading(isLoadingPacks || isLoadingSessions);
+    }
+  }, [isUserLoading, isLoadingProfile, isLoadingPacks, isLoadingSessions])
 
   useEffect(() => {
     // This effect handles redirection for new users.
@@ -63,6 +132,7 @@ export default function DashboardPage() {
         // To be certain, double-check if there are any packs at all.
         // This handles cases where the real-time listener might be slow.
         const checkPacks = async () => {
+          if (!user) return;
           const packsRef = collection(firestore, `users/${user.uid}/studyPacks`);
           const q = query(packsRef, limit(1));
           const snapshot = await getDocs(q);
@@ -99,6 +169,17 @@ export default function DashboardPage() {
         </Card>
       ))}
     </div>
+  );
+
+  const renderAnalyticsSkeletons = () => (
+    <>
+      {[...Array(3)].map((_, i) => (
+        <div key={i} className="flex justify-between items-center text-sm">
+          <Skeleton className="h-4 w-2/3" />
+          <Skeleton className="h-4 w-1/4" />
+        </div>
+      ))}
+    </>
   );
 
   return (
@@ -154,24 +235,34 @@ export default function DashboardPage() {
                     <CardTitle className="flex items-center gap-2"><BarChart className="text-primary"/> Progress & Analytics</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-4">
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">Cards Learned</span>
-                        <span className="font-bold">128</span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">Accuracy</span>
-                        <span className="font-bold">92%</span>
-                    </div>
-                     <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">Minutes Studied</span>
-                        <span className="font-bold">420</span>
-                    </div>
+                    {isLoading ? renderAnalyticsSkeletons() : (
+                        <>
+                            <div className="flex justify-between items-center text-sm">
+                                <span className="text-muted-foreground">Cards Learned</span>
+                                <span className="font-bold">{analytics.cardsLearned}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                                <span className="text-muted-foreground">Accuracy</span>
+                                <span className="font-bold">{analytics.accuracy}%</span>
+                            </div>
+                             <div className="flex justify-between items-center text-sm">
+                                <span className="text-muted-foreground">Minutes Studied</span>
+                                <span className="font-bold">{analytics.minutesStudied}</span>
+                            </div>
+                        </>
+                    )}
                 </CardContent>
                  <CardFooter className="pt-4">
-                    <div className="flex items-center gap-2 text-sm font-semibold text-orange-400">
-                        <Flame className="h-4 w-4" />
-                        <span>3 day streak!</span>
-                    </div>
+                    {isLoading ? <Skeleton className="h-5 w-2/3" /> : analytics.streak > 0 ? (
+                        <div className="flex items-center gap-2 text-sm font-semibold text-orange-400">
+                            <Flame className="h-4 w-4" />
+                            <span>{analytics.streak} day streak!</span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span>Start a new streak today!</span>
+                        </div>
+                    )}
                 </CardFooter>
             </Card>
         </motion.div>
@@ -223,3 +314,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    

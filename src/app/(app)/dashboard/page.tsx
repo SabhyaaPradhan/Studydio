@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { StudyPackCard } from "@/components/study-pack-card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, BookOpen, BarChart, ArrowRight, Wand2 } from "lucide-react";
+import { PlusCircle, BookOpen, BarChart, ArrowRight, Wand2, Flame } from "lucide-react";
 import Link from "next/link";
 import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -134,35 +134,51 @@ export default function DashboardPage() {
             </Link>
         </motion.div>
         <motion.div custom={1} initial="hidden" animate="visible" variants={cardVariants}>
-            <Card className="bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/50 hover:scale-105 transition-all duration-300 h-full">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><BookOpen className="text-primary"/> My Study Sets</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">Browse and manage all your created packs.</p>
-                </CardContent>
-                 <CardContent>
-                    <ArrowRight className="text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </CardContent>
-            </Card>
+             <a href="#recent-activity">
+                <Card className="bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/50 hover:scale-105 transition-all duration-300 h-full">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><BookOpen className="text-primary"/> My Study Sets</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-muted-foreground">Browse and manage all your created packs.</p>
+                    </CardContent>
+                    <CardContent>
+                        <ArrowRight className="text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                    </CardContent>
+                </Card>
+            </a>
         </motion.div>
         <motion.div custom={2} initial="hidden" animate="visible" variants={cardVariants}>
             <Card className="bg-white/5 backdrop-blur-lg border border-white/10 hover:border-primary/50 hover:scale-105 transition-all duration-300 h-full">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><BarChart className="text-primary"/> Progress & Analytics</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">Track your learning and review your stats.</p>
+                <CardContent className="flex flex-col gap-4">
+                    <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Cards Learned</span>
+                        <span className="font-bold">128</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Accuracy</span>
+                        <span className="font-bold">92%</span>
+                    </div>
+                     <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Minutes Studied</span>
+                        <span className="font-bold">420</span>
+                    </div>
                 </CardContent>
-                 <CardContent>
-                    <ArrowRight className="text-muted-foreground group-hover:translate-x-1 transition-transform" />
-                </CardContent>
+                 <CardFooter className="pt-4">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-orange-400">
+                        <Flame className="h-4 w-4" />
+                        <span>3 day streak!</span>
+                    </div>
+                </CardFooter>
             </Card>
         </motion.div>
       </div>
 
         {/* Recent Activity */}
-        <div>
+        <div id="recent-activity">
             <h2 className="text-2xl font-bold mb-6">Recent Activity</h2>
             {isLoading && renderSkeletons()}
             {!isLoading && hasStudyPacks && (

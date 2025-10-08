@@ -40,14 +40,32 @@ export default function CreateNewPage() {
             case 'paste':
                 return pastedText;
             case 'link':
-                // In a real app, you might fetch and parse the URL content on the server
-                // For this example, we'll just use the URL itself as a placeholder for content
-                return `Content from URL: ${linkUrl}`;
+                if (!linkUrl) throw new Error("Please enter a URL.");
+                const urlResponse = await fetch('/api/fetch-url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: linkUrl }),
+                });
+                if (!urlResponse.ok) {
+                    const error = await urlResponse.json();
+                    throw new Error(error.error || 'Failed to fetch content from URL.');
+                }
+                const { content: urlContent } = await urlResponse.json();
+                return urlContent;
             case 'upload':
                 if (!file) throw new Error("No file selected.");
-                // In a real app, you would upload and parse the file on the server
-                 // For this example, we'll just use the file name as placeholder content
-                return `Content from file: ${file.name}`;
+                const formData = new FormData();
+                formData.append('file', file);
+                const fileResponse = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+                 if (!fileResponse.ok) {
+                    const error = await fileResponse.json();
+                    throw new Error(error.error || 'Failed to process file.');
+                }
+                const { content: fileContent } = await fileResponse.json();
+                return fileContent;
             default:
                 return '';
         }
@@ -66,6 +84,7 @@ export default function CreateNewPage() {
             return;
         }
         
+        setIsLoading(true);
         let contentToGenerate = '';
         try {
              contentToGenerate = await getContent();
@@ -75,6 +94,7 @@ export default function CreateNewPage() {
                 title: "Error fetching content",
                 description: error.message || "Could not retrieve content.",
             });
+            setIsLoading(false);
             return;
         }
 
@@ -84,9 +104,10 @@ export default function CreateNewPage() {
                 title: "Content is empty",
                 description: "Please provide some content to generate a study pack.",
             });
+            setIsLoading(false);
             return;
         }
-        setIsLoading(true);
+        
         try {
             const result = await generateStudyPackFromContent({ content: contentToGenerate });
 

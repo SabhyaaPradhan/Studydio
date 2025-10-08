@@ -1,24 +1,30 @@
 
 'use client';
 import Link from "next/link";
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarTrigger,
-  SidebarInset,
-} from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Home, Package, PlusCircle, Settings, Flame, LogOut, User } from "lucide-react";
 import { Logo } from "@/components/icons";
 import { useUser } from "@/firebase";
+import { cn } from "@/lib/utils";
+
+const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "transition-colors text-sm font-medium",
+        isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+      )}
+    >
+      {children}
+    </Link>
+  )
+}
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUser();
@@ -27,61 +33,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const userFallback = userName.charAt(0) || "U";
 
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader>
-          <div className="flex items-center gap-2">
-            <Logo className="size-6 text-primary" />
-            <span className="text-lg font-semibold">Studydio</span>
-          </div>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Dashboard" isActive={true}>
-                <Link href="/dashboard">
-                  <Home />
-                  <span>Dashboard</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Create New">
-                <Link href="/create">
-                  <PlusCircle />
-                  <span>Create New</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Daily Review">
-                <Link href="/review">
-                  <Flame />
-                  <span>Daily Review</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter>
-          <SidebarMenu>
-             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Settings">
-                <Link href="/settings">
-                  <Settings />
-                  <span>Settings</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
-      </Sidebar>
-      <SidebarInset className="flex flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
-          <SidebarTrigger className="md:hidden" />
-          <div className="w-full flex-1">
-            {/* Can add breadcrumbs or search here */}
-          </div>
+    <div className="flex flex-col min-h-screen">
+      <header className="flex h-16 items-center gap-4 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
+        <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+          <Logo className="size-6 text-primary" />
+          <span className="">Studydio</span>
+        </Link>
+        <nav className="hidden md:flex items-center gap-6 ml-6">
+          <NavLink href="/dashboard">Dashboard</NavLink>
+          <NavLink href="/create">Create New</NavLink>
+          <NavLink href="/review">Daily Review</NavLink>
+        </nav>
+        <div className="ml-auto flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
@@ -95,17 +58,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild><Link href="/settings"><User /> Profile</Link></DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/settings"><Settings className="mr-2 h-4 w-4" />Settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/settings"><User className="mr-2 h-4 w-4" />Profile</Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild><Link href="/"><LogOut /> Logout</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href="/"><LogOut className="mr-2 h-4 w-4" /> Logout</Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </header>
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-muted/40">
-            {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+        </div>
+      </header>
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-muted/40">
+        {children}
+      </main>
+    </div>
   );
 }

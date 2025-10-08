@@ -12,9 +12,9 @@ import { Logo } from "@/components/icons";
 import { useAuth, useUser, useFirestore, useMemoFirebase } from "@/firebase";
 import { initiateEmailSignIn } from "@/firebase/non-blocking-login";
 import { useState, useEffect } from "react";
-import { collection, getDocs, query, limit, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, limit, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { updateProfile, serverTimestamp } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 
 function SocialIcon({ children }: { children: React.ReactNode }) {
     return (

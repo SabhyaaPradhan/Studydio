@@ -18,7 +18,8 @@ import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
-export default function StudyPackPage({ params: { id } }: { params: { id: string } }) {
+export default function StudyPackPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const { user } = useUser();
   const firestore = useFirestore();
   

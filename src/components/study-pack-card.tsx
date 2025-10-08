@@ -10,7 +10,20 @@ const contentTypeIcons = {
   pdf: <FileText className="h-5 w-5 text-blue-500" />,
   text: <Type className="h-5 w-5 text-gray-500" />,
   article: <Newspaper className="h-5 w-5 text-green-500" />,
+  link: <Newspaper className="h-5 w-5 text-green-500" />,
+  upload: <FileText className="h-5 w-5 text-blue-500" />,
+  paste: <Type className="h-5 w-5 text-gray-500" />,
 };
+
+function formatDate(timestamp: any): string {
+    if (!timestamp) return 'Just now';
+    if (timestamp.toDate) { // Firestore Timestamp object
+        return timestamp.toDate().toLocaleDateString();
+    }
+    // Fallback for string or number
+    return new Date(timestamp).toLocaleDateString();
+}
+
 
 export function StudyPackCard({ pack }: { pack: StudyPack }) {
   return (
@@ -18,18 +31,18 @@ export function StudyPackCard({ pack }: { pack: StudyPack }) {
       <CardHeader>
         <div className="flex items-start justify-between">
             <CardTitle className="text-lg font-semibold leading-tight pr-2">{pack.title}</CardTitle>
-            {contentTypeIcons[pack.contentType]}
+            {pack.contentType && contentTypeIcons[pack.contentType as keyof typeof contentTypeIcons]}
         </div>
-        <CardDescription className="text-xs pt-1">Created on {new Date(pack.createdAt).toLocaleDateString()}</CardDescription>
+        <CardDescription className="text-xs pt-1">Created on {formatDate(pack.createdAt)}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
         <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{pack.contentSnippet}</p>
         <div>
           <div className="flex justify-between items-center mb-1">
             <span className="text-xs font-medium text-muted-foreground">Progress</span>
-            <span className="text-xs font-semibold">{pack.progress}%</span>
+            <span className="text-xs font-semibold">{pack.progress || 0}%</span>
           </div>
-          <Progress value={pack.progress} aria-label={`${pack.progress}% complete`} />
+          <Progress value={pack.progress || 0} aria-label={`${pack.progress || 0}% complete`} />
         </div>
       </CardContent>
       <CardFooter>

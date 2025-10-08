@@ -125,8 +125,8 @@ export default function CreateNewPage() {
                 contentSnippet: contentToGenerate.substring(0, 100) + '...',
                 progress: 0,
                 createdAt: serverTimestamp(),
-                flashcards: result.flashcards.map((fc, i) => ({ id: `fc-${Date.now()}-${i}`, ...fc })),
-                quiz: result.quiz.quiz.map((q, i) => ({ id: `q-${Date.now()}-${i}`, ...q })),
+                flashcards: result.flashcards,
+                quiz: result.quiz.quiz,
                 summary: result.summary,
             };
 

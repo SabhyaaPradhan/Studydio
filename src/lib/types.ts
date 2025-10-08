@@ -8,7 +8,7 @@ export type StudyPack = {
   contentUrl: string;
   contentSnippet: string;
   progress: number;
-  createdAt: string; // Will be a server timestamp
+  createdAt: any; // Allow server timestamp
   flashcards: Flashcard[];
   quiz: QuizQuestion[];
   summary: string;

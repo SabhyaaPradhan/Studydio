@@ -2,103 +2,74 @@
  * @fileoverview Firestore Security Rules for LearnFast application.
  *
  * Core Philosophy:
- * This ruleset enforces a strict user-ownership model for all data. Each user has full control over their own data tree,
- * and no user can access another user's data. This is achieved through path-based authorization, where the user's ID
- * in the path is matched against the authenticated user's UID.
+ * This ruleset enforces a strict user-ownership model for all data. Each user has a dedicated data tree under `/users/{userId}`, and only the authenticated user with a matching `uid` can read or write to that tree.
  *
  * Data Structure:
- * All data is nested under the /users/{userId} collection. This structure ensures that each user's data is isolated
- * and that access control can be easily enforced based on the user's ID in the path.  Subcollections include studyPacks, flashcards, quizzes, questions, answers, and reviewSessions, each inheriting ownership from its parent.
+ * All data is nested under `/users/{userId}` to enforce ownership. This includes study packs, flashcards, quizzes, questions, answers, and review sessions.
  *
  * Key Security Decisions:
- * - No user can list all users (listing the /users collection is denied).
- * - All write operations (create, update, delete) require the user to be the owner of the data.
- * - Data validation is limited to ensuring the authenticated user ID matches the user ID in the document path.
+ * - User listing is implicitly denied. Only the authenticated user can access their own data tree.
+ * - No data validation is performed beyond checking document ownership to allow for rapid schema iteration during prototyping.
+ * - Read-only collections are not used in this data model.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description Checks if the request is made by a signed-in user.
-     * @return {boolean} True if the user is signed in, false otherwise.
-     */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /**
-     * @description Checks if the request is made by the owner of the resource, based on the userId.
-     * @param {string} userId - The user ID to compare against the authenticated user's UID.
-     * @return {boolean} True if the user is the owner, false otherwise.
-     */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /**
-     * @description Checks if the request is made by the owner of the resource and the resource exists.
-     * @param {string} userId - The user ID to compare against the authenticated user's UID.
-     * @return {boolean} True if the user is the owner and the resource exists, false otherwise.
-     */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
     /**
-     * @description Enforces access control for user profiles.
+     * @description Grants access to user profiles, ensuring only the user can read and write their own data.
      * @path /users/{userId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create their own profile at /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read their own profile at /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update their own profile at /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete their own profile at /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @deny (create) User 'anotherUser' cannot create a profile at /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @deny (get) User 'anotherUser' cannot read profile /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @deny (update) User 'anotherUser' cannot update profile /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @deny (delete) User 'anotherUser' cannot delete profile /users/rXYUijiWT7POpWjaZTjAWtci2es1.
-     * @principle Enforces document ownership for all operations.
+     * @allow (create) User 'user123' can create their profile if authenticated as 'user123'.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their profile if authenticated as 'user123'.
+     * @deny (create) User 'user456' cannot create a profile for 'user123'.
+     * @deny (get, update, delete) User 'user456' cannot read, update, or delete the profile of 'user123'.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId} {
       allow get: if isOwner(userId);
       allow list: if false;
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces access control for study packs within a user's profile.
+     * @description Grants access to study packs, ensuring only the owning user can manage their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create a study pack at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read a study pack at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update a study pack at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete a study pack at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @deny (create) User 'anotherUser' cannot create a study pack at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @deny (get) User 'anotherUser' cannot read study pack /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @deny (update) User 'anotherUser' cannot update study pack /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @deny (delete) User 'anotherUser' cannot delete study pack /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId.
-     * @principle Enforces document ownership for all operations within a user's data tree.
+     * @allow (create) User 'user123' can create a study pack under their profile.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their study pack.
+     * @deny (create) User 'user456' cannot create a study pack under 'user123''s profile.
+     * @deny (get, update, delete) User 'user456' cannot access 'user123''s study pack.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId}/studyPacks/{studyPackId} {
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Enforces access control for flashcards within a user's study pack.
+     * @description Grants access to flashcards, ensuring only the owning user can manage flashcards within their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create a flashcard at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read a flashcard at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update a flashcard at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete a flashcard at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @deny (create) User 'anotherUser' cannot create a flashcard at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @deny (get) User 'anotherUser' cannot read flashcard /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @deny (update) User 'anotherUser' cannot update flashcard /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @deny (delete) User 'anotherUser' cannot delete flashcard /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/flashcards/someFlashcardId.
-     * @principle Enforces document ownership for all operations within a user's data tree.
+     * @allow (create) User 'user123' can create a flashcard in their study pack.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their flashcard.
+     * @deny (create) User 'user456' cannot create a flashcard in 'user123''s study pack.
+     * @deny (get, update, delete) User 'user456' cannot access 'user123''s flashcard.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId} {
       allow get: if isOwner(userId);
@@ -109,17 +80,13 @@ service cloud.firestore {
     }
 
     /**
-     * @description Enforces access control for quizzes within a user's study pack.
+     * @description Grants access to quizzes, ensuring only the owning user can manage quizzes within their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create a quiz at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read a quiz at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update a quiz at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete a quiz at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @deny (create) User 'anotherUser' cannot create a quiz at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @deny (get) User 'anotherUser' cannot read quiz /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @deny (update) User 'anotherUser' cannot update quiz /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @deny (delete) User 'anotherUser' cannot delete quiz /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId.
-     * @principle Enforces document ownership for all operations within a user's data tree.
+     * @allow (create) User 'user123' can create a quiz in their study pack.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their quiz.
+     * @deny (create) User 'user456' cannot create a quiz in 'user123''s study pack.
+     * @deny (get, update, delete) User 'user456' cannot access 'user123''s quiz.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId} {
       allow get: if isOwner(userId);
@@ -130,17 +97,13 @@ service cloud.firestore {
     }
 
     /**
-     * @description Enforces access control for questions within a user's quiz.
+     * @description Grants access to questions, ensuring only the owning user can manage questions within their quizzes.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create a question at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read a question at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update a question at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete a question at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @deny (create) User 'anotherUser' cannot create a question at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @deny (get) User 'anotherUser' cannot read question /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @deny (update) User 'anotherUser' cannot update question /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @deny (delete) User 'anotherUser' cannot delete question /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId.
-     * @principle Enforces document ownership for all operations within a user's data tree.
+     * @allow (create) User 'user123' can create a question in their quiz.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their question.
+     * @deny (create) User 'user456' cannot create a question in 'user123''s quiz.
+     * @deny (get, update, delete) User 'user456' cannot access 'user123''s question.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId} {
       allow get: if isOwner(userId);
@@ -151,17 +114,13 @@ service cloud.firestore {
     }
 
     /**
-     * @description Enforces access control for answers within a user's question.
+     * @description Grants access to answers, ensuring only the owning user can manage answers within their questions.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create an answer at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read an answer at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update an answer at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete an answer at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @deny (create) User 'anotherUser' cannot create an answer at /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @deny (get) User 'anotherUser' cannot read answer /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @deny (update) User 'anotherUser' cannot update answer /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @deny (delete) User 'anotherUser' cannot delete answer /users/rXYUijiWT7POpWjaZTjAWtci2es1/studyPacks/someStudyPackId/quizzes/someQuizId/questions/someQuestionId/answers/someAnswerId.
-     * @principle Enforces document ownership for all operations within a user's data tree.
+     * @allow (create) User 'user123' can create an answer in their question.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their answer.
+     * @deny (create) User 'user456' cannot create an answer in 'user123''s question.
+     * @deny (get, update, delete) User 'user456' cannot access 'user123''s answer.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId} {
       allow get: if isOwner(userId);
@@ -172,23 +131,19 @@ service cloud.firestore {
     }
 
     /**
-     * @description Enforces access control for review sessions within a user's profile.
+     * @description Grants access to review sessions, ensuring only the owning user can manage their review sessions.
      * @path /users/{userId}/reviewSessions/{reviewSessionId}
-     * @allow (create) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can create a review session at /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @allow (get) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can read a review session at /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @allow (update) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can update a review session at /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @allow (delete) User 'rXYUijiWT7POpWjaZTjAWtci2es1' can delete a review session at /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @deny (create) User 'anotherUser' cannot create a review session at /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @deny (get) User 'anotherUser' cannot read review session /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @deny (update) User 'anotherUser' cannot update review session /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @deny (delete) User 'anotherUser' cannot delete review session /users/rXYUijiWT7POpWjaZTjAWtci2es1/reviewSessions/someReviewSessionId.
-     * @principle Enforces document ownership for all operations within a user's data tree.
+     * @allow (create) User 'user123' can create a review session under their profile.
+     * @allow (get, update, delete) User 'user123' can read, update, and delete their review session.
+     * @deny (create) User 'user456' cannot create a review session under 'user123''s profile.
+     * @deny (get, update, delete) User 'user456' cannot access 'user123''s review session.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
      */
     match /users/{userId}/reviewSessions/{reviewSessionId} {
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
       allow delete: if isExistingOwner(userId);
     }
   }

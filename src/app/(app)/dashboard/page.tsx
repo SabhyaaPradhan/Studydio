@@ -9,8 +9,9 @@ import { useUser, useFirestore, useCollection, useMemoFirebase } from "@/firebas
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import type { StudyPack } from '@/lib/types';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { collection, query, orderBy, getDocs, limit } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useRouter } from 'next/navigation';
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -27,17 +28,45 @@ const cardVariants = {
 
 
 export default function DashboardPage() {
-  const { user } = useUser();
+  const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
-  const userName = user?.displayName?.split(' ')[0] || "User";
+  const router = useRouter();
+  const userName = user?.displayName?.split(' ')[0] || "Learner";
   
   const studyPacksQuery = useMemoFirebase(() => {
     if (!user) return null;
     return query(collection(firestore, `users/${user.uid}/studyPacks`), orderBy('createdAt', 'desc'));
   }, [firestore, user]);
 
-  const { data: studyPacks, isLoading } = useCollection<StudyPack>(studyPacksQuery);
-  
+  const { data: studyPacks, isLoading: isLoadingPacks } = useCollection<StudyPack>(studyPacksQuery);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // This effect determines the initial loading state, considering both user and packs.
+    if (!isUserLoading) {
+      setIsLoading(isLoadingPacks);
+    }
+  }, [isUserLoading, isLoadingPacks])
+
+  useEffect(() => {
+    // This effect handles redirection for new users.
+    if (!isUserLoading && user && firestore && !isLoadingPacks) {
+      if (!studyPacks || studyPacks.length === 0) {
+        // To be certain, double-check if there are any packs at all.
+        // This handles cases where the real-time listener might be slow.
+        const checkPacks = async () => {
+          const packsRef = collection(firestore, `users/${user.uid}/studyPacks`);
+          const q = query(packsRef, limit(1));
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) {
+            router.push('/onboarding');
+          }
+        };
+        checkPacks();
+      }
+    }
+  }, [user, isUserLoading, firestore, studyPacks, isLoadingPacks, router]);
+
   const hasStudyPacks = !isLoading && studyPacks && studyPacks.length > 0;
 
   const renderSkeletons = () => (
@@ -138,7 +167,7 @@ export default function DashboardPage() {
                 </div>
             )}
             {!isLoading && !hasStudyPacks && (
-                <div className="text-center py-20 px-6 rounded-2xl bg-white/5 border border-dashed border-white/10 flex flex-col items-center">
+                 <div className="text-center py-20 px-6 rounded-2xl bg-white/5 border border-dashed border-white/10 flex flex-col items-center">
                     <div className="mb-4 text-6xl">📚</div>
                     <h3 className="text-xl font-semibold mb-2">No study sets yet</h3>
                     <p className="text-muted-foreground mb-6 max-w-sm">It looks like you haven't created any study material. Let's make your first one!</p>
@@ -170,3 +199,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    

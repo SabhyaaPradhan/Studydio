@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Flashcard } from "@/components/flashcard";
@@ -9,9 +9,19 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen, MessageSquare, Send, User as UserIcon, Loader2 } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
+import { chatWithContent } from '@/ai/flows/chat-with-content';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+
+
+type ChatMessage = {
+    role: 'user' | 'model';
+    content: string;
+};
 
 // The client component now receives the initial data as a prop.
 export default function StudyPackClientPage({ id, initialStudyPack }: { id: string, initialStudyPack: StudyPack }) {
@@ -21,6 +31,12 @@ export default function StudyPackClientPage({ id, initialStudyPack }: { id: stri
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [isChatLoading, setIsChatLoading] = useState(false);
+  const chatScrollAreaRef = useRef<HTMLDivElement>(null);
+
 
   const handleNextCard = () => {
     if (!studyPack || !studyPack.flashcards) return;
@@ -38,16 +54,56 @@ export default function StudyPackClientPage({ id, initialStudyPack }: { id: stri
 
   const handleSubmitQuiz = () => setSubmitted(true);
   
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim() || isChatLoading) return;
+
+    const newHumanMessage: ChatMessage = { role: 'user', content: chatInput };
+    setChatHistory(prev => [...prev, newHumanMessage]);
+    setChatInput('');
+    setIsChatLoading(true);
+
+    try {
+        const fullContent = studyPack.summary + '\n' + studyPack.flashcards.map(f => `${f.front}: ${f.back}`).join('\n');
+        
+        const result = await chatWithContent({
+            content: fullContent,
+            question: chatInput,
+            history: chatHistory.map(h => ({ role: h.role, content: h.content }))
+        });
+
+        const newAiMessage: ChatMessage = { role: 'model', content: result.answer };
+        setChatHistory(prev => [...prev, newAiMessage]);
+
+    } catch (error) {
+        console.error("Chat error:", error);
+        const errorMessage: ChatMessage = { role: 'model', content: "Sorry, I ran into an error. Please try again."};
+        setChatHistory(prev => [...prev, errorMessage]);
+    } finally {
+        setIsChatLoading(false);
+    }
+  }
+
+   useEffect(() => {
+    if (chatScrollAreaRef.current) {
+      chatScrollAreaRef.current.scrollTo({
+        top: chatScrollAreaRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [chatHistory]);
+  
   return (
     <div className="container mx-auto">
         <ScrollFloat tag="h1" className="text-3xl font-bold mb-1" textClassName="scroll-float-text-h1">{studyPack.title}</ScrollFloat>
         <p className="text-muted-foreground mb-6">Let's get studying. You've got this!</p>
 
       <Tabs defaultValue="flashcards" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="flashcards"><BookOpen className="mr-2 h-4 w-4" />Flashcards</TabsTrigger>
           <TabsTrigger value="quiz"><Bot className="mr-2 h-4 w-4" />Quiz</TabsTrigger>
           <TabsTrigger value="summary"><FileText className="mr-2 h-4 w-4" />Summary</TabsTrigger>
+          <TabsTrigger value="chat"><MessageSquare className="mr-2 h-4 w-4" />Chat</TabsTrigger>
         </TabsList>
         <TabsContent value="flashcards">
           <Card>
@@ -133,6 +189,58 @@ export default function StudyPackClientPage({ id, initialStudyPack }: { id: stri
               {studyPack.summary ? <p>{studyPack.summary}</p> : <div className="text-center text-muted-foreground p-8">No summary available for this pack.</div>}
             </CardContent>
           </Card>
+        </TabsContent>
+         <TabsContent value="chat">
+            <Card>
+                <CardHeader>
+                    <CardTitle>AI Chat Tutor</CardTitle>
+                    <CardDescription>Ask questions about the content of this study pack.</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col h-[500px]">
+                    <ScrollArea className="flex-1 pr-4 -mr-4" ref={chatScrollAreaRef}>
+                        <div className="space-y-6">
+                            {chatHistory.map((msg, index) => (
+                                <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : ''}`}>
+                                    {msg.role === 'model' && (
+                                        <Avatar className="w-8 h-8 border">
+                                            <AvatarFallback><Bot className="w-5 h-5" /></AvatarFallback>
+                                        </Avatar>
+                                    )}
+                                    <div className={`rounded-lg p-3 max-w-[80%] ${msg.role === 'model' ? 'bg-muted' : 'bg-primary text-primary-foreground'}`}>
+                                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                                    </div>
+                                    {msg.role === 'user' && (
+                                         <Avatar className="w-8 h-8 border">
+                                            <AvatarFallback><UserIcon className="w-5 h-5" /></AvatarFallback>
+                                        </Avatar>
+                                    )}
+                                </div>
+                            ))}
+                             {isChatLoading && (
+                                <div className="flex items-start gap-4">
+                                     <Avatar className="w-8 h-8 border">
+                                        <AvatarFallback><Bot className="w-5 h-5" /></AvatarFallback>
+                                    </Avatar>
+                                    <div className="rounded-lg p-3 bg-muted flex items-center">
+                                       <Loader2 className="w-5 h-5 animate-spin"/>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </ScrollArea>
+                    <form onSubmit={handleChatSubmit} className="mt-4 flex items-center gap-2">
+                        <Input 
+                            value={chatInput}
+                            onChange={(e) => setChatInput(e.target.value)}
+                            placeholder="Ask a question..."
+                            disabled={isChatLoading}
+                        />
+                        <Button type="submit" size="icon" disabled={isChatLoading || !chatInput.trim()}>
+                            <Send className="h-4 w-4" />
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </TabsContent>
       </Tabs>
     </div>

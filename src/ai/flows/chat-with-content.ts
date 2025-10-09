@@ -48,12 +48,14 @@ ${input.content}
 ---
 
 `;
+    
+    const userMessage = {
+      role: 'user' as const,
+      content: `${input.history?.length === 0 ? systemPrompt : ''}${input.question}`,
+    };
 
     const { output } = await ai.generate({
-      prompt: [
-        ...(input.history || []),
-        { role: 'user', content: `${input.history?.length === 0 ? systemPrompt : ''}${input.question}` },
-      ],
+      prompt: [...(input.history || []), userMessage],
       model: 'googleai/gemini-2.5-flash',
     });
     

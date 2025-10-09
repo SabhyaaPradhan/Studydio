@@ -3,7 +3,7 @@ import type { StudyPack } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Youtube, FileText, Type, Newspaper, ArrowRight } from "lucide-react";
+import { Youtube, FileText, Type, Newspaper, ArrowRight, FolderPlus } from "lucide-react";
 
 const contentTypeIcons = {
   youtube: <Youtube className="h-5 w-5 text-red-500" />,
@@ -15,7 +15,7 @@ const contentTypeIcons = {
   paste: <Type className="h-5 w-5 text-gray-500" />,
 };
 
-export function StudyPackCard({ pack }: { pack: StudyPack }) {
+export function StudyPackCard({ pack, onAddToCollectionClick }: { pack: StudyPack, onAddToCollectionClick?: (pack: StudyPack) => void }) {
   return (
     <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
@@ -35,13 +35,19 @@ export function StudyPackCard({ pack }: { pack: StudyPack }) {
           <Progress value={pack.progress || 0} aria-label={`${pack.progress || 0}% complete`} />
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex gap-2">
         <Button asChild variant="secondary" className="w-full">
           <Link href={`/study/${pack.id}`}>
             Continue Studying
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
+        {onAddToCollectionClick && (
+            <Button variant="outline" size="icon" onClick={() => onAddToCollectionClick(pack)}>
+                <FolderPlus className="h-4 w-4" />
+                <span className="sr-only">Add to Collection</span>
+            </Button>
+        )}
       </CardFooter>
     </Card>
   );

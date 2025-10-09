@@ -1,7 +1,7 @@
 
 'use client';
 
-import { BookCopy, PlusCircle, Trash2, Edit } from "lucide-react";
+import { BookCopy, PlusCircle, Trash2, Edit, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ScrollFloat from "@/components/ScrollFloat";
@@ -41,11 +41,23 @@ function NewCollectionDialog({ open, onOpenChange, subjectToEdit, onSubjectUpdat
   const { user } = useUser();
   const firestore = useFirestore();
   const { toast } = useToast();
-  const [title, setTitle] = useState(subjectToEdit?.title || "");
-  const [description, setDescription] = useState(subjectToEdit?.description || "");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   const isEditing = !!subjectToEdit;
+
+  // Effect to populate form when subjectToEdit changes
+  useState(() => {
+    if (subjectToEdit) {
+      setTitle(subjectToEdit.title);
+      setDescription(subjectToEdit.description || "");
+    } else {
+      setTitle("");
+      setDescription("");
+    }
+  }, [subjectToEdit]);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,7 +172,7 @@ export default function CollectionsPage() {
     return query(collection(firestore, `users/${user.uid}/subjects`), orderBy("createdAt", "desc"));
   }, [user, firestore]);
 
-  const { data: subjects, isLoading, error } = useCollection<Subject>(subjectsQuery);
+  const { data: subjects, isLoading, error, refetch: refetchSubjects } = useCollection<Subject>(subjectsQuery);
 
   const handleOpenDialogForEdit = (subject: Subject) => {
     setSubjectToEdit(subject);
@@ -201,6 +213,7 @@ export default function CollectionsPage() {
             <Skeleton className="h-4 w-1/2 mt-2" />
           </CardHeader>
           <CardFooter className="flex justify-end gap-2">
+            <Skeleton className="h-10 w-full" />
             <Skeleton className="h-8 w-8 rounded-md" />
             <Skeleton className="h-8 w-8 rounded-md" />
           </CardFooter>
@@ -231,7 +244,7 @@ export default function CollectionsPage() {
             onOpenChange={setIsDialogOpen} 
             subjectToEdit={subjectToEdit} 
             onSubjectUpdated={() => {
-                // This could be used to manually refetch data if useCollection doesn't update automatically
+                if (refetchSubjects) refetchSubjects();
             }}
        />
 
@@ -245,31 +258,38 @@ export default function CollectionsPage() {
                 <CardTitle>{subject.title}</CardTitle>
                 <CardDescription>{subject.description || 'No description'}</CardDescription>
               </CardHeader>
-              <CardFooter className="flex justify-end gap-2">
-                <Button variant="ghost" size="icon" onClick={() => handleOpenDialogForEdit(subject)}>
-                    <Edit className="h-4 w-4" />
-                    <span className="sr-only">Edit</span>
+              <CardFooter className="flex justify-between items-center gap-2">
+                 <div className="flex gap-2">
+                    <Button variant="ghost" size="icon" onClick={() => handleOpenDialogForEdit(subject)}>
+                        <Edit className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
+                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive/80">
+                                <Trash2 className="h-4 w-4" />
+                                <span className="sr-only">Delete</span>
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the collection. Study packs inside will not be deleted.
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDeleteSubject(subject.id)}>Delete</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                 </div>
+                 <Button asChild size="sm">
+                    <Link href={`/collections/${subject.id}`}>
+                        View <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                 </Button>
-                 <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive/80">
-                            <Trash2 className="h-4 w-4" />
-                            <span className="sr-only">Delete</span>
-                        </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the collection. Study packs inside will not be deleted.
-                        </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDeleteSubject(subject.id)}>Delete</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
               </CardFooter>
             </Card>
           ))}

@@ -8,10 +8,13 @@ import Link from "next/link";
 import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from "@/firebase";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import type { StudyPack, ReviewSession } from '@/lib/types';
-import { collection, query, orderBy, doc } from 'firebase/firestore';
+import type { StudyPack, ReviewSession, Subject } from '@/lib/types';
+import { collection, query, orderBy, doc, updateDoc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -26,11 +29,107 @@ const cardVariants = {
   }),
 };
 
+function AddToCollectionDialog({
+  isOpen,
+  onOpenChange,
+  studyPack,
+  subjects,
+}: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  studyPack: StudyPack | null;
+  subjects: Subject[] | null;
+}) {
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
+  const { toast } = useToast();
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (studyPack?.subjectId) {
+      setSelectedSubjectId(studyPack.subjectId);
+    } else {
+      setSelectedSubjectId(null);
+    }
+  }, [studyPack]);
+
+  const handleSave = async () => {
+    if (!user || !firestore || !studyPack || !selectedSubjectId) return;
+
+    setIsSaving(true);
+    try {
+      const studyPackRef = doc(firestore, `users/${user.uid}/studyPacks`, studyPack.id);
+      await updateDoc(studyPackRef, {
+        subjectId: selectedSubjectId,
+      });
+      toast({
+        title: "Study Pack Updated",
+        description: `"${studyPack.title}" has been added to the collection.`,
+      });
+      onOpenChange(false);
+    } catch (error) {
+      console.error("Error updating study pack:", error);
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Could not add the study pack to the collection.",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add "{studyPack?.title}" to a Collection</DialogTitle>
+          <DialogDescription>
+            Organize your study material by assigning it to a collection.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <Select
+            onValueChange={setSelectedSubjectId}
+            defaultValue={selectedSubjectId || undefined}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a collection" />
+            </SelectTrigger>
+            <SelectContent>
+              {subjects && subjects.length > 0 ? (
+                subjects.map((subject) => (
+                  <SelectItem key={subject.id} value={subject.id}>
+                    {subject.title}
+                  </SelectItem>
+                ))
+              ) : (
+                <div className="p-4 text-sm text-muted-foreground">No collections found. <Link href="/collections" className="text-primary underline">Create one?</Link></div>
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">Cancel</Button>
+          </DialogClose>
+          <Button onClick={handleSave} disabled={isSaving || !selectedSubjectId}>
+            {isSaving ? "Saving..." : "Save"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
   const router = useRouter();
+
+  const [packToAddToCollection, setPackToAddToCollection] = useState<StudyPack | null>(null);
   
   const userProfileRef = useMemoFirebase(() => {
     if (!user) return null;
@@ -46,15 +145,21 @@ export default function DashboardPage() {
     return query(collection(firestore, `users/${user.uid}/studyPacks`), orderBy('createdAt', 'desc'));
   }, [firestore, user]);
   
+  const subjectsQuery = useMemoFirebase(() => {
+    if (!user) return null;
+    return query(collection(firestore, `users/${user.uid}/subjects`), orderBy("createdAt", "desc"));
+  }, [user, firestore]);
+
   const reviewSessionsQuery = useMemoFirebase(() => {
     if (!user) return null;
     return query(collection(firestore, `users/${user.uid}/reviewSessions`), orderBy('reviewDate', 'desc'));
     }, [firestore, user]);
 
   const { data: studyPacks, isLoading: isLoadingPacks } = useCollection<StudyPack>(studyPacksQuery);
+  const { data: subjects, isLoading: isLoadingSubjects } = useCollection<Subject>(subjectsQuery);
   const { data: reviewSessions, isLoading: isLoadingSessions } = useCollection<ReviewSession>(reviewSessionsQuery);
   
-  const isLoading = isUserLoading || isLoadingProfile || isLoadingPacks || isLoadingSessions;
+  const isLoading = isUserLoading || isLoadingProfile || isLoadingPacks || isLoadingSessions || isLoadingSubjects;
 
   const processedStudyPacks = useMemo(() => {
     if (!studyPacks) return [];
@@ -180,6 +285,13 @@ export default function DashboardPage() {
         <p className="text-muted-foreground text-lg mt-1">Ready to create your next study set?</p>
       </motion.div>
 
+      <AddToCollectionDialog 
+        isOpen={!!packToAddToCollection}
+        onOpenChange={(open) => !open && setPackToAddToCollection(null)}
+        studyPack={packToAddToCollection}
+        subjects={subjects}
+      />
+
       {/* Quick Action Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <motion.div custom={0} initial="hidden" animate="visible" variants={cardVariants}>
@@ -259,7 +371,7 @@ export default function DashboardPage() {
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {processedStudyPacks.map((pack, i) => (
                          <motion.div key={pack.id} custom={i} initial="hidden" animate="visible" variants={cardVariants}>
-                            <StudyPackCard pack={pack} />
+                            <StudyPackCard pack={pack} onAddToCollectionClick={setPackToAddToCollection} />
                          </motion.div>
                     ))}
                 </div>

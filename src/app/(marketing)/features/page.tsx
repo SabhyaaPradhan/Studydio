@@ -58,7 +58,7 @@ export default function FeaturesPage() {
         <section id="hero" className="w-full py-24 md:py-32 lg:py-40 bg-gradient-to-b from-transparent via-stone-950/80 to-black text-center">
           <div className="container mx-auto px-4 md:px-6">
             <ScrollFloat tag="h1" className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline">
-              Built to make learning effortless.
+              Built to make learning effortless
             </ScrollFloat>
              <ScrollReveal
                 tag="div"

@@ -56,6 +56,17 @@ export default function DashboardPage() {
   
   const isLoading = isUserLoading || isLoadingProfile || isLoadingPacks || isLoadingSessions;
 
+  const processedStudyPacks = useMemo(() => {
+    if (!studyPacks) return [];
+    return studyPacks.map(pack => {
+      const learnedCount = pack.flashcards?.filter(fc => fc.isLearned).length || 0;
+      const totalCount = pack.flashcards?.length || 0;
+      const progress = totalCount > 0 ? Math.round((learnedCount / totalCount) * 100) : 0;
+      return { ...pack, progress };
+    });
+  }, [studyPacks]);
+
+
   const analytics = useMemo(() => {
     if (!reviewSessions) {
       return {
@@ -117,7 +128,7 @@ export default function DashboardPage() {
     };
   }, [reviewSessions]);
 
-  const hasStudyPacks = !isLoading && studyPacks && studyPacks.length > 0;
+  const hasStudyPacks = !isLoading && processedStudyPacks && processedStudyPacks.length > 0;
 
   const renderSkeletons = () => (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -246,7 +257,7 @@ export default function DashboardPage() {
             {isLoading && renderSkeletons()}
             {!isLoading && hasStudyPacks && (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {studyPacks.map((pack, i) => (
+                    {processedStudyPacks.map((pack, i) => (
                          <motion.div key={pack.id} custom={i} initial="hidden" animate="visible" variants={cardVariants}>
                             <StudyPackCard pack={pack} />
                          </motion.div>

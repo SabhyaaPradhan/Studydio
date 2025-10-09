@@ -12,7 +12,16 @@ export type StudyPack = {
   flashcards: Flashcard[];
   quiz: QuizQuestion[];
   summary: string;
+  subjectId?: string;
 };
+
+export type Subject = {
+    id: string;
+    userId: string;
+    title: string;
+    description?: string;
+    createdAt: any; // Allow server timestamp
+}
 
 export type Flashcard = {
   id: string;

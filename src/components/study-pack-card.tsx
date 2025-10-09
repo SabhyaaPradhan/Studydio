@@ -15,16 +15,6 @@ const contentTypeIcons = {
   paste: <Type className="h-5 w-5 text-gray-500" />,
 };
 
-function formatDate(timestamp: any): string {
-    if (!timestamp) return 'Just now';
-    if (timestamp.toDate) { // Firestore Timestamp object
-        return timestamp.toDate().toLocaleDateString();
-    }
-    // Fallback for string or number
-    return new Date(timestamp).toLocaleDateString();
-}
-
-
 export function StudyPackCard({ pack }: { pack: StudyPack }) {
   return (
     <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
@@ -33,7 +23,7 @@ export function StudyPackCard({ pack }: { pack: StudyPack }) {
             <CardTitle className="text-lg font-semibold leading-tight pr-2">{pack.title}</CardTitle>
             {pack.contentType && contentTypeIcons[pack.contentType as keyof typeof contentTypeIcons]}
         </div>
-        <CardDescription className="text-xs pt-1">Created on {formatDate(pack.createdAt)}</CardDescription>
+        <CardDescription className="text-xs pt-1">Your study pack</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
         <p className="text-sm text-muted-foreground line-clamp-2 mb-4">{pack.contentSnippet}</p>

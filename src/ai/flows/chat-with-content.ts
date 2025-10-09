@@ -48,9 +48,8 @@ ${input.content}
         model: 'googleai/gemini-2.5-flash',
       });
 
-      // Genkit v1.x returns response.text, not response.output.text
-      // Handle both string and object returns for safety.
-      return { answer: response.text ?? String(response) };
+      // Genkit v1.x returns response.text for the generated string.
+      return { answer: response.text };
 
     } catch (error: any) {
       console.error('AI generation failed:', error);

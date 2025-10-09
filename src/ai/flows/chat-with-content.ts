@@ -46,7 +46,7 @@ ${input.content}
       const response = await ai.generate({
         system: systemPrompt,
         prompt: [...(input.history || []), userMessage],
-        model: 'googleai/gemini-1.5-flash-latest',
+        model: 'googleai/gemini-1.5-flash',
       });
 
       // Genkit v1.x returns response.text for the generated string.

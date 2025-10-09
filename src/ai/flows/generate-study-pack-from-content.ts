@@ -53,7 +53,7 @@ const studyPackPrompt = ai.definePrompt({
     flashcards: z.array(FlashcardSchema),
     summary: z.string(),
   })},
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   prompt: `You are an AI assistant that generates study materials from content.
   Based on the content provided below, please generate the following:
   1. A short, descriptive title for the study pack (e.g., "Quantum Superposition Principles").

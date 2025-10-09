@@ -43,7 +43,7 @@ const prompt = ai.definePrompt({
   name: 'quizGenerationPrompt',
   input: {schema: QuizGenerationInputSchema},
   output: {schema: QuizGenerationOutputSchema},
-  model: 'googleai/gemini-1.5-flash-latest',
+  model: 'googleai/gemini-1.5-flash',
   prompt: `You are an expert quiz generator. Given the following content, generate a quiz with {{numberOfQuestions}} multiple-choice questions.  Provide four answer options for each question. Please indicate the correct answer for each question.
 
 Content: {{{content}}}

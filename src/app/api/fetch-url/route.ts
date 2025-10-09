@@ -1,6 +1,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { parse } from 'node-html-parser';
+import { YoutubeTranscript } from 'youtube-transcript';
 
 
 async function getTextFromUrl(url: string) {
@@ -26,6 +27,21 @@ async function getTextFromUrl(url: string) {
     }
 }
 
+async function getTranscriptFromYouTube(url: string) {
+    try {
+        const transcript = await YoutubeTranscript.fetchTranscript(url);
+        return transcript.map(item => item.text).join(' ');
+    } catch (error) {
+        console.error('Error fetching YouTube transcript:', error);
+        throw new Error('Failed to fetch transcript. The video might not have transcripts enabled.');
+    }
+}
+
+function isYouTubeUrl(url: string): boolean {
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    return youtubeRegex.test(url);
+}
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,15 +51,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
     }
     
-    // In a real application, you'd use a library like Cheerio or node-html-parser to scrape the content
-    console.log(`Fetching content from ${url}`);
-    
-    const content = await getTextFromUrl(url);
+    let content = '';
+    if (isYouTubeUrl(url)) {
+        console.log(`Fetching transcript from YouTube URL: ${url}`);
+        content = await getTranscriptFromYouTube(url);
+    } else {
+        console.log(`Fetching text content from: ${url}`);
+        content = await getTextFromUrl(url);
+    }
 
     return NextResponse.json({ content });
 
   } catch (error: any) {
-    console.error('Error fetching URL:', error);
+    console.error('Error handling URL:', error);
     return NextResponse.json({ error: error.message || 'Failed to fetch content from URL' }, { status: 500 });
   }
 }

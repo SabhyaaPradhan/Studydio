@@ -1,62 +1,67 @@
 'use server';
-/**
- * @fileOverview An AI tutor that can answer questions about provided content.
- *
- * - chatWithContent - A function that handles the chat interaction.
- * - ChatWithContentInput - The input type for the chatWithContent function.
- * - ChatWithContentOutput - The return type for the chatWithContent function.
- */
-
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ChatWithContentInputSchema = z.object({
   content: z.string().describe('The source content the user is asking about.'),
   question: z.string().describe("The user's question about the content."),
-  history: z.array(z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string(),
-  })).optional().describe('The previous chat history.')
+  history: z.array(
+    z.object({
+      role: z.enum(['user', 'model']),
+      content: z.string(),
+    })
+  ).optional().describe('The previous chat history.'),
 });
+
 export type ChatWithContentInput = z.infer<typeof ChatWithContentInputSchema>;
 
-
 const ChatWithContentOutputSchema = z.object({
-  answer: z.string().describe('The AI-generated answer to the user\'s question.'),
+  answer: z.string().describe("The AI-generated answer to the user's question."),
 });
+
 export type ChatWithContentOutput = z.infer<typeof ChatWithContentOutputSchema>;
 
-
-export async function chatWithContent(input: ChatWithContentInput): Promise<ChatWithContentOutput> {
-  return chatWithContentFlow(input);
-}
-
-
+// Define the flow FIRST
 const chatWithContentFlow = ai.defineFlow(
   {
     name: 'chatWithContentFlow',
     inputSchema: ChatWithContentInputSchema,
     outputSchema: ChatWithContentOutputSchema,
   },
-  async (input) => {
-    
-    const systemPrompt = `You are an expert AI tutor. Your goal is to help the user understand the following content. Answer the user's questions based ONLY on the provided text. Do not use any outside knowledge. Keep your answers concise and directly related to the user's question.
+  async (input: ChatWithContentInput): Promise<ChatWithContentOutput> => {
+    const systemPrompt = `
+You are an expert AI tutor. Answer the user's question using ONLY the provided content below.
+Be concise, factual, and context-aware.
 
 Content:
 ---
 ${input.content}
----`;
-    
+---
+`;
+
     const userMessage = { role: 'user' as const, content: input.question };
 
-    const { output } = await ai.generate({
-      system: systemPrompt,
-      prompt: [...(input.history || []), userMessage],
-      model: 'googleai/gemini-2.5-flash',
-    });
-    
-    return {
-      answer: output.text,
-    };
+    try {
+      const response = await ai.generate({
+        system: systemPrompt,
+        prompt: [...(input.history || []), userMessage],
+        model: 'googleai/gemini-2.5-flash',
+      });
+
+      // Genkit v1.x returns response.text, not response.output.text
+      // Handle both string and object returns for safety.
+      return { answer: response.text ?? String(response) };
+
+    } catch (error: any) {
+      console.error('AI generation failed:', error);
+      return { answer: "Sorry, I couldn’t process your question right now." };
+    }
   }
 );
+
+// Export the callable function
+export async function chatWithContent(
+  input: ChatWithContentInput
+): Promise<ChatWithContentOutput> {
+  return await chatWithContentFlow(input);
+}

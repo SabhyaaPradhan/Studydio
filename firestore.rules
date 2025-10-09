@@ -1,150 +1,145 @@
 /**
- * @fileoverview Firestore Security Rules for LearnFast application.
- *
- * Core Philosophy:
- * This ruleset enforces a strict user-ownership model for all data. Each user has a dedicated data tree under `/users/{userId}`, and only the authenticated user with a matching `uid` can read or write to that tree.
- *
- * Data Structure:
- * All data is nested under `/users/{userId}` to enforce ownership. This includes study packs, flashcards, quizzes, questions, answers, and review sessions.
- *
- * Key Security Decisions:
- * - User listing is implicitly denied. Only the authenticated user can access their own data tree.
- * - No data validation is performed beyond checking document ownership to allow for rapid schema iteration during prototyping.
- * - Read-only collections are not used in this data model.
+ * @file Firestore Security Rules
+ * @core-philosophy This ruleset enforces a strict user-ownership model. Only the authenticated user who owns a given document can read or write to it.
+ * @data-structure All data is nested under /users/{userId}, ensuring that all content is scoped to a specific user.
+ * @key-security-decisions This ruleset explicitly denies listing of the /users collection for privacy. All other listing is allowed for a user's own data. Write access is strictly controlled by user ownership and validated user ID on create.
+ * @denormalization-for-authorization The userId is present in the path for all subcollections to avoid needing to duplicate the userId inside each document's data.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
-    }
-
     /**
-     * @description Grants access to user profiles, ensuring only the user can read and write their own data.
+     * @description Protects the root /users collection. Only allows creation of a user document with a validated ID. Listing all users is disallowed.
      * @path /users/{userId}
-     * @allow (create) User 'user123' can create their profile if authenticated as 'user123'.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their profile if authenticated as 'user123'.
-     * @deny (create) User 'user456' cannot create a profile for 'user123'.
-     * @deny (get, update, delete) User 'user456' cannot read, update, or delete the profile of 'user123'.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create) Allows a user to create their own user document with the ID matching their UID.
+     * @deny (get, list, update, delete) Prevents unauthorized access to user data.
+     * @principle Enforces document ownership and prevents unauthorized data access.
      */
     match /users/{userId} {
-      allow get: if isOwner(userId);
+      allow get: if false;
       allow list: if false;
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if false;
+      allow delete: if false;
     }
 
     /**
-     * @description Grants access to study packs, ensuring only the owning user can manage their study packs.
+     * @description Secures the /users/{userId}/subjects collection, allowing only the owner to manage their subjects.
+     * @path /users/{userId}/subjects/{subjectId}
+     * @allow (create, get, list, update, delete) Allows the owner of the subject to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to subjects owned by other users.
+     * @principle Enforces document ownership for all operations on subject documents.
+     */
+    match /users/{userId}/subjects/{subjectId} {
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
+    }
+
+    /**
+     * @description Secures the /users/{userId}/studyPacks collection, ensuring only the owner can manage their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}
-     * @allow (create) User 'user123' can create a study pack under their profile.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their study pack.
-     * @deny (create) User 'user456' cannot create a study pack under 'user123''s profile.
-     * @deny (get, update, delete) User 'user456' cannot access 'user123''s study pack.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create, get, list, update, delete) Allows the owner of the study pack to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to study packs owned by other users.
+     * @principle Enforces document ownership for all operations on study pack documents.
      */
     match /users/{userId}/studyPacks/{studyPackId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Grants access to flashcards, ensuring only the owning user can manage flashcards within their study packs.
+     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/flashcards collection, ensuring only the owner can manage flashcards within their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}
-     * @allow (create) User 'user123' can create a flashcard in their study pack.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their flashcard.
-     * @deny (create) User 'user456' cannot create a flashcard in 'user123''s study pack.
-     * @deny (get, update, delete) User 'user456' cannot access 'user123''s flashcard.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create, get, list, update, delete) Allows the owner of the flashcard to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to flashcards owned by other users.
+     * @principle Enforces document ownership for all operations on flashcard documents.
      */
     match /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Grants access to quizzes, ensuring only the owning user can manage quizzes within their study packs.
+     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/quizzes collection, ensuring only the owner can manage quizzes within their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}
-     * @allow (create) User 'user123' can create a quiz in their study pack.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their quiz.
-     * @deny (create) User 'user456' cannot create a quiz in 'user123''s study pack.
-     * @deny (get, update, delete) User 'user456' cannot access 'user123''s quiz.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create, get, list, update, delete) Allows the owner of the quiz to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to quizzes owned by other users.
+     * @principle Enforces document ownership for all operations on quiz documents.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Grants access to questions, ensuring only the owning user can manage questions within their quizzes.
+     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions collection, ensuring only the owner can manage questions within their quizzes.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}
-     * @allow (create) User 'user123' can create a question in their quiz.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their question.
-     * @deny (create) User 'user456' cannot create a question in 'user123''s quiz.
-     * @deny (get, update, delete) User 'user456' cannot access 'user123''s question.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create, get, list, update, delete) Allows the owner of the question to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to questions owned by other users.
+     * @principle Enforces document ownership for all operations on question documents.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Grants access to answers, ensuring only the owning user can manage answers within their questions.
+     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers collection, ensuring only the owner can manage answers within their questions.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}
-     * @allow (create) User 'user123' can create an answer in their question.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their answer.
-     * @deny (create) User 'user456' cannot create an answer in 'user123''s question.
-     * @deny (get, update, delete) User 'user456' cannot access 'user123''s answer.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create, get, list, update, delete) Allows the owner of the answer to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to answers owned by other users.
+     * @principle Enforces document ownership for all operations on answer documents.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Grants access to review sessions, ensuring only the owning user can manage their review sessions.
+     * @description Secures the /users/{userId}/reviewSessions collection, ensuring only the owner can manage their review sessions.
      * @path /users/{userId}/reviewSessions/{reviewSessionId}
-     * @allow (create) User 'user123' can create a review session under their profile.
-     * @allow (get, update, delete) User 'user123' can read, update, and delete their review session.
-     * @deny (create) User 'user456' cannot create a review session under 'user123''s profile.
-     * @deny (get, update, delete) User 'user456' cannot access 'user123''s review session.
-     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     * @allow (create, get, list, update, delete) Allows the owner of the review session to perform all operations.
+     * @deny (create, get, list, update, delete) Denies access to review sessions owned by other users.
+     * @principle Enforces document ownership for all operations on review session documents.
      */
     match /users/{userId}/reviewSessions/{reviewSessionId} {
-      allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
-      allow create: if isOwner(userId);
-      allow update: if isExistingOwner(userId);
-      allow delete: if isExistingOwner(userId);
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
+  }
+
+  // Helper functions
+  function isSignedIn() {
+    return request.auth != null;
+  }
+
+  function isOwner(userId) {
+    return request.auth.uid == userId;
+  }
+
+  function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
   }
 }

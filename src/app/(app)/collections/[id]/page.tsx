@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -9,6 +10,7 @@ import ScrollFloat from '@/components/ScrollFloat';
 import { StudyPackCard } from '@/components/study-pack-card';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function CollectionDetailPage() {
   const params = useParams();

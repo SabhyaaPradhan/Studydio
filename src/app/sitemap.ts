@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { mockStudyPacks } from '@/lib/mock-data';
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = 'https://studydio.app';
+  const siteUrl = 'https://siloir.app';
 
   const staticRoutes = [
     '', 

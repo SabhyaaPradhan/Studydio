@@ -98,7 +98,7 @@ export function LoginForm() {
                 <div className="flex justify-center mb-4">
                     <Logo className="h-8 w-8 text-primary" />
                 </div>
-                <CardTitle className="text-2xl font-bold">Welcome back to Studydio</CardTitle>
+                <CardTitle className="text-2xl font-bold">Welcome back to Siloir</CardTitle>
                 <CardDescription className="text-white/60">
                 Continue where you left off — your study world awaits.
                 </CardDescription>

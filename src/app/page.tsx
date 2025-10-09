@@ -16,6 +16,7 @@ import FadeContent from '@/components/FadeContent';
 import GradualBlur from "@/components/GradualBlur";
 import CardSwap, { Card } from '@/components/CardSwap';
 import WhyChooseUs from "@/components/WhyChooseUs";
+import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif"
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -128,16 +129,7 @@ export default function LandingPage() {
                               studydio.app/demo
                           </div>
                       </div>
-                      <div className="browser-content">
-                          <video
-                              className="w-full h-full object-cover"
-                              src="/videos/Futuristic_Learning_Video_Generation.mp4"
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                          />
-                      </div>
+                      <Image src={features1} alt="Scheduler" width={800} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
                   </div>
               </FadeContent>
             </div>

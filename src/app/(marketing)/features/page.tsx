@@ -122,7 +122,7 @@ export default function FeaturesPage() {
 
         <section id="demo" className="relative py-32 bg-gradient-to-b from-stone-950 to-black text-white">
             <div className="max-w-6xl mx-auto px-6 text-center">
-                <h2 className="text-5xl font-bold mb-4">See <span className="text-primary">Studydio</span> in Action</h2>
+                <h2 className="text-5xl font-bold mb-4">See <span className="text-primary">Siloir</span> in Action</h2>
                 <p className="text-gray-400 mb-10 text-lg">From raw content to a full study suite. It’s that simple.</p>
 
                 <div className="browser-mockup">
@@ -133,7 +133,7 @@ export default function FeaturesPage() {
                             <span className="dot" style={{ background: '#34c748' }}></span>
                         </div>
                         <div className="browser-address-bar">
-                            studydio.app
+                            siloir.app
                         </div>
                     </div>
                     <div className="browser-content">
@@ -173,7 +173,7 @@ export default function FeaturesPage() {
 
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10 bg-black">
-        <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">&copy; 2024 Siloir. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service

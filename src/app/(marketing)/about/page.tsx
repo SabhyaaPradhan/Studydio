@@ -15,7 +15,7 @@ import { Metadata } from "next";
 // This is a client component, so we can't export metadata directly.
 // We'd set this in a parent layout or using a different strategy if needed.
 // export const metadata: Metadata = {
-//   title: "About Us - Studydio",
+//   title: "About Us - Siloir",
 //   description: "Learn about our mission to make learning effortless and accessible for everyone.",
 // };
 
@@ -50,11 +50,11 @@ export default function AboutPage() {
               className="max-w-[700px] mx-auto mt-6 md:text-xl/relaxed !m-0"
               textClassName="!text-lg !font-normal !text-muted-foreground"
             >
-              Studydio was built to help students and creators learn faster, understand deeper, and make studying smarter — not harder.
+              Siloir was built to help students and creators learn faster, understand deeper, and make studying smarter — not harder.
             </ScrollReveal>
              <div className="mt-8">
                 <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 transition-transform hover:scale-105">
-                    <Link href="/signup">Start Learning with Studydio</Link>
+                    <Link href="/signup">Start Learning with Siloir</Link>
                 </Button>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default function AboutPage() {
                     <FadeContent>
                         <Image
                             src="https://picsum.photos/seed/about-story/800/600"
-                            alt="Studydio UI Mockup"
+                            alt="Siloir UI Mockup"
                             width={800}
                             height={600}
                             className="rounded-xl shadow-2xl shadow-primary/10"
@@ -77,7 +77,7 @@ export default function AboutPage() {
                         <div className="space-y-4">
                             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">It started as a simple idea.</h2>
                             <p className="text-muted-foreground md:text-lg">
-                                Turning scattered content into focused learning. Today, Studydio helps thousands of learners transform videos, PDFs, and articles into powerful study material — instantly. We believe that education should be accessible and that technology can bridge the gap between information and understanding.
+                                Turning scattered content into focused learning. Today, Siloir helps thousands of learners transform videos, PDFs, and articles into powerful study material — instantly. We believe that education should be accessible and that technology can bridge the gap between information and understanding.
                             </p>
                         </div>
                     </FadeContent>
@@ -148,7 +148,7 @@ export default function AboutPage() {
       </main>
 
        <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10 bg-black">
-        <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">&copy; 2024 Siloir. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service

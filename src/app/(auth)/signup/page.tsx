@@ -2,8 +2,8 @@ import { SignupForm } from "@/components/signup-form";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign Up - Studydio",
-  description: "Create a new account on Studydio.",
+  title: "Sign Up - Siloir",
+  description: "Create a new account on Siloir.",
 };
 
 

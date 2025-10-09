@@ -22,7 +22,7 @@ import FadeContent from "@/components/FadeContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing - Studydio",
+  title: "Pricing - Siloir",
   description: "Find the perfect plan for your learning needs.",
 };
 
@@ -121,7 +121,7 @@ export default function PricingPage() {
               className="max-w-[700px] mx-auto mt-4 md:text-xl/relaxed !m-0"
               textClassName="!text-xl !font-normal !text-muted-foreground"
             >
-              Whether you’re a student, educator, or lifelong learner — Studydio
+              Whether you’re a student, educator, or lifelong learner — Siloir
               has a plan for you.
             </ScrollReveal>
           </div>
@@ -237,7 +237,7 @@ export default function PricingPage() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10 bg-black">
-        <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">&copy; 2024 Siloir. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service

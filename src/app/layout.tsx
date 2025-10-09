@@ -9,9 +9,9 @@ import "@/components/CardSwap.css";
 import GlobalPixelTrail from '@/components/GlobalPixelTrail';
 import { FirebaseClientProvider } from '@/firebase';
 
-const title = "Studydio - Learn anything, 10x faster";
+const title = "Siloir - Learn anything, 10x faster";
 const description = "Paste any content (YouTube link, PDF, article, text) and automatically generate study materials like flashcards, quizzes, and summaries.";
-const url = "https://studydio.app";
+const url = "https://siloir.app";
 
 export const metadata: Metadata = {
   title,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title,
     description,
     url,
-    siteName: "Studydio",
+    siteName: "Siloir",
     images: [
       {
         url: "/og.png",

@@ -49,7 +49,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="flex h-16 items-center gap-4 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
           <Logo className="size-6 text-primary" />
-          <span className="">Studydio</span>
+          <span className="">Siloir</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 ml-6">
           <NavLink href="/dashboard">Dashboard</NavLink>

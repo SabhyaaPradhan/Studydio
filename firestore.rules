@@ -1,145 +1,253 @@
 /**
- * @file Firestore Security Rules
- * @core-philosophy This ruleset enforces a strict user-ownership model. Only the authenticated user who owns a given document can read or write to it.
- * @data-structure All data is nested under /users/{userId}, ensuring that all content is scoped to a specific user.
- * @key-security-decisions This ruleset explicitly denies listing of the /users collection for privacy. All other listing is allowed for a user's own data. Write access is strictly controlled by user ownership and validated user ID on create.
- * @denormalization-for-authorization The userId is present in the path for all subcollections to avoid needing to duplicate the userId inside each document's data.
+ * @fileoverview Firestore Security Rules for LearnFast application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model. Each user has a dedicated data tree under /users/{userId},
+ * and only the authenticated user can read or write their own data.
+ *
+ * Data Structure:
+ * All data is nested under /users/{userId}, creating a clear hierarchy of ownership. This includes subjects,
+ * study packs, flashcards, quizzes, questions, answers, and review sessions.
+ *
+ * Key Security Decisions:
+ * - User listing is disallowed to prevent potential information disclosure.
+ * - All writes are validated against the authenticated user's ID to prevent unauthorized data modification.
+ * - Denormalization for Authorization: User IDs are embedded within documents and paths to avoid costly `get()` calls
+ *   and enforce ownership efficiently.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Protects the root /users collection. Only allows creation of a user document with a validated ID. Listing all users is disallowed.
+     * @description Controls access to user profiles. Only the authenticated user can read or write their own profile.
      * @path /users/{userId}
-     * @allow (create) Allows a user to create their own user document with the ID matching their UID.
-     * @deny (get, list, update, delete) Prevents unauthorized access to user data.
-     * @principle Enforces document ownership and prevents unauthorized data access.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId} {
-      allow get: if false;
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
       allow list: if false;
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if false;
-      allow delete: if false;
+
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/subjects collection, allowing only the owner to manage their subjects.
+     * @description Controls access to subjects (collections of study packs) created by a user.
+     *              Only the owner can create, read, update, or delete their subjects.
      * @path /users/{userId}/subjects/{subjectId}
-     * @allow (create, get, list, update, delete) Allows the owner of the subject to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to subjects owned by other users.
-     * @principle Enforces document ownership for all operations on subject documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/subjects/{subjectId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/studyPacks collection, ensuring only the owner can manage their study packs.
+     * @description Controls access to study packs created by a user.
+     *              Only the owner can create, read, update, or delete their study packs.
      * @path /users/{userId}/studyPacks/{studyPackId}
-     * @allow (create, get, list, update, delete) Allows the owner of the study pack to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to study packs owned by other users.
-     * @principle Enforces document ownership for all operations on study pack documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/studyPacks/{studyPackId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/flashcards collection, ensuring only the owner can manage flashcards within their study packs.
+     * @description Controls access to flashcards within a specific study pack.
+     *              Only the owner of the study pack can create, read, update, or delete flashcards within it.
      * @path /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId}
-     * @allow (create, get, list, update, delete) Allows the owner of the flashcard to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to flashcards owned by other users.
-     * @principle Enforces document ownership for all operations on flashcard documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/studyPacks/{studyPackId}/flashcards/{flashcardId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/quizzes collection, ensuring only the owner can manage quizzes within their study packs.
+     * @description Controls access to quizzes associated with a study pack.
+     *              Only the owner of the study pack can create, read, update, or delete quizzes.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}
-     * @allow (create, get, list, update, delete) Allows the owner of the quiz to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to quizzes owned by other users.
-     * @principle Enforces document ownership for all operations on quiz documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions collection, ensuring only the owner can manage questions within their quizzes.
+     * @description Controls access to questions within a specific quiz.
+     *              Only the owner of the quiz (and its parent study pack) can create, read, update, or delete questions.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}
-     * @allow (create, get, list, update, delete) Allows the owner of the question to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to questions owned by other users.
-     * @principle Enforces document ownership for all operations on question documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers collection, ensuring only the owner can manage answers within their questions.
+     * @description Controls access to answer options for a question.
+     *              Only the owner of the question (and its parent quiz and study pack) can create, read, update, or delete answers.
      * @path /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId}
-     * @allow (create, get, list, update, delete) Allows the owner of the answer to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to answers owned by other users.
-     * @principle Enforces document ownership for all operations on answer documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/studyPacks/{studyPackId}/quizzes/{quizId}/questions/{questionId}/answers/{answerId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Secures the /users/{userId}/reviewSessions collection, ensuring only the owner can manage their review sessions.
+     * @description Controls access to review sessions for a user.
+     *              Only the user can create, read, update, or delete their own review sessions.
      * @path /users/{userId}/reviewSessions/{reviewSessionId}
-     * @allow (create, get, list, update, delete) Allows the owner of the review session to perform all operations.
-     * @deny (create, get, list, update, delete) Denies access to review sessions owned by other users.
-     * @principle Enforces document ownership for all operations on review session documents.
+     * @allow (create, get, update, delete) if the authenticated user's ID matches the userId.
+     * @deny (create, get, update, delete) if the authenticated user's ID does not match the userId.
+     * @principle Enforces document ownership for all operations.
      */
     match /users/{userId}/reviewSessions/{reviewSessionId} {
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
-      allow update: if isSignedIn() && isExistingOwner(userId);
-      allow delete: if isSignedIn() && isExistingOwner(userId);
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
-  }
-
-  // Helper functions
-  function isSignedIn() {
-    return request.auth != null;
-  }
-
-  function isOwner(userId) {
-    return request.auth.uid == userId;
-  }
-
-  function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
   }
 }

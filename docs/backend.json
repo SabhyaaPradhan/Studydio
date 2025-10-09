@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "User": {
@@ -32,6 +33,41 @@
         "createdAt"
       ]
     },
+    "Subject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Subject",
+      "type": "object",
+      "description": "Represents a collection or subject that groups multiple study packs.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Subject entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Subject)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the subject (e.g., 'Biology Semester 1')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A short description of the subject."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the subject was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "createdAt"
+      ]
+    },
     "StudyPack": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "StudyPack",
@@ -45,6 +81,10 @@
         "userId": {
           "type": "string",
           "description": "Reference to User. (Relationship: User 1:N StudyPack)"
+        },
+        "subjectId": {
+          "type": "string",
+          "description": "Optional reference to Subject. (Relationship: Subject 1:N StudyPack)"
         },
         "title": {
           "type": "string",
@@ -258,6 +298,26 @@
         }
       },
       {
+        "path": "/users/{userId}/subjects/{subjectId}",
+        "definition": {
+          "entityName": "Subject",
+          "schema": {
+            "$ref": "#/backend/entities/Subject"
+          },
+          "description": "Stores subjects (collections of study packs) created by a user.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "subjectId",
+              "description": "The unique identifier for the subject."
+            }
+          ]
+        }
+      },
+      {
         "path": "/users/{userId}/studyPacks/{studyPackId}",
         "definition": {
           "entityName": "StudyPack",
@@ -406,6 +466,6 @@
         }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, Role-Based Access Control using DBAC principles, and scalable list operations. User-owned data is organized under `/users/{userId}`, which ensures that only the user can access their own data. StudyPacks, Flashcards, Quizzes, Questions, Answers, and ReviewSessions are all nested under `/users/{userId}` to maintain this ownership structure. This structure facilitates simple and robust security rules, as access control is primarily based on the user's ID.\n\nThe key aspect of achieving Authorization Independence is that no `get()` calls are needed in the security rules. Access control is determined solely by the `request.auth.uid` and the path structure. This eliminates hierarchical authorization dependencies, simplifying rules and ensuring atomic operations.\n\nQAPs (Rules are not Filters) is achieved by structural segregation and path-based ownership. Listing operations are secured because data with different access needs is stored in separate collections, each with its own set of security rules. For example, listing study packs is performed under `/users/{userId}/studyPacks`, ensuring that a user can only list their own study packs."
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, Role-Based Access Control using DBAC principles, and scalable list operations. User-owned data is organized under `/users/{userId}`, which ensures that only the user can access their own data. Subjects, StudyPacks, Flashcards, Quizzes, Questions, Answers, and ReviewSessions are all nested under `/users/{userId}` to maintain this ownership structure. This structure facilitates simple and robust security rules, as access control is primarily based on the user's ID.\n\nThe key aspect of achieving Authorization Independence is that no `get()` calls are needed in the security rules. Access control is determined solely by the `request.auth.uid` and the path structure. This eliminates hierarchical authorization dependencies, simplifying rules and ensuring atomic operations.\n\nQAPs (Rules are not Filters) is achieved by structural segregation and path-based ownership. Listing operations are secured because data with different access needs is stored in separate collections, each with its own set of security rules. For example, listing study packs is performed under `/users/{userId}/studyPacks`, ensuring that a user can only list their own study packs."
   }
 }

@@ -53,6 +53,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </Link>
         <nav className="hidden md:flex items-center gap-6 ml-6">
           <NavLink href="/dashboard">Dashboard</NavLink>
+          <NavLink href="/collections">Collections</NavLink>
           <NavLink href="/create">Create New</NavLink>
           <NavLink href="/review">Daily Review</NavLink>
         </nav>

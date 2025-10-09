@@ -139,7 +139,7 @@ export default function FeaturesPage() {
                     <div className="browser-content">
                         <video
                             className="w-full h-full object-cover"
-                            src="https://www.w3schools.com/html/mov_bbb.mp4"
+                            src="/videos/Futuristic_Learning_Video_Generation.mp4"
                             autoPlay
                             loop
                             muted
@@ -186,3 +186,5 @@ export default function FeaturesPage() {
     </div>
   );
 }
+
+    

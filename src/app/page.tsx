@@ -83,15 +83,29 @@ export default function LandingPage() {
                 </ScrollReveal>
               </div>
             </div>
-            <div className="mx-auto max-w-5xl mt-12 relative">
-                <Image
-                  src={dashboard_img}
-                  alt="Random placeholder image"
-                  width={1200}
-                  height={800}
-                  className="w-full rounded-xl"
-                  data-ai-hint="dashboard ui"
-                />
+             <div className="max-w-6xl mx-auto mt-12 relative">
+                <div className="browser-mockup">
+                    <div className="browser-header">
+                        <div className="browser-dots">
+                            <span className="dot" style={{ background: '#f25f58' }}></span>
+                            <span className="dot" style={{ background: '#fbbe3c' }}></span>
+                            <span className="dot" style={{ background: '#34c748' }}></span>
+                        </div>
+                        <div className="browser-address-bar">
+                            siloir.app
+                        </div>
+                    </div>
+                    <div className="browser-content">
+                        <video
+                            className="w-full h-full object-cover"
+                            src="/videos/Futuristic_Learning_Video_Generation.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                        />
+                    </div>
+                </div>
             </div>
           </div>
         </section>
@@ -126,7 +140,7 @@ export default function LandingPage() {
                               <span className="dot" style={{ background: '#34c748' }}></span>
                           </div>
                           <div className="browser-address-bar">
-                              studydio.app/demo
+                              siloir.app/demo
                           </div>
                       </div>
                       <Image src={features1} alt="Scheduler" width={800} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
@@ -148,7 +162,7 @@ export default function LandingPage() {
                   className="max-w-2xl mt-4 !m-0"
                   textClassName="!text-xl !font-normal !text-muted-foreground"
                 >
-                  Our AI-powered smart scheduler uses spaced repetition to tell you exactly when to review, reinforcing memory and making your study sessions more effective.
+                  Our AI chatbot acts as your personal tutor, guiding you on when to review using spaced repetition to strengthen your memory and make every study session more effective.
                 </ScrollReveal>
               </div>
             </div>
@@ -295,7 +309,7 @@ export default function LandingPage() {
         />
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10">
-        <p className="text-xs text-muted-foreground">&copy; 2024 Studydio. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">&copy; 2024 Siloir. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service

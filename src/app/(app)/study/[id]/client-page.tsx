@@ -1,8 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { notFound } from "next/navigation";
+import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Flashcard } from "@/components/flashcard";
@@ -13,76 +12,26 @@ import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
-import { useDoc, useFirestore, useUser, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 
-
-export default function StudyPackClientPage({ id }: { id: string }) {
-  const { user } = useUser();
-  const firestore = useFirestore();
+// The client component now receives the initial data as a prop.
+export default function StudyPackClientPage({ id, initialStudyPack }: { id: string, initialStudyPack: StudyPack }) {
+  // The state is initialized with the data passed from the server.
+  const [studyPack] = useState<StudyPack>(initialStudyPack);
   
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const studyPackRef = useMemoFirebase(() => {
-    if (!user || !id) return null;
-    return doc(firestore, `users/${user.uid}/studyPacks/${id}`);
-  }, [firestore, user, id]);
-
-  const { data: studyPack, isLoading } = useDoc<StudyPack>(studyPackRef);
-
-  useEffect(() => {
-    // Reset component state when the study pack ID changes
-    setCurrentCardIndex(0);
-    setQuizAnswers({});
-    setSubmitted(false);
-  }, [id]);
-
-  if (isLoading) {
-    return (
-        <div className="container mx-auto">
-            <Skeleton className="h-8 w-2/3 mb-1" />
-            <Skeleton className="h-5 w-1/3 mb-6" />
-
-            <div className="grid w-full grid-cols-3 gap-2">
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
-            </div>
-            <Card className="mt-2">
-                <CardHeader>
-                    <Skeleton className="h-6 w-1/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                </CardHeader>
-                <CardContent className="flex flex-col items-center gap-6">
-                    <Skeleton className="w-full h-80" />
-                </CardContent>
-            </Card>
-        </div>
-    );
-  }
-
-  // Only call notFound if loading is complete and no data was found
-  if (!isLoading && !studyPack) {
-    notFound();
-  }
-  
-  // This check is necessary because studyPack could be null before notFound() is called
-  if (!studyPack) {
-    // This should ideally not be reached if the above logic is correct,
-    // but it's a safeguard.
-    return null;
-  }
+  // We no longer need isLoading or the useDoc hook, as data is provided by the parent Server Component.
 
   const handleNextCard = () => {
-    if (!studyPack) return;
+    if (!studyPack || !studyPack.flashcards) return;
     setCurrentCardIndex((prev) => (prev + 1) % studyPack.flashcards.length);
   };
 
   const handlePrevCard = () => {
-    if (!studyPack) return;
+    if (!studyPack || !studyPack.flashcards) return;
     setCurrentCardIndex((prev) => (prev - 1 + studyPack.flashcards.length) % studyPack.flashcards.length);
   };
 
@@ -113,20 +62,20 @@ export default function StudyPackClientPage({ id }: { id: string }) {
                 <div className="w-full">
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-sm text-muted-foreground">Progress</span>
-                        <span className="text-sm font-medium">{studyPack.flashcards.length > 0 ? currentCardIndex + 1 : 0} / {studyPack.flashcards.length}</span>
+                        <span className="text-sm font-medium">{studyPack.flashcards?.length > 0 ? currentCardIndex + 1 : 0} / {studyPack.flashcards?.length || 0}</span>
                     </div>
-                    <Progress value={studyPack.flashcards.length > 0 ? ((currentCardIndex + 1) / studyPack.flashcards.length) * 100 : 0} />
+                    <Progress value={studyPack.flashcards?.length > 0 ? ((currentCardIndex + 1) / studyPack.flashcards.length) * 100 : 0} />
                 </div>
-              {studyPack.flashcards.length > 0 ? (
+              {studyPack.flashcards && studyPack.flashcards.length > 0 ? (
                 <Flashcard flashcard={studyPack.flashcards[currentCardIndex]} />
               ) : (
                 <div className="text-center text-muted-foreground p-8">No flashcards available for this pack.</div>
               )}
               <div className="flex items-center gap-4">
-                <Button variant="outline" size="icon" onClick={handlePrevCard} disabled={studyPack.flashcards.length <= 1}>
+                <Button variant="outline" size="icon" onClick={handlePrevCard} disabled={!studyPack.flashcards || studyPack.flashcards.length <= 1}>
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" onClick={handleNextCard} disabled={studyPack.flashcards.length <= 1}>
+                <Button variant="outline" size="icon" onClick={handleNextCard} disabled={!studyPack.flashcards || studyPack.flashcards.length <= 1}>
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
@@ -141,7 +90,7 @@ export default function StudyPackClientPage({ id }: { id: string }) {
             </CardHeader>
             <CardContent className="space-y-6">
                 {studyPack.quiz && studyPack.quiz.length > 0 ? studyPack.quiz.map((q, index) => (
-                    <div key={q.id}>
+                    <div key={q.id || index}>
                         <p className="font-medium mb-4">{index + 1}. {q.question}</p>
                         <RadioGroup 
                             onValueChange={(value) => handleAnswerChange(q.id, value)}

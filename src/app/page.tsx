@@ -128,7 +128,7 @@ export default function LandingPage() {
                   className="max-w-2xl mt-4 !m-0"
                   textClassName="!text-xl !font-normal !text-muted-foreground"
                 >
-                  Studydio transforms your study materials into powerful, interactive learning tools. Discover how our features can help you master any subject.
+                  Siloir transforms your study materials into powerful, interactive learning tools. Discover how our features can help you master any subject.
                 </ScrollReveal>
               </div>
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
@@ -154,7 +154,7 @@ export default function LandingPage() {
               </FadeContent>
               <div>
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
-                  Study Smarter, Not Harder
+                  Your Personal AI Study Coach
                 </ScrollFloat>
                 <ScrollReveal
                   tag="div"
@@ -326,3 +326,4 @@ export default function LandingPage() {
     
 
     
+

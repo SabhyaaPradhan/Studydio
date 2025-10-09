@@ -101,4 +101,23 @@ body {
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
+
+  .browser-mockup {
+    @apply rounded-xl border border-white/10 bg-white/5 shadow-2xl shadow-primary/10 overflow-hidden;
+  }
+  .browser-header {
+    @apply h-10 flex items-center gap-2 px-4 bg-black/30;
+  }
+  .browser-dots {
+    @apply flex gap-1.5;
+  }
+  .browser-dots .dot {
+    @apply w-3 h-3 rounded-full;
+  }
+  .browser-address-bar {
+    @apply flex-1 text-sm bg-black/40 text-gray-400 rounded-md px-3 py-1 text-center;
+  }
+  .browser-content {
+    @apply aspect-video bg-black;
+  }
 }

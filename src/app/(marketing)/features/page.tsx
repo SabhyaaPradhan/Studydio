@@ -125,76 +125,29 @@ export default function FeaturesPage() {
                 <h2 className="text-5xl font-bold mb-4">See <span className="text-primary">Studydio</span> in Action</h2>
                 <p className="text-gray-400 mb-10 text-lg">From raw content to a full study suite. It’s that simple.</p>
 
-                <div className="max-w-2xl mx-auto bg-white/5 border border-white/10 backdrop-blur-md p-6 rounded-2xl">
-                <label className="block text-sm text-gray-400 mb-2 text-left">Paste any text content</label>
-                
-                <textarea
-                    placeholder="In quantum mechanics, particles like electrons can exist in multiple states at once..."
-                    className="w-full p-3 h-32 rounded-xl bg-black/30 border border-white/10 focus:outline-none focus:border-white/20 text-white placeholder-gray-500 mb-4"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                />
-
-                <div className="flex items-center justify-end mb-6">
-                    <Button onClick={handleGenerate} disabled={isLoading} className="px-5 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all">
-                        {isLoading ? (
-                            <>
-                                <Loader className="mr-2 h-4 w-4 animate-spin" />
-                                Generating...
-                            </>
-                        ) : (
-                           <>
-                            <Wand2 className="mr-2 h-4 w-4" />
-                            Generate Study Set
-                           </>
-                        )}
-                    </Button>
-                </div>
-
-                {/* Result Mock */}
-                {output && (
-                    <div className="text-left space-y-4 animate-fadeIn">
-                        {output.summary && (
-                            <>
-                                <p className="font-semibold text-lg">✨ Summary:</p>
-                                <p className="text-gray-300">{output.summary}</p>
-                            </>
-                        )}
-                        
-                        {output.flashcards && output.flashcards.length > 0 && (
-                             <>
-                                <p className="font-semibold text-lg">🃏 Flashcards:</p>
-                                <div className="flex flex-wrap gap-3">
-                                {output.flashcards.slice(0, 2).map((fc, index) => (
-                                    <div key={index} className="p-3 bg-white/10 rounded-lg">{fc.front} / {fc.back}</div>
-                                ))}
-                                </div>
-                            </>
-                        )}
-
-                        {output.quiz && output.quiz.quiz.length > 0 && (
-                            <>
-                                <p className="font-semibold text-lg">🧠 Quiz Preview:</p>
-                                <ul className="list-disc ml-5 text-gray-300">
-                                {output.quiz.quiz.slice(0, 1).map((quizItem, index) => (
-                                    <li key={index}>{quizItem.question}</li>
-                                ))}
-                                </ul>
-                            </>
-                        )}
+                <div className="browser-mockup">
+                    <div className="browser-header">
+                        <div className="browser-dots">
+                            <span className="dot" style={{ background: '#f25f58' }}></span>
+                            <span className="dot" style={{ background: '#fbbe3c' }}></span>
+                            <span className="dot" style={{ background: '#34c748' }}></span>
+                        </div>
+                        <div className="browser-address-bar">
+                            studydio.app
+                        </div>
                     </div>
-                )}
+                    <div className="browser-content">
+                        <video
+                            className="w-full h-full object-cover"
+                            src="https://www.w3schools.com/html/mov_bbb.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                        />
+                    </div>
                 </div>
             </div>
-            <style jsx>{`
-                .animate-fadeIn {
-                    animation: fadeIn 0.5s ease-in-out;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
         </section>
 
         <section id="cta" className="w-full py-20 md:py-28 lg:py-32 bg-gradient-to-t from-black via-stone-950 to-stone-950/80">

@@ -117,7 +117,28 @@ export default function LandingPage() {
                 </ScrollReveal>
               </div>
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Image src="https://picsum.photos/seed/features/600/400" alt="Features" width={600} height={400} className="rounded-lg" data-ai-hint="learning process" />
+                  <div className="browser-mockup">
+                      <div className="browser-header">
+                          <div className="browser-dots">
+                              <span className="dot" style={{ background: '#f25f58' }}></span>
+                              <span className="dot" style={{ background: '#fbbe3c' }}></span>
+                              <span className="dot" style={{ background: '#34c748' }}></span>
+                          </div>
+                          <div className="browser-address-bar">
+                              studydio.app/demo
+                          </div>
+                      </div>
+                      <div className="browser-content">
+                          <video
+                              className="w-full h-full object-cover"
+                              src="https://www.w3schools.com/html/mov_bbb.mp4"
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                          />
+                      </div>
+                  </div>
               </FadeContent>
             </div>
 

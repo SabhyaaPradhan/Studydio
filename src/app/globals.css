@@ -101,7 +101,7 @@ body {
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
-
+  
   .browser-mockup {
     @apply rounded-xl border border-white/10 bg-white/5 shadow-2xl shadow-primary/10 overflow-hidden;
   }

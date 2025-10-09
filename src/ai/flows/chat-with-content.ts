@@ -39,22 +39,18 @@ const chatWithContentFlow = ai.defineFlow(
     outputSchema: ChatWithContentOutputSchema,
   },
   async (input) => {
-
+    
     const systemPrompt = `You are an expert AI tutor. Your goal is to help the user understand the following content. Answer the user's questions based ONLY on the provided text. Do not use any outside knowledge. Keep your answers concise and directly related to the user's question.
 
 Content:
 ---
 ${input.content}
----
-
-`;
+---`;
     
-    const userMessage = {
-      role: 'user' as const,
-      content: `${input.history?.length === 0 ? systemPrompt : ''}${input.question}`,
-    };
+    const userMessage = { role: 'user' as const, content: input.question };
 
     const { output } = await ai.generate({
+      system: systemPrompt,
       prompt: [...(input.history || []), userMessage],
       model: 'googleai/gemini-2.5-flash',
     });

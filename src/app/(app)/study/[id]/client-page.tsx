@@ -12,7 +12,6 @@ import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen } from 'lucide-react';
 import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
-import { Skeleton } from '@/components/ui/skeleton';
 
 // The client component now receives the initial data as a prop.
 export default function StudyPackClientPage({ id, initialStudyPack }: { id: string, initialStudyPack: StudyPack }) {
@@ -22,8 +21,6 @@ export default function StudyPackClientPage({ id, initialStudyPack }: { id: stri
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
-
-  // We no longer need isLoading or the useDoc hook, as data is provided by the parent Server Component.
 
   const handleNextCard = () => {
     if (!studyPack || !studyPack.flashcards) return;

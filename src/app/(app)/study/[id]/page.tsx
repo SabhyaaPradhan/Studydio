@@ -1,74 +1,95 @@
 
-import { use } from "react";
+'use client';
+
+import React, { useState, useMemo } from 'react';
+import { useParams } from 'next/navigation';
+import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 import StudyPackClientPage from './client-page';
-import { doc, getDoc, Firestore } from 'firebase/firestore';
-import { getSdks } from '@/firebase'; // Using getSdks to get firestore instance on server
+import type { StudyPack } from '@/lib/types';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
-// This is now the main Server Component for the page.
-export default async function StudyPackPage({ params }: { params: Promise<{ id: string }> }) {
-  // 1. Correctly unwrap params using React.use()
-  const { id } = use(params);
-
-  // 2. Fetch data directly on the server
-  // NOTE: This approach is simplified for demonstration. In a real app,
-  // you might need to handle auth differently on the server.
-  // For this fix, we assume public or user-specific data fetching logic.
-  // We'll need to get a Firestore instance.
-  
-  // This is a simplified way to get a server-side firestore instance.
-  // In a real complex app, you'd use the Admin SDK or handle auth carefully.
-  // We can't use hooks here, so we initialize a temporary instance.
-  const { firestore } = getSdks();
-
-  // A helper function to fetch the study pack
-  async function getStudyPackById(db: Firestore, packId: string) {
-     // This path is based on your backend.json structure.
-     // It assumes we know the user ID. This is a simplification.
-     // For a real app, you would get the authenticated user's ID here.
-     // Since this is a Server Component, we can't use the `useUser` hook.
-     // This is a major source of complexity. 
-     // For now, let's assume a simplified path for demonstration to get the page rendering.
-     // A more robust solution would involve server-side session management.
-     
-     // The error is likely that the user path is wrong. Let's try to fetch from a hardcoded user for now
-     // to see if we can get the page to render. THIS IS FOR DEBUGGING.
-     const hardcodedUserId = '32G4r3HSuFQBQ6Zzl4fgXAMmpdg2'; // This should be dynamic in a real app.
-     const docRef = doc(db, "users", hardcodedUserId, "studyPacks", packId);
-     try {
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            return { id: docSnap.id, ...docSnap.data() };
-        } else {
-            // Let's try another path if the first one fails
-            const simplePathRef = doc(db, "studyPacks", packId);
-            const simpleSnap = await getDoc(simplePathRef);
-            if (simpleSnap.exists()) {
-                return { id: simpleSnap.id, ...simpleSnap.data() };
-            }
-        }
-     } catch (e) {
-        console.error("Error fetching study pack:", e);
-        return null;
-     }
-
-     return null;
-  }
-
-  const pack = await getStudyPackById(firestore, id);
-
-  // 3. Handle the "not found" case gracefully
-  if (!pack) {
-    // We can't use the notFound() function from next/navigation because that shows the 404 page.
-    // Instead, we render a user-friendly message.
+function StudyPageSkeleton() {
     return (
-      <div className="container mx-auto text-center py-20">
-        <h1 className="text-2xl font-bold">Study Pack Not Found</h1>
-        <p className="text-muted-foreground">The study pack you are looking for does not exist or you do not have permission to view it.</p>
-      </div>
-    );
-  }
+        <div className="container mx-auto">
+            <Skeleton className="h-10 w-3/4 mb-1" />
+            <Skeleton className="h-6 w-1/2 mb-6" />
 
-  // 4. Pass the fetched data to the client component
-  // We cast `pack` to the expected type.
-  return <StudyPackClientPage id={id} initialStudyPack={pack as any} />;
+            <div className="space-y-4">
+                <Skeleton className="h-10 w-full" />
+                <Card>
+                    <CardHeader>
+                        <Skeleton className="h-6 w-1/4" />
+                        <Skeleton className="h-4 w-1/2" />
+                    </CardHeader>
+                    <CardContent className="flex flex-col items-center gap-6">
+                        <div className="w-full space-y-2">
+                             <div className="flex justify-between items-center mb-2">
+                                <Skeleton className="h-4 w-1/4" />
+                                <Skeleton className="h-4 w-1/4" />
+                            </div>
+                            <Skeleton className="h-4 w-full" />
+                        </div>
+                        <Skeleton className="w-full max-w-2xl h-80" />
+                        <div className="flex items-center gap-4">
+                            <Skeleton className="h-10 w-10 rounded-full" />
+                            <Skeleton className="h-10 w-10 rounded-full" />
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
+    );
+}
+
+
+export default function StudyPackPage() {
+    // 1. Get the ID from URL params, which is safe in a client component.
+    const params = useParams();
+    const id = typeof params.id === 'string' ? params.id : '';
+
+    // 2. Get the authenticated user and firestore instance.
+    const { user, isUserLoading } = useUser();
+    const firestore = useFirestore();
+
+    // 3. Construct the document reference only when user and firestore are available.
+    // useMemoFirebase is crucial to prevent re-renders from creating new doc references.
+    const studyPackRef = useMemoFirebase(() => {
+        if (!user?.uid || !firestore || !id) return null;
+        return doc(firestore, 'users', user.uid, 'studyPacks', id);
+    }, [user?.uid, firestore, id]);
+
+    // 4. Fetch the document using the client-side hook.
+    const { data: studyPack, isLoading: isStudyPackLoading, error } = useDoc<StudyPack>(studyPackRef);
+
+    const isLoading = isUserLoading || isStudyPackLoading;
+
+    // 5. Handle Loading State
+    if (isLoading) {
+        return <StudyPageSkeleton />;
+    }
+
+    // 6. Handle "Not Found" state after loading is complete
+    if (!studyPack) {
+        return (
+            <div className="container mx-auto text-center py-20">
+                <h1 className="text-2xl font-bold">Study Pack Not Found</h1>
+                <p className="text-muted-foreground">The study pack you are looking for does not exist or you do not have permission to view it.</p>
+            </div>
+        );
+    }
+
+    // 7. Handle Error State
+    if (error) {
+         return (
+            <div className="container mx-auto text-center py-20">
+                <h1 className="text-2xl font-bold text-destructive">An Error Occurred</h1>
+                <p className="text-muted-foreground">Could not load the study pack. Please try again later.</p>
+            </div>
+        );
+    }
+
+    // 8. Render the client page with the fetched data.
+    return <StudyPackClientPage id={id} initialStudyPack={studyPack} />;
 }

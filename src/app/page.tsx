@@ -1,9 +1,10 @@
 
+'use client'
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowUpRight, Sparkle } from "lucide-react";
+import { ArrowUpRight, Sparkle, Linkedin, Twitter } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
@@ -37,6 +38,12 @@ const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
+const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg fill="currentColor" viewBox="0 0 127.14 96.36" {...props}><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83,97.68,97.68,0,0,0-24.43,0,72.37,72.37,0,0,0-3.36-6.83A105.15,105.15,0,0,0,19.39,8.09,105.15,105.15,0,0,0,19.39,8.09c-18.14,10.33-31.43,33.43-36.14,56.63h0a104.82,104.82,0,0,0,10.42,16.59,96.36,96.36,0,0,0,24.43,11.9,72.37,72.37,0,0,0,3.36,6.83,104.82,104.82,0,0,0,16.58,10.41h.09a72.06,72.06,0,0,0,6.83,3.36,104.82,104.82,0,0,0,10.41,1.46,72.37,72.37,0,0,0,6.83-3.36,105.15,105.15,0,0,0,16.59-10.41,72.06,72.06,0,0,0,3.36-6.83,96.36,96.36,0,0,0,24.43-11.9,104.82,104.82,0,0,0,10.42-16.59h0C139.14,41.52,125.85,18.4,107.7,8.07ZM42.45,65.69C36.65,65.69,32,60.22,32,53.42s4.65-12.27,10.45-12.27S52.9,46.62,52.8,53.42,48.25,65.69,42.45,65.69Zm42.24,0C78.88,65.69,74.24,60.22,74.24,53.42S78.88,41.15,84.69,41.15,95.14,46.62,95,53.42,90.49,65.69,84.69,65.69Z"/></svg>
+);
+
+
+
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
 
@@ -46,7 +53,7 @@ export default function LandingPage() {
       <main className="relative">
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
-            scale={1.5}
+            scale={3}
             gridMul={[2, 1]}
             digitSize={1.8}
             timeScale={0.5}
@@ -162,7 +169,7 @@ export default function LandingPage() {
                 <ScrollReveal
                   tag="div"
                   textTag="p"
-                  className="max-w-2xl mt-4 !m-0"
+                  className="!m-0"
                   textClassName="!text-xl !font-normal !text-muted-foreground"
                 >
                   Our AI chatbot acts as your personal tutor, guiding you on when to review using spaced repetition to strengthen your memory and make every study session more effective.
@@ -424,6 +431,50 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
             </div>
+          </div>
+        </section>
+        
+        <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative">
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <div className="grid md:grid-cols-2 items-center gap-12">
+              <div className="flex flex-col items-start space-y-6">
+                <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Launch with Siloir.</h2>
+                <div className="flex items-center gap-6">
+                  <Link href="/signup" className="text-lg font-medium inline-flex items-center gap-2 hover:text-primary transition-colors">
+                    Get Started <ArrowUpRight className="size-5" />
+                  </Link>
+                  <Button asChild size="lg" className="bg-white text-black hover:bg-gray-200 rounded-full group">
+                    <Link href="/features">
+                      Learn More 
+                      <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                        <ArrowUpRight className="size-4" />
+                      </span>
+                    </Link>
+                  </Button>
+                </div>
+                <div className="flex items-center gap-6 pt-4">
+                  <Link href="#" aria-label="LinkedIn">
+                    <Linkedin className="size-6 text-gray-400 hover:text-white transition-colors" />
+                  </Link>
+                  <Link href="#" aria-label="Discord">
+                    <DiscordIcon className="size-6 text-gray-400 hover:text-white transition-colors" />
+                  </Link>
+                   <Link href="#" aria-label="X">
+                    <Twitter className="size-6 text-gray-400 hover:text-white transition-colors" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="https://picsum.photos/seed/glow-abstract/1200/600"
+              alt="Abstract background"
+              layout="fill"
+              objectFit="cover"
+              className="opacity-20"
+              data-ai-hint="glowing abstract"
+            />
           </div>
         </section>
       </main>

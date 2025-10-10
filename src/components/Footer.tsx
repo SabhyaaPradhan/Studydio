@@ -79,7 +79,7 @@ export default function Footer() {
             color="#26CF80"
             speed={0.4}
             direction="forward"
-            scale={1.2}
+            scale={3}
             opacity={0.6}
             mouseInteractive={true}
           />
@@ -116,5 +116,3 @@ const ArrowUpRightIcon = () => (
     <path d="M14.25 3.75L3.75 14.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
   </svg>
 )
-
-    

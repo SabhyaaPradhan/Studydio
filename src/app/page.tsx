@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowUpRight, Sparkle, Linkedin, Twitter } from "lucide-react";
+import { ArrowUpRight, Sparkle, Linkedin, Twitter, Facebook } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
@@ -475,16 +475,64 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10">
-        <p className="text-xs text-muted-foreground">&copy; 2024 Siloir. All rights reserved.</p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Terms of Service
-          </Link>
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Privacy
-          </Link>
-        </nav>
+      <footer className="bg-black text-white py-12">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="font-semibold uppercase text-sm text-muted-foreground mb-4">More Info</h3>
+              <nav className="flex flex-col gap-2">
+                <Link className="text-sm hover:underline underline-offset-4" href="#">Terms and Conditions</Link>
+                <Link className="text-sm hover:underline underline-offset-4" href="#">Returns and Exchanges</Link>
+                <Link className="text-sm hover:underline underline-offset-4" href="#">Privacy Policy</Link>
+              </nav>
+            </div>
+            <div>
+              <h3 className="font-semibold uppercase text-sm text-muted-foreground mb-4">Social</h3>
+              <nav className="flex flex-col gap-2">
+                <Link className="text-sm hover:underline underline-offset-4" href="#">Instagram</Link>
+                <Link className="text-sm hover:underline underline-offset-4" href="#">Twitter</Link>
+                <Link className="text-sm hover:underline underline-offset-4" href="#">Facebook</Link>
+              </nav>
+            </div>
+            <div className="col-span-2 flex flex-col items-start md:items-end">
+                <div className="flex flex-col gap-2 items-start md:items-end">
+                    <Button asChild variant="outline" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
+                        <Link href="#">
+                            Contact us
+                            <ArrowUpRight className="size-4 ml-2"/>
+                        </Link>
+                    </Button>
+                    <div className="flex gap-2 mt-2">
+                        <Button variant="outline" size="icon" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
+                            <ArrowUpRight className="size-4"/>
+                        </Button>
+                        <Button variant="outline" size="icon" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
+                            <ArrowUpRight className="size-4"/>
+                        </Button>
+                        <Button variant="outline" size="icon" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
+                            <ArrowUpRight className="size-4"/>
+                        </Button>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div className="border-t border-white/10 mt-12 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center relative">
+                <div className="absolute inset-0 flex items-center justify-center -z-0">
+                    <div className="text-[15vw] md:text-[10vw] font-blackheat text-white/5 bg-gradient-to-b from-blue-500/20 to-transparent bg-clip-text text-transparent pointer-events-none">
+                        OFLY
+                    </div>
+                </div>
+                <div className="flex items-center gap-2 text-4xl font-bold">
+                    <span>©</span>
+                </div>
+                 <div className="text-xs text-muted-foreground mt-4 md:mt-0 flex gap-8">
+                    <span>Design by <a href="#" className="underline">Thomas B</a></span>
+                    <span>Dev by <a href="#" className="underline">Teo3tc</a></span>
+                </div>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );

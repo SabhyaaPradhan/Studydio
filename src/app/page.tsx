@@ -523,7 +523,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 md:px-6">
             <div className="border-t border-white/10 pt-8 pb-8">
                 <div className="flex flex-col md:flex-row justify-between items-center relative">
-                    <div className="absolute inset-0 flex items-center justify-center -z-0">
+                    <div className="absolute inset-0 flex items-center justify-end -z-0">
                         <div className="text-[15vw] md:text-[10vw] font-blackheat text-white/5 bg-gradient-to-b from-blue-500/20 to-transparent bg-clip-text text-transparent pointer-events-none">
                             OFLY
                         </div>
@@ -539,3 +539,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    

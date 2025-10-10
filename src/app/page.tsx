@@ -52,7 +52,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main className="relative" style={{flexGrow: 1}}>
+      <main style={{flexGrow: 1}}>
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
             scale={3}
@@ -531,10 +531,7 @@ export default function LandingPage() {
                     <div className="flex items-center gap-2 text-4xl font-bold">
                         <span>©</span>
                     </div>
-                    <div className="text-xs text-muted-foreground mt-4 md:mt-0 flex gap-8">
-                        <span>Design by <a href="#" className="underline">Thomas B</a></span>
-                        <span>Dev by <a href="#" className="underline">Teo3tc</a></span>
-                    </div>
+                    
                 </div>
             </div>
         </div>

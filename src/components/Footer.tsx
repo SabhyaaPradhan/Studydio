@@ -85,7 +85,7 @@ export default function Footer() {
           />
         </div>
         <div className="flex items-center justify-between w-full">
-          <div className="w-16 lg:w-24 shrink-0">
+          <div className="w-10 lg:w-16 shrink-0">
             <svg
               className="h-full w-full animate-spin-y [transform-style:preserve-3d]"
               style={{ animationDuration: '10s' }}
@@ -100,7 +100,7 @@ export default function Footer() {
           </div>
 
           <div className="text-right w-full max-w-[80%] overflow-hidden">
-            <h1 className="font-swear text-[15vw] md:text-[10vw] lg:text-[15rem] leading-none text-white">
+            <h1 className="font-swear text-[15vw] md:text-[10vw] lg:text-[15rem] leading-none text-white italic pr-5 animate-blink" style={{textShadow: '0 0 2px #fff, 0 0 10px #fff, 0 0 20px #0ba9ca, 0 0 30px #0ba9ca, 0 0 40px #0ba9ca, 0 0 50px #0ba9ca'}}>
               SILOIR
             </h1>
           </div>

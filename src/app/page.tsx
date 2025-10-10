@@ -226,19 +226,20 @@ export default function LandingPage() {
       <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-black via-stone-950 to-transparent relative">
         <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
         <div className="container mx-auto px-4 md:px-6">
+
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <ScrollFloat tag="h1" className="text-[70px] md:text-[200px] font-blackheat text-white" scrollStart="top 80%">
-              See what our clients love
+              <ScrollFloat tag="h1" className="text-[100px] md:text-[160px] font-blackheat text-white" scrollStart="top 80%">
+                See what our clients love
               </ScrollFloat>
               <ScrollReveal
                 tag="div"
                 textTag="p"
                 className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground text-center"
+                textClassName="!text-xl !font-normal !text-muted-foreground"
               >
                 Discover why teams trust Siloir to automate workflows, boost growth, and deliver standout experiences.
-                </ScrollReveal>
+              </ScrollReveal>
             </div>
           </div>
           <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
@@ -318,18 +319,19 @@ export default function LandingPage() {
 
       <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-black">
         <div className="px-4 md:px-6">
+
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+              <ScrollFloat tag="h1" className="text-[100px] md:text-[160px] font-blackheat text-white" scrollStart="top 80%">
                 Simple, transparent pricing
               </ScrollFloat>
               <ScrollReveal
                 tag="div"
                 textTag="p"
-                className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
                 textClassName="!text-xl !font-normal !text-muted-foreground"
               >
-                Choose the plan that's right for you. Get started for free.
+                Choose the plan that's right for you. Get started for free.        
               </ScrollReveal>
             </div>
           </div>
@@ -441,7 +443,7 @@ export default function LandingPage() {
           <Orb
             hoverIntensity={0.5}
             rotateOnHover={true}
-            hue={173}
+            hue={20}
             forceHoverState={true}
           />
         </div>
@@ -474,4 +476,3 @@ export default function LandingPage() {
 
 
 
-    

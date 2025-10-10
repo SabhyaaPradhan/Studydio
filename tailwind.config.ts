@@ -96,20 +96,11 @@ export default {
           '0%': { transform: 'rotateY(0deg)' },
           '100%': { transform: 'rotateY(360deg)' },
         },
-        blink: {
-          '0%': {
-            textShadow: '0 0 2px #fff, 0 0 10px #fff, 0 0 20px #0ba9ca, 0 0 30px #0ba9ca, 0 0 40px #0ba9ca, 0 0 50px #0ba9ca'
-          },
-          '100%': {
-            textShadow: '0 0 2px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #0ba9ca, 0 0 70px #0ba9ca, 0 0 80px #0ba9ca'
-          },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'spin-y': 'spin-y 3s linear infinite',
-        'blink': 'blink 1.5s infinite alternate',
       },
     },
   },

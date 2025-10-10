@@ -266,6 +266,31 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <FadeContent>
+                <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
+                  <h3 className="text-5xl font-bold text-white">99.99%</h3>
+                  <p className="text-muted-foreground mt-2">Always On, Always Reliable</p>
+                </div>
+              </FadeContent>
+              <FadeContent delay={200}>
+                <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
+                  <h3 className="text-5xl font-bold text-white">1M+</h3>
+                  <p className="text-muted-foreground mt-2">People Powered by Siloir</p>
+                </div>
+              </FadeContent>
+              <FadeContent delay={400}>
+                <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
+                  <h3 className="text-5xl font-bold text-white">24/7</h3>
+                  <p className="text-muted-foreground mt-2">Real Humans, Real Help</p>
+                </div>
+              </FadeContent>
+            </div>
+          </div>
+        </section>
+
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -377,6 +402,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 

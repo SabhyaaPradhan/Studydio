@@ -446,7 +446,7 @@ export default function LandingPage() {
           </div>
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center text-center space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Launch with Siloir.</h2>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mix-blend-difference">Launch with Siloir.</h2>
               <div className="flex items-center gap-6">
                 <Link href="/signup" className="text-lg font-medium inline-flex items-center gap-2 hover:text-primary transition-colors">
                   Get Started <ArrowUpRight className="size-5" />

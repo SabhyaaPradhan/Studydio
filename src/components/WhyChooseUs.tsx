@@ -478,54 +478,9 @@ const WhyChooseUs = ({
   const isMobile = useIsMobile();
   const shouldDisableAnimations = disableAnimations || isMobile;
 
-  const [vantaEffect, setVantaEffect] = useState<any>(null);
-  const vantaRef = useRef(null);
-  const [threeLoaded, setThreeLoaded] = useState(false);
-
-  useEffect(() => {
-    if (threeLoaded && (window as any).VANTA) {
-      if (!vantaEffect && !isMobile) {
-        const vantaInstance = (window as any).VANTA.GLOBE({
-          el: vantaRef.current,
-          THREE: (window as any).THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          scale: 1.0,
-          scaleMobile: 1.0,
-          color: 0x26cf80,
-          backgroundColor: 0x0,
-        });
-        setVantaEffect(vantaInstance);
-      } else if (vantaEffect && isMobile) {
-        (vantaEffect as any).destroy();
-        setVantaEffect(null);
-      }
-    }
-
-    return () => {
-      if (vantaEffect) {
-        (vantaEffect as any).destroy();
-        setVantaEffect(null);
-      }
-    };
-  }, [threeLoaded, vantaEffect, isMobile]);
-
-
   return (
     <>
-      <Script
-        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
-        strategy="afterInteractive"
-        onLoad={() => setThreeLoaded(true)}
-      />
-      <Script
-        src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"
-        strategy="afterInteractive"
-      />
-      <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section relative" ref={vantaRef}>
+      <section id="why-choose-us" className="w-full py-12 md:py-12 bg-black magic-bento-section relative">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">

@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
@@ -63,7 +64,7 @@ export default function RootLayout({
         <FirebaseClientProvider>
           <GlobalPixelTrail />
             {/* main content gets bottom padding to avoid being covered */}
-            <main className="relative" style={{ paddingBottom: 'var(--footer-height, 80px)' }}>
+            <main className="relative">
               {children}
             </main>
             <Footer />

@@ -338,7 +338,7 @@ export default function LandingPage() {
                     <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
                   </CardHeader>
                   <CardContent className="flex-1">
-                    <div className="text-4xl font-bold">$10<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+                    <div className="text-4xl font-bold">$15<span className="text-sm font-normal text-muted-foreground">/month</span></div>
                     <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Unlimited study packs</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Advanced AI generation</li>
@@ -416,5 +416,7 @@ export default function LandingPage() {
 
 
 
+
+    
 
     

@@ -45,7 +45,7 @@ export default function PricingPage() {
     },
     {
       name: "Pro",
-      price: "$12",
+      price: "$15",
       priceFrequency: "/ month",
       description:
         "For dedicated students and professionals who need to learn effectively.",
@@ -250,3 +250,5 @@ export default function PricingPage() {
     </div>
   );
 }
+
+    

@@ -1,4 +1,5 @@
 
+
 'use client'
 
 import Link from "next/link";
@@ -51,7 +52,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main className="relative flex-1">
+      <main className="relative flex-1" style={{flexGrow: 1}}>
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
             scale={3}

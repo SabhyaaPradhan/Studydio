@@ -8,6 +8,7 @@ import "@/components/ScrollReveal.css";
 import "@/components/CardSwap.css";
 import GlobalPixelTrail from '@/components/GlobalPixelTrail';
 import { FirebaseClientProvider } from '@/firebase';
+import Footer from '@/components/Footer';
 
 const title = "Siloir - Learn anything, 10x faster";
 const description = "Paste any content (YouTube link, PDF, article, text) and automatically generate study materials like flashcards, quizzes, and summaries.";
@@ -58,10 +59,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased min-h-screen">
         <FirebaseClientProvider>
           <GlobalPixelTrail />
-          {children}
+            {/* main content gets bottom padding to avoid being covered */}
+            <main className="relative" style={{ paddingBottom: 'var(--footer-height, 80px)' }}>
+              {children}
+            </main>
+            <Footer />
           <Toaster />
         </FirebaseClientProvider>
       </body>

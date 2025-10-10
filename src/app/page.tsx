@@ -40,6 +40,7 @@ const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
+
 const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg fill="currentColor" viewBox="0 0 127.14 96.36" {...props}><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83,97.68,97.68,0,0,0-24.43,0,72.37,72.37,0,0,0-3.36-6.83A105.15,105.15,0,0,0,19.39,8.09,105.15,105.15,0,0,0,19.39,8.09c-18.14,10.33-31.43,33.43-36.14,56.63h0a104.82,104.82,0,0,0,10.42,16.59,96.36,96.36,0,0,0,24.43,11.9,72.37,72.37,0,0,0,3.36,6.83,104.82,104.82,0,0,0,16.58,10.41h.09a72.06,72.06,0,0,0,6.83,3.36,104.82,104.82,0,0,0,10.41,1.46,72.37,72.37,0,0,0,6.83-3.36,105.15,105.15,0,0,0,16.59-10.41,72.06,72.06,0,0,0,3.36-6.83,96.36,96.36,0,0,0,24.43-11.9,104.82,104.82,0,0,0,10.42-16.59h0C139.14,41.52,125.85,18.4,107.7,8.07ZM42.45,65.69C36.65,65.69,32,60.22,32,53.42s4.65-12.27,10.45-12.27S52.9,46.62,52.8,53.42,48.25,65.69,42.45,65.69Zm42.24,0C78.88,65.69,74.24,60.22,74.24,53.42S78.88,41.15,84.69,41.15,95.14,46.62,95,53.42,90.49,65.69,84.69,65.69Z" /></svg>
 );
@@ -52,7 +53,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main style={{ flexGrow: 1 }}>
+      <main className="flex-1">
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
             scale={3}
@@ -465,65 +466,10 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-      <footer className="bg-black text-white py-12">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-semibold uppercase text-sm text-muted-foreground mb-4">More Info</h3>
-              <nav className="flex flex-col gap-2">
-                <Link className="text-sm hover:underline underline-offset-4" href="#">Terms and Conditions</Link>
-                <Link className="text-sm hover:underline underline-offset-4" href="#">Returns and Exchanges</Link>
-                <Link className="text-sm hover:underline underline-offset-4" href="#">Privacy Policy</Link>
-              </nav>
-            </div>
-            <div>
-              <h3 className="font-semibold uppercase text-sm text-muted-foreground mb-4">Social</h3>
-              <nav className="flex flex-col gap-2">
-                <Link className="text-sm hover:underline underline-offset-4" href="#">Instagram</Link>
-                <Link className="text-sm hover:underline underline-offset-4" href="#">Twitter</Link>
-                <Link className="text-sm hover:underline underline-offset-4" href="#">Facebook</Link>
-              </nav>
-            </div>
-            <div className="col-span-2 flex flex-col items-start md:items-end">
-              <div className="flex flex-col gap-2 items-start md:items-end">
-                <Button asChild variant="outline" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
-                  <Link href="#">
-                    Contact us
-                    <ArrowUpRight className="size-4 ml-2" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <footer className="bg-gradient-to-b from-black via-black to-transparent text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="border-t border-white/10 pt-8 pb-8 relative overflow-hidden">
-            <div className="relative z-20 flex items-center justify-end gap-4">
-              <div className="flex items-center gap-2">
-                <span
-                  className="font-bold font-swear"
-                  style={{ fontSize: 'clamp(1rem, 4vw, 5rem)', lineHeight: 1 }}
-                  aria-hidden
-                >
-                  ©
-                </span>
-              </div>
-
-              <div
-                className="font-swear uppercase"
-                style={{ fontSize: 'clamp(6rem, 20vw, 20rem)' }}
-              >
-                Siloir
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-
+      
     </div>
   );
 }
+
 
 

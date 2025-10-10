@@ -344,9 +344,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
-                <div className="relative p-px rounded-lg bg-gradient-to-b from-primary/50 to-transparent">
                   <ShadCard className="flex flex-col border-primary shadow-lg bg-card/80 backdrop-blur-sm h-full relative">
-                      
                      <CardHeader>
                         <CardTitle>Pro</CardTitle>
                         <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
@@ -370,7 +368,6 @@ export default function LandingPage() {
                         </Button>
                      </CardFooter>
                   </ShadCard>
-                </div>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
                   <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">

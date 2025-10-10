@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { useFooterHeight } from '@/hooks/useFooterHeight'
 import Link from 'next/link';
+import Plasma from './Plasma';
 
 export default function Footer() {
   const ref = useRef<HTMLElement | null>(null)
@@ -73,6 +74,16 @@ export default function Footer() {
         <div className="border-t border-white/10 mt-12 pt-8"></div>
       </div>
       <div className="sticky bottom-0 z-0 w-full bg-black px-4 pb-20 lg:px-16 lg:pb-10">
+        <div className="absolute inset-0 z-[-1]">
+          <Plasma 
+            color="#26CF80"
+            speed={0.4}
+            direction="forward"
+            scale={1.2}
+            opacity={0.6}
+            mouseInteractive={true}
+          />
+        </div>
         <div className="flex items-center justify-between w-full">
           <div className="w-16 lg:w-24 shrink-0">
             <svg
@@ -105,3 +116,5 @@ const ArrowUpRightIcon = () => (
     <path d="M14.25 3.75L3.75 14.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
   </svg>
 )
+
+    

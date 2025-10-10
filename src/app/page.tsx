@@ -13,7 +13,6 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import dashboard_img from "../public/images/dashboard.png";
 import FadeContent from '@/components/FadeContent';
-import GradualBlur from "@/components/GradualBlur";
 import CardSwap, { Card } from '@/components/CardSwap';
 import WhyChooseUs from "@/components/WhyChooseUs";
 import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif"
@@ -283,7 +282,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
+        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-transparent to-black">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <FadeContent>
@@ -346,10 +345,10 @@ export default function LandingPage() {
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
+                     <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
                            <Link href="/signup">
                             Start for Free
-                            <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                             <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                               <ArrowUpRight className="size-4" />
                             </span>
                            </Link>
@@ -413,13 +412,13 @@ export default function LandingPage() {
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
-                           <Link href="/contact">
+                     <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
+                           <Link href="/signup">
                             Contact Sales
                              <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                               <ArrowUpRight className="size-4" />
                             </span>
-                          </Link>
+                           </Link>
                         </Button>
                      </CardFooter>
                   </ShadCard>
@@ -427,16 +426,6 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-        <GradualBlur
-          target="page"
-          position="bottom"
-          height="6rem"
-          strength={3}
-          divCount={5}
-          curve="bezier"
-          exponential={true}
-          opacity={0.8}
-        />
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-white/10">
         <p className="text-xs text-muted-foreground">&copy; 2024 Siloir. All rights reserved.</p>

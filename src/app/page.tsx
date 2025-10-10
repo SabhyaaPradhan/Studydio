@@ -20,6 +20,7 @@ import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif
 import features2 from "../public/images/Video_Ready_Link_Provided.gif"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CountUp from "@/components/CountUp";
+import Orb from "@/components/Orb";
 
 const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -434,8 +435,16 @@ export default function LandingPage() {
           </div>
         </section>
         
-        <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white">
-          <div className="container mx-auto px-4 md:px-6">
+        <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative overflow-hidden">
+          <div className="absolute inset-0 w-full h-full z-0">
+            <Orb
+                hoverIntensity={0.5}
+                rotateOnHover={true}
+                hue={240}
+                forceHoverState={true}
+              />
+          </div>
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center text-center space-y-6">
               <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Launch with Siloir.</h2>
               <div className="flex items-center gap-6">

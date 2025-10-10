@@ -11,7 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
-const DEFAULT_GLOW_COLOR = '120, 100%, 50%';
+const DEFAULT_GLOW_COLOR = '148, 79%, 66%';
 
 const cardData = [
   {
@@ -719,3 +719,6 @@ const WhyChooseUs = ({
 export default WhyChooseUs;
 
 
+
+
+    

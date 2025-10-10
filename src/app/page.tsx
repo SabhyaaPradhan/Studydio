@@ -42,7 +42,7 @@ export default function LandingPage() {
             chromaticAberration={0}
             dither={0}
             curvature={0.1}
-            tint="#27d624"
+            tint="#26CF80"
             mouseReact={true}
             pageLoadAnimation={true}
             brightness={0.6}
@@ -415,3 +415,6 @@ export default function LandingPage() {
 
 
 
+
+
+    

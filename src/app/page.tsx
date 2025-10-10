@@ -341,8 +341,12 @@ export default function LandingPage() {
                   <CardContent className="flex-1">
                     <div className="text-4xl font-bold">$15<span className="text-sm font-normal text-muted-foreground">/month</span></div>
                     <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Everything in Basic, plus:</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Unlimited study packs</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Advanced AI generation</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Advanced AI Agent</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Analytics</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Youtube to notes</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> PDF, article to notes</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Spaced repetition reviews</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Priority support</li>
                     </ul>

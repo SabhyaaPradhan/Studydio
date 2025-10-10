@@ -51,10 +51,13 @@ export default function PricingPage() {
       description:
         "For dedicated students and professionals who need to learn effectively.",
       features: [
-        "Unlimited uploads",
-        "AI-powered deep summaries",
-        "Smart flashcards with spaced repetition",
-        "Export to Anki & Notion",
+        "Everything in Basic, plus:",
+        "Unlimited study packs",
+        "Advanced AI Agent",
+        "Analytics",
+        "Youtube to notes",
+        "PDF, article to notes",
+        "Spaced repetition reviews",
         "Priority support",
       ],
       buttonText: "Upgrade to Pro",

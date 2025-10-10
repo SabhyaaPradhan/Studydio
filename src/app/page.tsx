@@ -53,9 +53,10 @@ export default function LandingPage() {
             chromaticAberration={0}
             dither={0}
             curvature={0.1}
-            tint="#26CF80"
+            tint="#27d624"
             mouseReact={true}
             mouseStrength={0.5}
+            brightness={0.6}
           />
         </div>
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
@@ -302,7 +303,7 @@ export default function LandingPage() {
         </section>
 
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-black">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
@@ -318,9 +319,9 @@ export default function LandingPage() {
                 </ScrollReveal>
               </div>
             </div>
-            <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
+            <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 mt-12">
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
+                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
                         <div className="flex items-baseline gap-1 pt-4">
@@ -331,18 +332,18 @@ export default function LandingPage() {
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>10 study packs per month</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Basic AI generation</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>AI Tutor</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Text to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Community support</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>10 study packs per month</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Basic AI generation</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>AI Tutor</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Text to notes</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Community support</span></li>
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                        <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
                            <Link href="/signup">
                             Start for Free
-                            <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                            <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                               <ArrowUpRight className="size-4" />
                             </span>
                            </Link>
@@ -351,7 +352,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative border-primary/70 shadow-primary/10">
+                <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
                           <Sparkle className="size-6 text-primary" />
@@ -365,21 +366,21 @@ export default function LandingPage() {
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Unlimited study packs</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Advanced AI Agent</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Analytics</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Youtube to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>PDF, article to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Spaced repetition reviews</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Priority support</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Unlimited study packs</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Advanced AI Agent</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Analytics</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Youtube to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>PDF, article to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Spaced repetition reviews</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Priority support</span></li>
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                        <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
                            <Link href="/signup">
                             Go Pro
-                             <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                             <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                               <ArrowUpRight className="size-4" />
                             </span>
                            </Link>
@@ -388,7 +389,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
+                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
                          <div className="flex items-baseline gap-1 pt-4">
@@ -399,17 +400,17 @@ export default function LandingPage() {
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Pro</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Team collaboration features</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Shared study sets</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Student analytics dashboard</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Pro</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Team collaboration features</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Shared study sets</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Student analytics dashboard</span></li>
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                        <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
                            <Link href="/contact">
                             Contact Sales
-                             <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                             <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                               <ArrowUpRight className="size-4" />
                             </span>
                           </Link>

@@ -1,4 +1,5 @@
 
+
 import { DiamondIcon, Sparkle, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -132,8 +133,8 @@ export default function PricingPage() {
         </section>
 
         <section id="pricing-tiers" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
+          <div className="px-4 md:px-6">
+            <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
               {plans.map((plan, index) => (
                 <FadeContent
                   key={plan.name}
@@ -143,8 +144,8 @@ export default function PricingPage() {
                   className="h-full"
                 >
                   <Card
-                    className={`relative flex flex-col h-full bg-card/50 backdrop-blur-sm border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 ${
-                      plan.popular ? "border-primary/70 shadow-primary/10" : ""
+                    className={`relative flex flex-col h-full bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 ${
+                      plan.popular ? "shadow-primary/10" : "border-white/10"
                     }`}
                   >
                    
@@ -169,17 +170,17 @@ export default function PricingPage() {
                       <ul className="space-y-3 text-sm text-gray-300">
                         {plan.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-3">
-                            <DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" />
+                            <DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" />
                             <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </CardContent>
                     <CardFooter className="p-6">
-                       <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                       <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
                           <Link href="/signup">
                             {plan.buttonText}
-                            <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                            <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                               <ArrowUpRight className="size-4" />
                             </span>
                           </Link>

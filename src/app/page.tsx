@@ -233,7 +233,7 @@ export default function LandingPage() {
                 <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
                     <FadeContent>
                         <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
-                            <blockquote className="text-lg text-white">"Switching to Siloir cut our manual work in half. The automation flows just work — we closed more deals in a week than the entire last year."</blockquote>
+                            <blockquote className="text-lg text-white">"Siloir has been a game-changer for my exams. I used to spend hours making flashcards, but now I can generate a full study set from a lecture video in minutes. My grades have never been better."</blockquote>
                             <footer className="mt-4 flex items-center gap-4">
                                 <Avatar>
                                     <AvatarImage src="https://picsum.photos/seed/alex/40/40" alt="Alex Chen" />
@@ -241,14 +241,14 @@ export default function LandingPage() {
                                 </Avatar>
                                 <div>
                                     <p className="font-semibold text-white">Alex Chen</p>
-                                    <p className="text-sm text-muted-foreground">Operations Manager</p>
+                                    <p className="text-sm text-muted-foreground">College Student</p>
                                 </div>
                             </footer>
                         </ShadCard>
                     </FadeContent>
                      <FadeContent delay={200}>
                         <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
-                            <blockquote className="text-lg text-white">"Finally, a tool that feels smart but stays simple. Our team collaborates faster, tracks everything, and we've grown our active users by 40%."</blockquote>
+                            <blockquote className="text-lg text-white">"The AI quizzes are my favorite feature. They find the exact gaps in my knowledge and help me focus on what I actually need to learn. It’s like having a personal tutor."</blockquote>
                             <footer className="mt-4 flex items-center gap-4">
                                 <Avatar>
                                     <AvatarImage src="https://picsum.photos/seed/priya/40/40" alt="Priya Das" />
@@ -256,14 +256,14 @@ export default function LandingPage() {
                                 </Avatar>
                                 <div>
                                     <p className="font-semibold text-white">Priya Das</p>
-                                    <p className="text-sm text-muted-foreground">Head of Product</p>
+                                    <p className="text-sm text-muted-foreground">Lifelong Learner</p>
                                 </div>
                             </footer>
                         </ShadCard>
                     </FadeContent>
                      <FadeContent delay={400}>
                         <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
-                            <blockquote className="text-lg text-white">"I love how intuitive it is. It plugs right into our stack, keeps data secure, and helps us ship new ideas without the chaos."</blockquote>
+                            <blockquote className="text-lg text-white">"As a med student, my study time is precious. Siloir's smart scheduler tells me exactly what to review and when, so I'm always prepared. I can't imagine studying without it."</blockquote>
                             <footer className="mt-4 flex items-center gap-4">
                                 <Avatar>
                                     <AvatarImage src="https://picsum.photos/seed/daniel/40/40" alt="Daniel Rivera" />
@@ -271,7 +271,7 @@ export default function LandingPage() {
                                 </Avatar>
                                 <div>
                                     <p className="font-semibold text-white">Daniel Rivera</p>
-                                    <p className="text-sm text-muted-foreground">CTO</p>
+                                    <p className="text-sm text-muted-foreground">Medical Student</p>
                                 </div>
                             </footer>
                         </ShadCard>
@@ -395,5 +395,6 @@ export default function LandingPage() {
     
 
     
+
 
 

@@ -344,11 +344,11 @@ export default function LandingPage() {
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>10 study packs per month</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Basic AI generation</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>AI Tutor</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Text to notes</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Community support</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>10 study packs per month</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Basic AI generation</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>AI Tutor</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Text to notes</span></li>
+                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Community support</span></li>
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
@@ -378,14 +378,14 @@ export default function LandingPage() {
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Unlimited study packs</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Advanced AI Agent</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Analytics</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Youtube to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>PDF, article to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Spaced repetition reviews</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Priority support</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Unlimited study packs</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Advanced AI Agent</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Analytics</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Youtube to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>PDF, article to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Spaced repetition reviews</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Priority support</span></li>
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
@@ -412,10 +412,10 @@ export default function LandingPage() {
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Pro</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Team collaboration features</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Shared study sets</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 text-primary/80 mt-0.5" /> <span>Student analytics dashboard</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Everything in Pro</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Team collaboration features</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Shared study sets</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Student analytics dashboard</span></li>
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
@@ -434,47 +434,35 @@ export default function LandingPage() {
           </div>
         </section>
         
-        <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative">
-          <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="grid md:grid-cols-2 items-center gap-12">
-              <div className="flex flex-col items-start space-y-6">
-                <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Launch with Siloir.</h2>
-                <div className="flex items-center gap-6">
-                  <Link href="/signup" className="text-lg font-medium inline-flex items-center gap-2 hover:text-primary transition-colors">
-                    Get Started <ArrowUpRight className="size-5" />
+        <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center text-center space-y-6">
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tighter">Launch with Siloir.</h2>
+              <div className="flex items-center gap-6">
+                <Link href="/signup" className="text-lg font-medium inline-flex items-center gap-2 hover:text-primary transition-colors">
+                  Get Started <ArrowUpRight className="size-5" />
+                </Link>
+                <Button asChild size="lg" className="bg-white text-black hover:bg-gray-200 rounded-full group">
+                  <Link href="/features">
+                    Learn More
+                    <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                      <ArrowUpRight className="size-4" />
+                    </span>
                   </Link>
-                  <Button asChild size="lg" className="bg-white text-black hover:bg-gray-200 rounded-full group">
-                    <Link href="/features">
-                      Learn More 
-                      <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                        <ArrowUpRight className="size-4" />
-                      </span>
-                    </Link>
-                  </Button>
-                </div>
-                <div className="flex items-center gap-6 pt-4">
-                  <Link href="#" aria-label="LinkedIn">
-                    <Linkedin className="size-6 text-gray-400 hover:text-white transition-colors" />
-                  </Link>
-                  <Link href="#" aria-label="Discord">
-                    <DiscordIcon className="size-6 text-gray-400 hover:text-white transition-colors" />
-                  </Link>
-                   <Link href="#" aria-label="X">
-                    <Twitter className="size-6 text-gray-400 hover:text-white transition-colors" />
-                  </Link>
-                </div>
+                </Button>
+              </div>
+              <div className="flex items-center gap-6 pt-4">
+                <Link href="#" aria-label="LinkedIn">
+                  <Linkedin className="size-6 text-gray-400 hover:text-white transition-colors" />
+                </Link>
+                <Link href="#" aria-label="Discord">
+                  <DiscordIcon className="size-6 text-gray-400 hover:text-white transition-colors" />
+                </Link>
+                <Link href="#" aria-label="X">
+                  <Twitter className="size-6 text-gray-400 hover:text-white transition-colors" />
+                </Link>
               </div>
             </div>
-          </div>
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="https://picsum.photos/seed/glow-abstract/1200/600"
-              alt="Abstract background"
-              layout="fill"
-              objectFit="cover"
-              className="opacity-20"
-              data-ai-hint="glowing abstract"
-            />
           </div>
         </section>
       </main>

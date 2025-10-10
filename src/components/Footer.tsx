@@ -76,7 +76,7 @@ export default function Footer() {
         <div className="flex items-center justify-between w-full">
           <div className="w-16 lg:w-24 shrink-0">
             <svg
-              className="h-full w-full animate-spin"
+              className="h-full w-full animate-spin-y [transform-style:preserve-3d]"
               style={{ animationDuration: '10s' }}
               xmlns="http://www.w3.org/2000/svg"
               width="93"

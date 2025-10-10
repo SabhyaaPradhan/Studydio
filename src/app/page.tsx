@@ -41,7 +41,7 @@ const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg fill="currentColor" viewBox="0 0 127.14 96.36" {...props}><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83,97.68,97.68,0,0,0-24.43,0,72.37,72.37,0,0,0-3.36-6.83A105.15,105.15,0,0,0,19.39,8.09,105.15,105.15,0,0,0,19.39,8.09c-18.14,10.33-31.43,33.43-36.14,56.63h0a104.82,104.82,0,0,0,10.42,16.59,96.36,96.36,0,0,0,24.43,11.9,72.37,72.37,0,0,0,3.36,6.83,104.82,104.82,0,0,0,16.58,10.41h.09a72.06,72.06,0,0,0,6.83,3.36,104.82,104.82,0,0,0,10.41,1.46,72.37,72.37,0,0,0,6.83-3.36,105.15,105.15,0,0,0,16.59-10.41,72.06,72.06,0,0,0,3.36-6.83,96.36,96.36,0,0,0,24.43-11.9,104.82,104.82,0,0,0,10.42-16.59h0C139.14,41.52,125.85,18.4,107.7,8.07ZM42.45,65.69C36.65,65.69,32,60.22,32,53.42s4.65-12.27,10.45-12.27S52.9,46.62,52.8,53.42,48.25,65.69,42.45,65.69Zm42.24,0C78.88,65.69,74.24,60.22,74.24,53.42S78.88,41.15,84.69,41.15,95.14,46.62,95,53.42,90.49,65.69,84.69,65.69Z"/></svg>
+  <svg fill="currentColor" viewBox="0 0 127.14 96.36" {...props}><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83,97.68,97.68,0,0,0-24.43,0,72.37,72.37,0,0,0-3.36-6.83A105.15,105.15,0,0,0,19.39,8.09,105.15,105.15,0,0,0,19.39,8.09c-18.14,10.33-31.43,33.43-36.14,56.63h0a104.82,104.82,0,0,0,10.42,16.59,96.36,96.36,0,0,0,24.43,11.9,72.37,72.37,0,0,0,3.36,6.83,104.82,104.82,0,0,0,16.58,10.41h.09a72.06,72.06,0,0,0,6.83,3.36,104.82,104.82,0,0,0,10.41,1.46,72.37,72.37,0,0,0,6.83-3.36,105.15,105.15,0,0,0,16.59-10.41,72.06,72.06,0,0,0,3.36-6.83,96.36,96.36,0,0,0,24.43-11.9,104.82,104.82,0,0,0,10.42-16.59h0C139.14,41.52,125.85,18.4,107.7,8.07ZM42.45,65.69C36.65,65.69,32,60.22,32,53.42s4.65-12.27,10.45-12.27S52.9,46.62,52.8,53.42,48.25,65.69,42.45,65.69Zm42.24,0C78.88,65.69,74.24,60.22,74.24,53.42S78.88,41.15,84.69,41.15,95.14,46.62,95,53.42,90.49,65.69,84.69,65.69Z" /></svg>
 );
 
 
@@ -52,7 +52,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <LandingHeader />
-      <main style={{flexGrow: 1}}>
+      <main style={{ flexGrow: 1 }}>
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
             scale={3}
@@ -334,116 +334,116 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 mt-12 px-4 md:px-6">
-               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
-                     <CardHeader className="p-6 text-left">
-                        <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
-                        <div className="flex items-baseline gap-1 pt-4">
-                            <span className="text-5xl font-bold tracking-tighter text-white">$0</span>
-                            <span className="text-sm font-medium text-muted-foreground">/ month</span>
-                        </div>
-                        <CardDescription className="text-muted-foreground pt-2">For casual learners to get a taste of accelerated learning.</CardDescription>
-                     </CardHeader>
-                     <CardContent className="flex-1 p-6 pt-0">
-                        <ul className="space-y-3 text-sm text-gray-300">
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>10 study packs per month</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Basic AI generation</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>AI Tutor</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Text to notes</span></li>
-                            <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Community support</span></li>
-                        </ul>
-                     </CardContent>
-                     <CardFooter className="p-6">
-                     <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
-                           <Link href="/signup">
-                            Start for Free
-                             <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                              <ArrowUpRight className="size-4" />
-                            </span>
-                           </Link>
-                        </Button>
-                     </CardFooter>
-                  </ShadCard>
-               </FadeContent>
-               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+              <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+                <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
+                  <CardHeader className="p-6 text-left">
+                    <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
+                    <div className="flex items-baseline gap-1 pt-4">
+                      <span className="text-5xl font-bold tracking-tighter text-white">$0</span>
+                      <span className="text-sm font-medium text-muted-foreground">/ month</span>
+                    </div>
+                    <CardDescription className="text-muted-foreground pt-2">For casual learners to get a taste of accelerated learning.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1 p-6 pt-0">
+                    <ul className="space-y-3 text-sm text-gray-300">
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>10 study packs per month</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Basic AI generation</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>AI Tutor</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Text to notes</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Community support</span></li>
+                    </ul>
+                  </CardContent>
+                  <CardFooter className="p-6">
+                    <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
+                      <Link href="/signup">
+                        Start for Free
+                        <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                          <ArrowUpRight className="size-4" />
+                        </span>
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                </ShadCard>
+              </FadeContent>
+              <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
                 <ShadCard className="flex flex-col shadow-lg backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl bg-gradient-to-b from-green-900/40 to-black">
-                     <CardHeader className="p-6 text-left">
-                        <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
-                          <Sparkle className="size-6 text-primary" />
-                          Pro
-                        </CardTitle>
-                         <div className="flex items-baseline gap-1 pt-4">
-                            <span className="text-5xl font-bold tracking-tighter text-white">$15</span>
-                            <span className="text-sm font-medium text-muted-foreground">/ month</span>
-                        </div>
-                        <CardDescription className="text-muted-foreground pt-2">For dedicated students and professionals who need to learn effectively.</CardDescription>
-                     </CardHeader>
-                     <CardContent className="flex-1 p-6 pt-0">
-                        <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Unlimited study packs</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Advanced AI Agent</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Analytics</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Youtube to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>PDF, article to notes</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Spaced repetition reviews</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Priority support</span></li>
-                        </ul>
-                     </CardContent>
-                     <CardFooter className="p-6">
-                        <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
-                           <Link href="/signup">
-                            Go Pro
-                             <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                              <ArrowUpRight className="size-4" />
-                            </span>
-                           </Link>
-                        </Button>
-                     </CardFooter>
-                  </ShadCard>
-               </FadeContent>
-               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
-                     <CardHeader className="p-6 text-left">
-                        <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
-                         <div className="flex items-baseline gap-1 pt-4">
-                            <span className="text-5xl font-bold tracking-tighter text-white">$29</span>
-                            <span className="text-sm font-medium text-muted-foreground">/ month</span>
-                        </div>
-                        <CardDescription className="text-muted-foreground pt-2">For organizations and learning groups to collaborate.</CardDescription>
-                     </CardHeader>
-                     <CardContent className="flex-1 p-6 pt-0">
-                        <ul className="space-y-3 text-sm text-gray-300">
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Everything in Pro</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Team collaboration features</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Shared study sets</span></li>
-                           <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Student analytics dashboard</span></li>
-                        </ul>
-                     </CardContent>
-                     <CardFooter className="p-6">
-                     <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
-                           <Link href="/signup">
-                            Contact Sales
-                             <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
-                              <ArrowUpRight className="size-4" />
-                            </span>
-                           </Link>
-                        </Button>
-                     </CardFooter>
-                  </ShadCard>
-               </FadeContent>
+                  <CardHeader className="p-6 text-left">
+                    <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
+                      <Sparkle className="size-6 text-primary" />
+                      Pro
+                    </CardTitle>
+                    <div className="flex items-baseline gap-1 pt-4">
+                      <span className="text-5xl font-bold tracking-tighter text-white">$15</span>
+                      <span className="text-sm font-medium text-muted-foreground">/ month</span>
+                    </div>
+                    <CardDescription className="text-muted-foreground pt-2">For dedicated students and professionals who need to learn effectively.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1 p-6 pt-0">
+                    <ul className="space-y-3 text-sm text-gray-300">
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Unlimited study packs</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Advanced AI Agent</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Analytics</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Youtube to notes</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>PDF, article to notes</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Spaced repetition reviews</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Priority support</span></li>
+                    </ul>
+                  </CardContent>
+                  <CardFooter className="p-6">
+                    <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
+                      <Link href="/signup">
+                        Go Pro
+                        <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                          <ArrowUpRight className="size-4" />
+                        </span>
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                </ShadCard>
+              </FadeContent>
+              <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+                <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
+                  <CardHeader className="p-6 text-left">
+                    <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
+                    <div className="flex items-baseline gap-1 pt-4">
+                      <span className="text-5xl font-bold tracking-tighter text-white">$29</span>
+                      <span className="text-sm font-medium text-muted-foreground">/ month</span>
+                    </div>
+                    <CardDescription className="text-muted-foreground pt-2">For organizations and learning groups to collaborate.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1 p-6 pt-0">
+                    <ul className="space-y-3 text-sm text-gray-300">
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Everything in Pro</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Team collaboration features</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Shared study sets</span></li>
+                      <li className="flex items-start gap-3"><DiamondIcon className="size-5 shrink-0 mt-0.5" /> <span>Student analytics dashboard</span></li>
+                    </ul>
+                  </CardContent>
+                  <CardFooter className="p-6">
+                    <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
+                      <Link href="/signup">
+                        Contact Sales
+                        <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                          <ArrowUpRight className="size-4" />
+                        </span>
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                </ShadCard>
+              </FadeContent>
             </div>
           </div>
         </section>
-        
+
         <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative overflow-hidden">
           <div className="absolute inset-0 w-full h-full z-0">
             <Orb
-                hoverIntensity={0.5}
-                rotateOnHover={true}
-                hue={173}
-                forceHoverState={true}
-              />
+              hoverIntensity={0.5}
+              rotateOnHover={true}
+              hue={173}
+              forceHoverState={true}
+            />
           </div>
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="flex flex-col items-center justify-center text-center space-y-6">
@@ -460,17 +460,6 @@ export default function LandingPage() {
                     </span>
                   </Link>
                 </Button>
-              </div>
-              <div className="flex items-center gap-6 pt-4">
-                <Link href="#" aria-label="LinkedIn">
-                  <Linkedin className="size-6 text-gray-400 hover:text-white transition-colors" />
-                </Link>
-                <Link href="#" aria-label="Discord">
-                  <DiscordIcon className="size-6 text-gray-400 hover:text-white transition-colors" />
-                </Link>
-                <Link href="#" aria-label="X">
-                  <Twitter className="size-6 text-gray-400 hover:text-white transition-colors" />
-                </Link>
               </div>
             </div>
           </div>
@@ -496,48 +485,45 @@ export default function LandingPage() {
               </nav>
             </div>
             <div className="col-span-2 flex flex-col items-start md:items-end">
-                <div className="flex flex-col gap-2 items-start md:items-end">
-                    <Button asChild variant="outline" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
-                        <Link href="#">
-                            Contact us
-                            <ArrowUpRight className="size-4 ml-2"/>
-                        </Link>
-                    </Button>
-                    <div className="flex gap-2 mt-2">
-                        <Button variant="outline" size="icon" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
-                            <ArrowUpRight className="size-4"/>
-                        </Button>
-                        <Button variant="outline" size="icon" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
-                            <ArrowUpRight className="size-4"/>
-                        </Button>
-                        <Button variant="outline" size="icon" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
-                            <ArrowUpRight className="size-4"/>
-                        </Button>
-                    </div>
-                </div>
+              <div className="flex flex-col gap-2 items-start md:items-end">
+                <Button asChild variant="outline" className="bg-transparent border-white/20 hover:bg-white/10 text-white">
+                  <Link href="#">
+                    Contact us
+                    <ArrowUpRight className="size-4 ml-2" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </footer>
-      <footer className="bg-black text-white">
+      <footer className="bg-gradient-to-b from-black via-black to-transparent text-white">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="border-t border-white/10 pt-8 pb-8">
-                <div className="flex flex-col md:flex-row justify-between items-center relative">
-                    <div className="absolute inset-0 flex items-center justify-end -z-0">
-                        <div className="text-[15vw] md:text-[10vw] font-blackheat text-white/5 bg-gradient-to-b from-blue-500/20 to-transparent bg-clip-text text-transparent pointer-events-none">
-                            OFLY
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-4xl font-bold">
-                        <span>©</span>
-                    </div>
-                    
-                </div>
+          <div className="border-t border-white/10 pt-8 pb-8 relative overflow-hidden">
+            <div className="relative z-20 flex items-center justify-end gap-4">
+              <div className="flex items-center gap-2">
+                <span
+                  className="font-bold font-swear"
+                  style={{ fontSize: 'clamp(1rem, 4vw, 5rem)', lineHeight: 1 }}
+                  aria-hidden
+                >
+                  ©
+                </span>
+              </div>
+
+              <div
+                className="font-swear uppercase"
+                style={{ fontSize: 'clamp(6rem, 20vw, 20rem)' }}
+              >
+                Siloir
+              </div>
             </div>
+          </div>
         </div>
       </footer>
+
     </div>
   );
 }
 
-    
+

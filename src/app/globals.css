@@ -12,6 +12,11 @@
   src: url('../public/fonts/Blackheat.otf');
 }
 
+@font-face {
+  font-family: "Swear";
+  src: url('../public/fonts/swear-display-regular.otf');
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }

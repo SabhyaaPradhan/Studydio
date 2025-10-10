@@ -14,6 +14,7 @@ export default {
         headline: ['Inter', 'sans-serif'],
         joystix: ['Joystix', 'sans-serif'],
         blackheat: ['BlackHeat', 'sans-serif'],
+        swear: ['Swear', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
         code: ['monospace'],
       },

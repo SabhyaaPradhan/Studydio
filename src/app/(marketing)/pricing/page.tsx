@@ -1,5 +1,5 @@
 
-import { Check, Star } from "lucide-react";
+import { DiamondIcon, Sparkle, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,17 +25,6 @@ export const metadata: Metadata = {
   title: "Pricing - Siloir",
   description: "Find the perfect plan for your learning needs.",
 };
-
-const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      {...props}
-    >
-      <path d="M12 2L2 12l10 10 10-10L12 2z" />
-    </svg>
-  );
 
 export default function PricingPage() {
   const plans = [
@@ -71,7 +60,7 @@ export default function PricingPage() {
         "Spaced repetition reviews",
         "Priority support",
       ],
-      buttonText: "Upgrade to Pro",
+      buttonText: "Go Pro",
       buttonVariant: "default",
       popular: true,
     },
@@ -155,25 +144,26 @@ export default function PricingPage() {
                 >
                   <Card
                     className={`relative flex flex-col h-full bg-card/50 backdrop-blur-sm border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 ${
-                      plan.popular ? "" : ""
+                      plan.popular ? "border-primary/70 shadow-primary/10" : ""
                     }`}
                   >
                    
-                    <CardHeader className="p-6">
-                      <CardTitle className="text-2xl font-bold text-white pt-2">
+                    <CardHeader className="p-6 text-left">
+                      <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
+                         {plan.popular && <Sparkle className="size-6 text-primary" />}
                         {plan.name}
                       </CardTitle>
-                      <CardDescription className="text-muted-foreground">
-                        {plan.description}
-                      </CardDescription>
-                      <div className="flex items-baseline gap-1 pt-4">
-                        <span className="text-4xl font-bold tracking-tighter text-white">
+                       <div className="flex items-baseline gap-1 pt-4">
+                        <span className="text-5xl font-bold tracking-tighter text-white">
                           {plan.price}
                         </span>
                         <span className="text-sm font-medium text-muted-foreground">
                           {plan.priceFrequency}
                         </span>
                       </div>
+                      <CardDescription className="text-muted-foreground pt-2">
+                        {plan.description}
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-1 p-6 pt-0">
                       <ul className="space-y-3 text-sm text-gray-300">
@@ -186,13 +176,14 @@ export default function PricingPage() {
                       </ul>
                     </CardContent>
                     <CardFooter className="p-6">
-                      <Button
-                        asChild
-                        className="w-full"
-                        variant={plan.buttonVariant as any}
-                      >
-                        <Link href="/signup">{plan.buttonText}</Link>
-                      </Button>
+                       <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                          <Link href="/signup">
+                            {plan.buttonText}
+                            <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                              <ArrowUpRight className="size-4" />
+                            </span>
+                          </Link>
+                        </Button>
                     </CardFooter>
                   </Card>
                 </FadeContent>

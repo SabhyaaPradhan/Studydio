@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Star } from "lucide-react";
+import { ArrowUpRight, Sparkle } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
@@ -55,7 +55,6 @@ export default function LandingPage() {
             curvature={0.1}
             tint="#26CF80"
             mouseReact={true}
-            brightness={0.6}
             mouseStrength={0.5}
           />
         </div>
@@ -322,13 +321,13 @@ export default function LandingPage() {
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
                   <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
-                     <CardHeader className="p-6">
+                     <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
-                        <CardDescription className="text-muted-foreground">For casual learners to get a taste of accelerated learning.</CardDescription>
                         <div className="flex items-baseline gap-1 pt-4">
-                            <span className="text-4xl font-bold tracking-tighter text-white">$0</span>
+                            <span className="text-5xl font-bold tracking-tighter text-white">$0</span>
                             <span className="text-sm font-medium text-muted-foreground">/ month</span>
                         </div>
+                        <CardDescription className="text-muted-foreground pt-2">For casual learners to get a taste of accelerated learning.</CardDescription>
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
@@ -340,21 +339,29 @@ export default function LandingPage() {
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full" variant="outline">
-                           <Link href="/signup">Start for Free</Link>
+                        <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                           <Link href="/signup">
+                            Start for Free
+                            <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                              <ArrowUpRight className="size-4" />
+                            </span>
+                           </Link>
                         </Button>
                      </CardFooter>
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative">
-                     <CardHeader className="p-6">
-                        <CardTitle className="text-2xl font-bold text-white pt-2">Pro</CardTitle>
-                        <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
+                  <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative border-primary/70 shadow-primary/10">
+                     <CardHeader className="p-6 text-left">
+                        <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
+                          <Sparkle className="size-6 text-primary" />
+                          Pro
+                        </CardTitle>
                          <div className="flex items-baseline gap-1 pt-4">
-                            <span className="text-4xl font-bold tracking-tighter text-white">$15</span>
+                            <span className="text-5xl font-bold tracking-tighter text-white">$15</span>
                             <span className="text-sm font-medium text-muted-foreground">/ month</span>
                         </div>
+                        <CardDescription className="text-muted-foreground pt-2">For dedicated students and professionals who need to learn effectively.</CardDescription>
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
@@ -369,21 +376,26 @@ export default function LandingPage() {
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild className="w-full">
-                           <Link href="/signup">Upgrade to Pro</Link>
+                        <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                           <Link href="/signup">
+                            Go Pro
+                             <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                              <ArrowUpRight className="size-4" />
+                            </span>
+                           </Link>
                         </Button>
                      </CardFooter>
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
                   <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
-                     <CardHeader className="p-6">
+                     <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
-                        <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
                          <div className="flex items-baseline gap-1 pt-4">
-                            <span className="text-4xl font-bold tracking-tighter text-white">$29</span>
+                            <span className="text-5xl font-bold tracking-tighter text-white">$29</span>
                             <span className="text-sm font-medium text-muted-foreground">/ month</span>
                         </div>
+                        <CardDescription className="text-muted-foreground pt-2">For organizations and learning groups to collaborate.</CardDescription>
                      </CardHeader>
                      <CardContent className="flex-1 p-6 pt-0">
                         <ul className="space-y-3 text-sm text-gray-300">
@@ -394,8 +406,13 @@ export default function LandingPage() {
                         </ul>
                      </CardContent>
                      <CardFooter className="p-6">
-                        <Button asChild variant="outline" className="w-full">
-                           <Link href="/contact">Contact Sales</Link>
+                        <Button asChild className="w-full group bg-foreground text-background hover:bg-foreground/90 rounded-full" size="lg">
+                           <Link href="/contact">
+                            Contact Sales
+                             <span className="ml-2 bg-background text-foreground rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                              <ArrowUpRight className="size-4" />
+                            </span>
+                          </Link>
                         </Button>
                      </CardFooter>
                   </ShadCard>

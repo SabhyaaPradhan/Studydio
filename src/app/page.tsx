@@ -19,6 +19,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif"
 import features2 from "../public/images/Video_Ready_Link_Provided.gif"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import CountUp from "@/components/CountUp";
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -271,19 +272,19 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <FadeContent>
                 <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
-                  <h3 className="text-5xl font-bold text-white">99.99%</h3>
+                  <h3 className="text-5xl font-bold text-white"><CountUp to={99.99} duration={2.5} />%</h3>
                   <p className="text-muted-foreground mt-2">Always On, Always Reliable</p>
                 </div>
               </FadeContent>
               <FadeContent delay={200}>
                 <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
-                  <h3 className="text-5xl font-bold text-white">1M+</h3>
+                  <h3 className="text-5xl font-bold text-white"><CountUp to={1} duration={2} />M+</h3>
                   <p className="text-muted-foreground mt-2">People Powered by Siloir</p>
                 </div>
               </FadeContent>
               <FadeContent delay={400}>
                 <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
-                  <h3 className="text-5xl font-bold text-white">24/7</h3>
+                  <h3 className="text-5xl font-bold text-white"><CountUp to={24} duration={2} />/7</h3>
                   <p className="text-muted-foreground mt-2">Real Humans, Real Help</p>
                 </div>
               </FadeContent>
@@ -402,6 +403,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 

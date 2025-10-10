@@ -26,6 +26,17 @@ export const metadata: Metadata = {
   description: "Find the perfect plan for your learning needs.",
 };
 
+const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      {...props}
+    >
+      <path d="M12 2L2 12l10 10 10-10L12 2z" />
+    </svg>
+  );
+
 export default function PricingPage() {
   const plans = [
     {
@@ -143,17 +154,19 @@ export default function PricingPage() {
                   className="h-full"
                 >
                   <Card
-                    className={`flex flex-col h-full bg-card/50 backdrop-blur-sm border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 ${
+                    className={`relative flex flex-col h-full bg-card/50 backdrop-blur-sm border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 ${
                       plan.popular ? "border-primary/70" : ""
                     }`}
                   >
-                    <CardHeader className="p-6">
-                      {plan.popular && (
-                        <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                          <Star className="h-4 w-4" />
-                          Most Popular
+                   {plan.popular && (
+                      <div className="absolute top-0 right-4 -translate-y-1/2">
+                        <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
+                            <Star className="h-4 w-4" />
+                            Most Popular
                         </div>
-                      )}
+                      </div>
+                    )}
+                    <CardHeader className="p-6">
                       <CardTitle className="text-2xl font-bold text-white pt-2">
                         {plan.name}
                       </CardTitle>
@@ -173,7 +186,7 @@ export default function PricingPage() {
                       <ul className="space-y-3 text-sm text-gray-300">
                         {plan.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-3">
-                            <Check className="h-5 w-5 shrink-0 text-primary mt-0.5" />
+                            <DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" />
                             <span>{feature}</span>
                           </li>
                         ))}
@@ -254,7 +267,3 @@ export default function PricingPage() {
     </div>
   );
 }
-
-    
-
-    

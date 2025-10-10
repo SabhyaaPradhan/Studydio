@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Star } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
 import ScrollFloat from "@/components/ScrollFloat";
@@ -20,6 +20,17 @@ import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif
 import features2 from "../public/images/Video_Ready_Link_Provided.gif"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CountUp from "@/components/CountUp";
+
+const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      {...props}
+    >
+      <path d="M12 2L2 12l10 10 10-10L12 2z" />
+    </svg>
+  );
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -309,77 +320,85 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
-                  <CardHeader>
-                    <CardTitle>Free</CardTitle>
-                    <CardDescription>For casual learners to get a taste of accelerated learning.</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <div className="text-4xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> 10 study packs per month</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Basic AI generation</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> AI Tutor</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Text to notes</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Community support</li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                      <Link href="/signup">Get Started</Link>
-                    </Button>
-                  </CardFooter>
-                </ShadCard>
-              </FadeContent>
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <ShadCard className="flex flex-col border-primary shadow-lg bg-card/50 backdrop-blur-sm h-full">
-                  <CardHeader>
-                    <CardTitle>Pro</CardTitle>
-                    <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <div className="text-4xl font-bold">$15<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Everything in Basic, plus:</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Unlimited study packs</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Advanced AI Agent</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Analytics</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Youtube to notes</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> PDF, article to notes</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Spaced repetition reviews</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Priority support</li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button asChild className="w-full">
-                      <Link href="/signup">Go Pro</Link>
-                    </Button>
-                  </CardFooter>
-                </ShadCard>
-              </FadeContent>
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full">
-                  <CardHeader>
-                    <CardTitle>Team</CardTitle>
-                    <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <div className="text-4xl font-bold">Contact Us</div>
-                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Everything in Pro, plus:</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Team collaboration features</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Centralized billing</li>
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Dedicated account manager</li>
-                    </ul>
-                  </CardContent>
-                  <CardFooter>
-                    <Button asChild variant="outline" className="w-full">
-                      <Link href="/contact">Contact Sales</Link>
-                    </Button>
-                  </CardFooter>
-                </ShadCard>
-              </FadeContent>
+               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
+                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
+                     <CardHeader>
+                        <CardTitle>Free</CardTitle>
+                        <CardDescription>For casual learners to get a taste of accelerated learning.</CardDescription>
+                     </CardHeader>
+                     <CardContent className="flex-1">
+                        <div className="text-4xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+                        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> 10 study packs per month</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Basic AI generation</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> AI Tutor</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Text to notes</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Community support</li>
+                        </ul>
+                     </CardContent>
+                     <CardFooter>
+                        <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                           <Link href="/signup">Get Started</Link>
+                        </Button>
+                     </CardFooter>
+                  </ShadCard>
+               </FadeContent>
+               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
+                <div className="relative p-px rounded-lg bg-gradient-to-b from-primary/50 to-transparent">
+                  <ShadCard className="flex flex-col border-primary shadow-lg bg-card/80 backdrop-blur-sm h-full relative">
+                      <div className="absolute top-0 right-4 -translate-y-1/2">
+                        <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
+                            <Star className="h-4 w-4" />
+                            Most Popular
+                        </div>
+                      </div>
+                     <CardHeader>
+                        <CardTitle>Pro</CardTitle>
+                        <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
+                     </CardHeader>
+                     <CardContent className="flex-1">
+                        <div className="text-4xl font-bold">$15<span className="text-sm font-normal text-muted-foreground">/month</span></div>
+                        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Everything in Basic, plus:</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Unlimited study packs</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Advanced AI Agent</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Analytics</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Youtube to notes</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> PDF, article to notes</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Spaced repetition reviews</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Priority support</li>
+                        </ul>
+                     </CardContent>
+                     <CardFooter>
+                        <Button asChild className="w-full">
+                           <Link href="/signup">Go Pro</Link>
+                        </Button>
+                     </CardFooter>
+                  </ShadCard>
+                </div>
+               </FadeContent>
+               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
+                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
+                     <CardHeader>
+                        <CardTitle>Team</CardTitle>
+                        <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
+                     </CardHeader>
+                     <CardContent className="flex-1">
+                        <div className="text-4xl font-bold">Contact Us</div>
+                        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Everything in Pro, plus:</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Team collaboration features</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Centralized billing</li>
+                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Dedicated account manager</li>
+                        </ul>
+                     </CardContent>
+                     <CardFooter>
+                        <Button asChild variant="outline" className="w-full">
+                           <Link href="/contact">Contact Sales</Link>
+                        </Button>
+                     </CardFooter>
+                  </ShadCard>
+               </FadeContent>
             </div>
           </div>
         </section>
@@ -408,22 +427,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
-
-    

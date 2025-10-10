@@ -22,15 +22,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CountUp from "@/components/CountUp";
 
 const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      {...props}
-    >
-      <path d="M12 2L2 12l10 10 10-10L12 2z" />
-    </svg>
-  );
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <defs>
+      <linearGradient id="diamond-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style={{ stopColor: 'white', stopOpacity: 1 }} />
+        <stop offset="100%" style={{ stopColor: '#26CF80', stopOpacity: 1 }} />
+      </linearGradient>
+    </defs>
+    <path fill="url(#diamond-gradient)" d="M12 2L2 12l10 10 10-10L12 2z" />
+  </svg>
+);
+
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -319,7 +325,7 @@ export default function LandingPage() {
                 </ScrollReveal>
               </div>
             </div>
-            <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 mt-12">
+            <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 mt-12 px-4 md:px-6">
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
                   <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
                      <CardHeader className="p-6 text-left">
@@ -352,7 +358,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                <ShadCard className="flex flex-col shadow-lg backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl bg-gradient-to-b from-primary/20 to-black">
+                <ShadCard className="flex flex-col shadow-lg backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl bg-gradient-to-b from-green-900/40 to-black">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
                           <Sparkle className="size-6 text-primary" />

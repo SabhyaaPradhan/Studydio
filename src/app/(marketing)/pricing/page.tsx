@@ -1,6 +1,6 @@
 
 
-import { DiamondIcon, Sparkle, ArrowUpRight } from "lucide-react";
+import { Sparkle, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +26,22 @@ export const metadata: Metadata = {
   title: "Pricing - Siloir",
   description: "Find the perfect plan for your learning needs.",
 };
+
+const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <defs>
+        <linearGradient id="diamond-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style={{ stopColor: 'white', stopOpacity: 1 }} />
+          <stop offset="100%" style={{ stopColor: '#26CF80', stopOpacity: 1 }} />
+        </linearGradient>
+      </defs>
+      <path fill="url(#diamond-gradient)" d="M12 2L2 12l10 10 10-10L12 2z" />
+    </svg>
+);
 
 export default function PricingPage() {
   const plans = [
@@ -134,7 +150,7 @@ export default function PricingPage() {
 
         <section id="pricing-tiers" className="w-full py-12 md:py-24 lg:py-32">
           <div className="px-4 md:px-6">
-            <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
+            <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 px-4 md:px-6">
               {plans.map((plan, index) => (
                 <FadeContent
                   key={plan.name}
@@ -145,7 +161,7 @@ export default function PricingPage() {
                 >
                   <Card
                     className={`relative flex flex-col h-full backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl ${
-                      plan.popular ? "bg-gradient-to-b from-primary/20 to-black" : "bg-card/50"
+                      plan.popular ? "bg-gradient-to-b from-green-900/40 to-black" : "bg-card/50"
                     }`}
                   >
                    

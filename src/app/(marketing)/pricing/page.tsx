@@ -144,8 +144,8 @@ export default function PricingPage() {
                   className="h-full"
                 >
                   <Card
-                    className={`relative flex flex-col h-full bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl ${
-                      plan.popular ? "shadow-primary/10" : "border-white/10"
+                    className={`relative flex flex-col h-full backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl ${
+                      plan.popular ? "bg-gradient-to-b from-primary/20 to-black" : "bg-card/50"
                     }`}
                   >
                    

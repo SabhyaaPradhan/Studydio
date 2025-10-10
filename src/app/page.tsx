@@ -352,7 +352,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
+                <ShadCard className="flex flex-col shadow-lg backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl bg-gradient-to-b from-primary/20 to-black">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
                           <Sparkle className="size-6 text-primary" />

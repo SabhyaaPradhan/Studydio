@@ -229,16 +229,16 @@ export default function LandingPage() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <ScrollFloat tag="h1" className="text-[70px] md:text-[200px] font-blackheat text-white" scrollStart="top 80%">
-                See what our clients love
+              See what our clients love
               </ScrollFloat>
               <ScrollReveal
                 tag="div"
                 textTag="p"
-                className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
+                className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                textClassName="!text-xl !font-normal !text-muted-foreground text-center"
               >
                 Discover why teams trust Siloir to automate workflows, boost growth, and deliver standout experiences.
-              </ScrollReveal>
+                </ScrollReveal>
             </div>
           </div>
           <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
@@ -467,6 +467,7 @@ export default function LandingPage() {
     </>
   );
 }
+
 
 
 

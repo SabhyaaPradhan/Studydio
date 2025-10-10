@@ -17,6 +17,8 @@ import GradualBlur from "@/components/GradualBlur";
 import CardSwap, { Card } from '@/components/CardSwap';
 import WhyChooseUs from "@/components/WhyChooseUs";
 import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif"
+import features2 from "../public/images/Video_Ready_Link_Provided.gif"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
@@ -119,9 +121,9 @@ export default function LandingPage() {
             </div>
             <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
               <div>
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">
                   Unlock Your Learning Potential
-                </ScrollFloat>
+                </h2>
                 <ScrollReveal
                   tag="div"
                   textTag="p"
@@ -133,29 +135,28 @@ export default function LandingPage() {
               </div>
               <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
                   <div className="browser-mockup">
-                      <div className="browser-header">
-                          <div className="browser-dots">
-                              <span className="dot" style={{ background: '#f25f58' }}></span>
-                              <span className="dot" style={{ background: '#fbbe3c' }}></span>
-                              <span className="dot" style={{ background: '#34c748' }}></span>
-                          </div>
-                          <div className="browser-address-bar">
-                              siloir.app/demo
-                          </div>
-                      </div>
-                      <Image src={features1} alt="Scheduler" width={800} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
+                       <video
+                            className="w-full h-full object-cover"
+                            src="/videos/Futuristic_Learning_Video_Generation.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                        />
                   </div>
               </FadeContent>
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-              <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-                <Image src="https://picsum.photos/seed/scheduler/600/400" alt="Scheduler" width={600} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
+            <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+                  <div className="browser-mockup">
+                      <Image src={features2} alt="Scheduler" width={800} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
+                  </div>
               </FadeContent>
               <div>
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">
                   Your Personal AI Study Coach
-                </ScrollFloat>
+                </h2>
                 <ScrollReveal
                   tag="div"
                   textTag="p"
@@ -169,9 +170,9 @@ export default function LandingPage() {
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">
                   Everything You Need to Succeed
-                </ScrollFloat>
+                </h2>
                 <ScrollReveal
                   tag="div"
                   textTag="p"
@@ -210,6 +211,74 @@ export default function LandingPage() {
         </section>
 
         <WhyChooseUs />
+
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-black relative">
+            <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                    <div className="space-y-2">
+                        <ScrollFloat tag="h2" className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white" textClassName="scroll-float-text-h2">
+                           See what our clients love
+                        </ScrollFloat>
+                        <ScrollReveal
+                            tag="div"
+                            textTag="p"
+                            className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
+                            textClassName="!text-xl !font-normal !text-muted-foreground"
+                        >
+                            Discover why teams trust Siloir to automate workflows, boost growth, and deliver standout experiences.
+                        </ScrollReveal>
+                    </div>
+                </div>
+                <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
+                    <FadeContent>
+                        <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
+                            <blockquote className="text-lg text-white">"Switching to Siloir cut our manual work in half. The automation flows just work — we closed more deals in a week than the entire last year."</blockquote>
+                            <footer className="mt-4 flex items-center gap-4">
+                                <Avatar>
+                                    <AvatarImage src="https://picsum.photos/seed/alex/40/40" alt="Alex Chen" />
+                                    <AvatarFallback>AC</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-semibold text-white">Alex Chen</p>
+                                    <p className="text-sm text-muted-foreground">Operations Manager</p>
+                                </div>
+                            </footer>
+                        </ShadCard>
+                    </FadeContent>
+                     <FadeContent delay={200}>
+                        <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
+                            <blockquote className="text-lg text-white">"Finally, a tool that feels smart but stays simple. Our team collaborates faster, tracks everything, and we've grown our active users by 40%."</blockquote>
+                            <footer className="mt-4 flex items-center gap-4">
+                                <Avatar>
+                                    <AvatarImage src="https://picsum.photos/seed/priya/40/40" alt="Priya Das" />
+                                    <AvatarFallback>PD</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-semibold text-white">Priya Das</p>
+                                    <p className="text-sm text-muted-foreground">Head of Product</p>
+                                </div>
+                            </footer>
+                        </ShadCard>
+                    </FadeContent>
+                     <FadeContent delay={400}>
+                        <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
+                            <blockquote className="text-lg text-white">"I love how intuitive it is. It plugs right into our stack, keeps data secure, and helps us ship new ideas without the chaos."</blockquote>
+                            <footer className="mt-4 flex items-center gap-4">
+                                <Avatar>
+                                    <AvatarImage src="https://picsum.photos/seed/daniel/40/40" alt="Daniel Rivera" />
+                                    <AvatarFallback>DR</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-semibold text-white">Daniel Rivera</p>
+                                    <p className="text-sm text-muted-foreground">CTO</p>
+                                </div>
+                            </footer>
+                        </ShadCard>
+                    </FadeContent>
+                </div>
+            </div>
+        </section>
 
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
           <div className="container mx-auto px-4 md:px-6">
@@ -326,4 +395,5 @@ export default function LandingPage() {
     
 
     
+
 

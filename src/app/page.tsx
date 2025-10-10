@@ -30,23 +30,23 @@ export default function LandingPage() {
       <main className="relative">
         <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
           <FaultyTerminal
-            scale={0.5}
+            scale={1.5}
             gridMul={[2, 1]}
-            digitSize={2.3}
-            timeScale={0.6}
+            digitSize={1.8}
+            timeScale={0.5}
             pause={false}
             scanlineIntensity={0.5}
             glitchAmount={0.5}
             flickerAmount={0.5}
-            noiseAmp={0.6}
+            noiseAmp={1}
             chromaticAberration={0}
             dither={0}
-            curvature={0.12}
-            tint="#26CF80"
+            curvature={0.1}
+            tint="#a7ef9e"
             mouseReact={true}
             pageLoadAnimation={true}
-            brightness={1}
-            mouseStrength={0}
+            brightness={0.6}
+            mouseStrength={0.5}
           />
         </div>
         <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
@@ -403,6 +403,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 

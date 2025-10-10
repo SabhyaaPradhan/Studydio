@@ -440,7 +440,7 @@ export default function LandingPage() {
             <Orb
                 hoverIntensity={0.5}
                 rotateOnHover={true}
-                hue={240}
+                hue={173}
                 forceHoverState={true}
               />
           </div>

@@ -356,9 +356,9 @@ export default function LandingPage() {
                   </ul>
                 </CardContent>
                 <CardFooter className="p-6">
-                  <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
-                    <Link href="/signup">
-                      Start for Free
+                  <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full w-[150px]" size="lg">
+                  <Link href="/signup">
+                      Get Started
                       <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                         <ArrowUpRight className="size-4" />
                       </span>
@@ -393,9 +393,9 @@ export default function LandingPage() {
                   </ul>
                 </CardContent>
                 <CardFooter className="p-6">
-                  <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
+                  <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full w-[150px]" size="lg">
                     <Link href="/signup">
-                      Go Pro
+                      Get Started
                       <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                         <ArrowUpRight className="size-4" />
                       </span>
@@ -423,9 +423,9 @@ export default function LandingPage() {
                   </ul>
                 </CardContent>
                 <CardFooter className="p-6">
-                  <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full" size="lg">
-                    <Link href="/signup">
-                      Contact Sales
+                  <Button asChild className="w-full group bg-white text-black hover:bg-gray-200 rounded-full w-[150px]" size="lg">
+                  <Link href="/signup">
+                      Get Started
                       <span className="ml-2 bg-black text-white rounded-full p-1 group-hover:translate-x-1 transition-transform">
                         <ArrowUpRight className="size-4" />
                       </span>

@@ -100,8 +100,8 @@ export default function Footer() {
           </div>
 
           <div className="text-right w-full max-w-[80%] overflow-hidden">
-            <h1 className="font-swear text-[15vw] md:text-[10vw] lg:text-[15rem] leading-none text-white italic pr-5" style={{textShadow: '0 0 10px rgba(255,255,150,0.5), 0 0 20px rgba(255,255,150,0.5)'}}>
-              SILOIR
+            <h1 className="font-blackheat text-[10rem] md:text-[14rem] lg:text-[20rem] leading-none text-white md:pr-14 lg:pr-14" style={{textShadow: '0 0 10px rgba(255,255,150,0.5), 0 0 20px rgba(255,255,150,0.5)'}}>
+              Siloir
             </h1>
           </div>
         </div>

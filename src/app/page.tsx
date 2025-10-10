@@ -44,7 +44,6 @@ export default function LandingPage() {
             curvature={0.1}
             tint="#26CF80"
             mouseReact={true}
-            pageLoadAnimation={true}
             brightness={0.6}
             mouseStrength={0.5}
           />
@@ -319,8 +318,10 @@ export default function LandingPage() {
                   <CardContent className="flex-1">
                     <div className="text-4xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
                     <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> 3 study packs per month</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> 10 study packs per month</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Basic AI generation</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> AI Tutor</li>
+                      <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Text to notes</li>
                       <li className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" /> Community support</li>
                     </ul>
                   </CardContent>
@@ -416,6 +417,8 @@ export default function LandingPage() {
 
 
 
+
+    
 
     
 

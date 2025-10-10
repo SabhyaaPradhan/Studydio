@@ -34,9 +34,10 @@ export default function PricingPage() {
       priceFrequency: "/ month",
       description: "For casual learners to get a taste of accelerated learning.",
       features: [
-        "Upload 3 files per month",
-        "Generate summaries and flashcards",
-        "Basic quizzes",
+        "10 study packs per month",
+        "Basic AI generation",
+        "AI Tutor",
+        "Text to notes",
         "Community support",
       ],
       buttonText: "Start for Free",
@@ -250,5 +251,7 @@ export default function PricingPage() {
     </div>
   );
 }
+
+    
 
     

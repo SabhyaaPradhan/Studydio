@@ -277,7 +277,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-transparent to-black">
+        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <FadeContent>
@@ -320,71 +320,80 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
-               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
+               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
                   <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
-                     <CardHeader>
-                        <CardTitle>Free</CardTitle>
-                        <CardDescription>For casual learners to get a taste of accelerated learning.</CardDescription>
+                     <CardHeader className="p-6">
+                        <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
+                        <CardDescription className="text-muted-foreground">For casual learners to get a taste of accelerated learning.</CardDescription>
+                        <div className="flex items-baseline gap-1 pt-4">
+                            <span className="text-4xl font-bold tracking-tighter text-white">$0</span>
+                            <span className="text-sm font-medium text-muted-foreground">/ month</span>
+                        </div>
                      </CardHeader>
-                     <CardContent className="flex-1">
-                        <div className="text-4xl font-bold">$0<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> 10 study packs per month</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Basic AI generation</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> AI Tutor</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Text to notes</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Community support</li>
+                     <CardContent className="flex-1 p-6 pt-0">
+                        <ul className="space-y-3 text-sm text-gray-300">
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>10 study packs per month</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Basic AI generation</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>AI Tutor</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Text to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Community support</span></li>
                         </ul>
                      </CardContent>
-                     <CardFooter>
-                        <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                           <Link href="/signup">Get Started</Link>
+                     <CardFooter className="p-6">
+                        <Button asChild className="w-full" variant="outline">
+                           <Link href="/signup">Start for Free</Link>
                         </Button>
                      </CardFooter>
                   </ShadCard>
                </FadeContent>
-               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
-                  <ShadCard className="flex flex-col border-primary shadow-lg bg-card/80 backdrop-blur-sm h-full relative">
-                     <CardHeader>
-                        <CardTitle>Pro</CardTitle>
+               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+                  <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative">
+                     <CardHeader className="p-6">
+                        <CardTitle className="text-2xl font-bold text-white pt-2">Pro</CardTitle>
                         <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>
+                         <div className="flex items-baseline gap-1 pt-4">
+                            <span className="text-4xl font-bold tracking-tighter text-white">$15</span>
+                            <span className="text-sm font-medium text-muted-foreground">/ month</span>
+                        </div>
                      </CardHeader>
-                     <CardContent className="flex-1">
-                        <div className="text-4xl font-bold">$15<span className="text-sm font-normal text-muted-foreground">/month</span></div>
-                        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Everything in Basic, plus:</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Unlimited study packs</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Advanced AI Agent</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Analytics</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Youtube to notes</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> PDF, article to notes</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Spaced repetition reviews</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Priority support</li>
+                     <CardContent className="flex-1 p-6 pt-0">
+                        <ul className="space-y-3 text-sm text-gray-300">
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Basic, plus:</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Unlimited study packs</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Advanced AI Agent</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Analytics</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Youtube to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>PDF, article to notes</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Spaced repetition reviews</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Priority support</span></li>
                         </ul>
                      </CardContent>
-                     <CardFooter>
+                     <CardFooter className="p-6">
                         <Button asChild className="w-full">
-                           <Link href="/signup">Go Pro</Link>
+                           <Link href="/signup">Upgrade to Pro</Link>
                         </Button>
                      </CardFooter>
                   </ShadCard>
                </FadeContent>
-               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
+               <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
                   <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10">
-                     <CardHeader>
-                        <CardTitle>Team</CardTitle>
+                     <CardHeader className="p-6">
+                        <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
                         <CardDescription>For organizations and learning groups to collaborate.</CardDescription>
+                         <div className="flex items-baseline gap-1 pt-4">
+                            <span className="text-4xl font-bold tracking-tighter text-white">$29</span>
+                            <span className="text-sm font-medium text-muted-foreground">/ month</span>
+                        </div>
                      </CardHeader>
-                     <CardContent className="flex-1">
-                        <div className="text-4xl font-bold">Contact Us</div>
-                        <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Everything in Pro, plus:</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Team collaboration features</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Centralized billing</li>
-                           <li className="flex items-center gap-2"><DiamondIcon className="h-4 w-4 text-primary" /> Dedicated account manager</li>
+                     <CardContent className="flex-1 p-6 pt-0">
+                        <ul className="space-y-3 text-sm text-gray-300">
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Everything in Pro</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Team collaboration features</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Shared study sets</span></li>
+                           <li className="flex items-start gap-3"><DiamondIcon className="h-5 w-5 shrink-0 text-primary/80 mt-0.5" /> <span>Student analytics dashboard</span></li>
                         </ul>
                      </CardContent>
-                     <CardFooter>
+                     <CardFooter className="p-6">
                         <Button asChild variant="outline" className="w-full">
                            <Link href="/contact">Contact Sales</Link>
                         </Button>

@@ -155,7 +155,7 @@ export default function PricingPage() {
                 >
                   <Card
                     className={`relative flex flex-col h-full bg-card/50 backdrop-blur-sm border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 ${
-                      plan.popular ? "border-primary/70" : ""
+                      plan.popular ? "" : ""
                     }`}
                   >
                    

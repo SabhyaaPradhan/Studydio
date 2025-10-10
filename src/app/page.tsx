@@ -53,7 +53,7 @@ export default function LandingPage() {
             chromaticAberration={0}
             dither={0}
             curvature={0.1}
-            tint="#27d624"
+            tint="#26CF80"
             mouseReact={true}
             mouseStrength={0.5}
             brightness={0.6}
@@ -321,7 +321,7 @@ export default function LandingPage() {
             </div>
             <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 mt-12">
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10">
+                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
                         <div className="flex items-baseline gap-1 pt-4">
@@ -352,7 +352,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10">
+                <ShadCard className="flex flex-col shadow-lg bg-card/80 backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
                           <Sparkle className="size-6 text-primary" />
@@ -389,7 +389,7 @@ export default function LandingPage() {
                   </ShadCard>
                </FadeContent>
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
-                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10">
+                  <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
                      <CardHeader className="p-6 text-left">
                         <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
                          <div className="flex items-baseline gap-1 pt-4">

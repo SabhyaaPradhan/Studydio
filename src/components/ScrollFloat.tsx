@@ -1,3 +1,4 @@
+
 'use client';
 import React, { useMemo, useRef } from 'react';
 import { gsap } from 'gsap';
@@ -26,7 +27,7 @@ const ScrollFloat = ({
     const text = typeof children === 'string' ? children : '';
     return text.split('').map((char, index) => (
       <span className="char" key={index} style={{ display: 'inline-block' }}>
-        {char === ' ' ? '\u00A0' : char}
+        {char === ' ' ? ' ' : char}
       </span>
     ));
   }, [children]);

@@ -277,7 +277,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
+        <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-transparent to-black">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <FadeContent>
@@ -302,7 +302,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-transparent">
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-black">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -346,12 +346,7 @@ export default function LandingPage() {
                <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0}>
                 <div className="relative p-px rounded-lg bg-gradient-to-b from-primary/50 to-transparent">
                   <ShadCard className="flex flex-col border-primary shadow-lg bg-card/80 backdrop-blur-sm h-full relative">
-                      <div className="absolute top-0 right-4 -translate-y-1/2">
-                        <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
-                            <Star className="h-4 w-4" />
-                            Most Popular
-                        </div>
-                      </div>
+                      
                      <CardHeader>
                         <CardTitle>Pro</CardTitle>
                         <CardDescription>For dedicated students and professionals who need to learn effectively.</CardDescription>

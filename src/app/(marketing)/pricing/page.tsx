@@ -158,14 +158,7 @@ export default function PricingPage() {
                       plan.popular ? "border-primary/70" : ""
                     }`}
                   >
-                   {plan.popular && (
-                      <div className="absolute top-0 right-4 -translate-y-1/2">
-                        <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
-                            <Star className="h-4 w-4" />
-                            Most Popular
-                        </div>
-                      </div>
-                    )}
+                   
                     <CardHeader className="p-6">
                       <CardTitle className="text-2xl font-bold text-white pt-2">
                         {plan.name}

@@ -8,20 +8,21 @@ import { Card as ShadCard, CardContent, CardDescription, CardFooter, CardHeader,
 import { ArrowUpRight, Sparkle, Linkedin, Twitter, Facebook } from "lucide-react";
 import LandingHeader from "@/components/landing-header";
 import FaultyTerminal from "@/components/FaultyTerminal";
-import ScrollFloat from "@/components/ScrollFloat";
-import ScrollReveal from "@/components/ScrollReveal";
 import Shuffle from "@/components/Shuffle";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import dashboard_img from "../public/images/dashboard.png";
-import FadeContent from '@/components/FadeContent';
 import CardSwap, { Card } from '@/components/CardSwap';
-import WhyChooseUs from "@/components/WhyChooseUs";
 import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif"
 import features2 from "../public/images/Video_Ready_Link_Provided.gif"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CountUp from "@/components/CountUp";
 import Orb from "@/components/Orb";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+
+const WhyChooseUs = dynamic(() => import('@/components/WhyChooseUs'), { ssr: false });
+
 
 const DiamondIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -49,13 +50,19 @@ const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   return (
     <>
       <LandingHeader />
-      <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
+      {isClient && <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
         <FaultyTerminal
-          scale={3}
+          scale={1.8}
           gridMul={[2, 1]}
           digitSize={1.8}
           timeScale={0.5}
@@ -72,7 +79,7 @@ export default function LandingPage() {
           mouseStrength={0.5}
           brightness={0.6}
         />
-      </div>
+      </div>}
       <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
@@ -97,17 +104,14 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white" scrollStart="top 80%">
+              <h1 className="text-[100px] md:text-[300px] font-blackheat text-white">
                 How It Works
-              </ScrollFloat>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
-                className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
-              >
+              </h1>
+              <div className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0">
+                <p className="!text-xl !font-normal !text-muted-foreground">
                 It's as simple as 1, 2, 3. Paste your content, generate your materials, and start studying smarter.
-              </ScrollReveal>
+                </p>
+              </div>
             </div>
           </div>
           <div className="max-w-6xl mx-auto mt-12 relative">
@@ -133,49 +137,41 @@ export default function LandingPage() {
       <section id="features" className="w-full py-12 md:py-12 lg:py-12 bg-black overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white">
+            <h1 className="text-[100px] md:text-[300px] font-blackheat text-white">
               Features
-            </ScrollFloat>
+            </h1>
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
             <div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">
                 Unlock Your Learning Potential
               </h2>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
-                className="max-w-2xl mt-4 !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
-              >
+              <div className="max-w-2xl mt-4 !m-0">
+                <p className="!text-xl !font-normal !text-muted-foreground">
                 Siloir transforms your study materials into powerful, interactive learning tools. Discover how our features can help you master any subject.
-              </ScrollReveal>
-            </div>
-            <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
-              <div className="browser-mockup">
-                <Image src={features1} alt="Scheduler" width={800} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
+                </p>
               </div>
-            </FadeContent>
+            </div>
+            <div>
+              <div className="browser-mockup">
+              </div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-            <FadeContent blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+            <div>
               <div className="browser-mockup">
-                <Image src={features2} alt="Scheduler" width={800} height={400} className="rounded-lg" data-ai-hint="calendar schedule" />
               </div>
-            </FadeContent>
+            </div>
             <div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">
                 Your Personal AI Study Coach
               </h2>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
-                className="!m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
-              >
+              <div className="!m-0">
+                <p className="!text-xl !font-normal !text-muted-foreground">
                 Our AI chatbot acts as your personal tutor, guiding you on when to review using spaced repetition to strengthen your memory and make every study session more effective.
-              </ScrollReveal>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -184,14 +180,11 @@ export default function LandingPage() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl font-headline text-white">
                 Everything You Need to Succeed
               </h2>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
-                className="!m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
-              >
+              <div className="!m-0">
+                <p className="!text-xl !font-normal !text-muted-foreground">
                 Our AI-powered tools are designed to help you learn faster and more effectively. From interactive flashcards that reinforce memory to auto-generated quizzes that test your knowledge, we provide a comprehensive suite of study materials tailored to your specific content. Get concise summaries of long articles to grasp key concepts in minutes.
-              </ScrollReveal>
+                </p>
+              </div>
             </div>
             <div className="relative h-[200px] md:h-[600px]">
               <CardSwap
@@ -221,7 +214,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <WhyChooseUs />
+      {isClient && <WhyChooseUs />}
 
       <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-black via-stone-950 to-transparent relative">
         <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
@@ -229,21 +222,18 @@ export default function LandingPage() {
 
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <ScrollFloat tag="h1" className="text-[100px] md:text-[160px] font-blackheat text-white" scrollStart="top 80%">
+              <h1 className="text-[100px] md:text-[160px] font-blackheat text-white">
                 See what our clients love
-              </ScrollFloat>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
-                className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
-              >
+              </h1>
+              <div className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0 text-center">
+                <p className="!text-xl !font-normal !text-muted-foreground">
                 Discover why teams trust Siloir to automate workflows, boost growth, and deliver standout experiences.
-              </ScrollReveal>
+                </p>
+              </div>
             </div>
           </div>
           <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
-            <FadeContent>
+            <div>
               <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
                 <blockquote className="text-lg text-white">"Siloir has been a game-changer for my exams. I used to spend hours making flashcards, but now I can generate a full study set from a lecture video in minutes. My grades have never been better."</blockquote>
                 <footer className="mt-4 flex items-center gap-4">
@@ -257,8 +247,8 @@ export default function LandingPage() {
                   </div>
                 </footer>
               </ShadCard>
-            </FadeContent>
-            <FadeContent delay={200}>
+            </div>
+            <div>
               <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
                 <blockquote className="text-lg text-white">"The AI quizzes are my favorite feature. They find the exact gaps in my knowledge and help me focus on what I actually need to learn. It’s like having a personal tutor."</blockquote>
                 <footer className="mt-4 flex items-center gap-4">
@@ -272,8 +262,8 @@ export default function LandingPage() {
                   </div>
                 </footer>
               </ShadCard>
-            </FadeContent>
-            <FadeContent delay={400}>
+            </div>
+            <div>
               <ShadCard className="bg-card/50 backdrop-blur-sm p-6 h-full flex flex-col justify-between">
                 <blockquote className="text-lg text-white">"As a med student, my study time is precious. Siloir's smart scheduler tells me exactly what to review and when, so I'm always prepared. I can't imagine studying without it."</blockquote>
                 <footer className="mt-4 flex items-center gap-4">
@@ -287,7 +277,7 @@ export default function LandingPage() {
                   </div>
                 </footer>
               </ShadCard>
-            </FadeContent>
+            </div>
           </div>
         </div>
       </section>
@@ -295,24 +285,24 @@ export default function LandingPage() {
       <section id="stats" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-transparent to-black">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <FadeContent>
+            <div>
               <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
                 <h3 className="text-5xl font-bold text-white"><CountUp to={99.99} duration={2.5} />%</h3>
                 <p className="text-muted-foreground mt-2">Always On, Always Reliable</p>
               </div>
-            </FadeContent>
-            <FadeContent delay={200}>
+            </div>
+            <div>
               <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
                 <h3 className="text-5xl font-bold text-white"><CountUp to={1} duration={2} />M+</h3>
                 <p className="text-muted-foreground mt-2">People Powered by Siloir</p>
               </div>
-            </FadeContent>
-            <FadeContent delay={400}>
+            </div>
+            <div>
               <div className="p-8 bg-card/50 backdrop-blur-sm rounded-lg">
                 <h3 className="text-5xl font-bold text-white"><CountUp to={24} duration={2} />/7</h3>
                 <p className="text-muted-foreground mt-2">Real Humans, Real Help</p>
               </div>
-            </FadeContent>
+            </div>
           </div>
         </div>
       </section>
@@ -322,21 +312,18 @@ export default function LandingPage() {
 
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <ScrollFloat tag="h1" className="text-[100px] md:text-[160px] font-blackheat text-white" scrollStart="top 80%">
+              <h1 className="text-[100px] md:text-[160px] font-blackheat text-white">
                 Simple, transparent pricing
-              </ScrollFloat>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
-                className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
-              >
-                Choose the plan that's right for you. Get started for free.        
-              </ScrollReveal>
+              </h1>
+              <div className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0">
+                <p className="!text-xl !font-normal !text-muted-foreground">
+                  Choose the plan that's right for you. Get started for free.        
+                </p>
+              </div>
             </div>
           </div>
           <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 mt-12 px-4 md:px-6">
-            <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+            <div className="h-full">
               <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
                 <CardHeader className="p-6 text-left">
                   <CardTitle className="text-2xl font-bold text-white pt-2">Free</CardTitle>
@@ -366,8 +353,8 @@ export default function LandingPage() {
                   </Button>
                 </CardFooter>
               </ShadCard>
-            </FadeContent>
-            <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+            </div>
+            <div className="h-full">
               <ShadCard className="flex flex-col shadow-lg backdrop-blur-sm h-full relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl bg-gradient-to-b from-green-900/40 to-black">
                 <CardHeader className="p-6 text-left">
                   <CardTitle className="text-2xl font-bold text-white pt-2 flex items-center gap-2">
@@ -403,8 +390,8 @@ export default function LandingPage() {
                   </Button>
                 </CardFooter>
               </ShadCard>
-            </FadeContent>
-            <FadeContent blur={false} duration={1000} easing="ease-out" initialOpacity={0} className="h-full">
+            </div>
+            <div className="h-full">
               <ShadCard className="flex flex-col bg-card/50 backdrop-blur-sm h-full border-white/10 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 rounded-2xl">
                 <CardHeader className="p-6 text-left">
                   <CardTitle className="text-2xl font-bold text-white pt-2">Team</CardTitle>
@@ -433,20 +420,20 @@ export default function LandingPage() {
                   </Button>
                 </CardFooter>
               </ShadCard>
-            </FadeContent>
+            </div>
           </div>
         </div>
       </section>
 
       <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative overflow-hidden">
-        <div className="absolute inset-0 w-full h-full z-0">
+        {isClient && <div className="absolute inset-0 w-full h-full z-0">
           <Orb
             hoverIntensity={0.5}
             rotateOnHover={true}
             hue={20}
             forceHoverState={true}
           />
-        </div>
+        </div>}
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center justify-center text-center space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mix-blend-difference">Launch with Siloir.</h2>
@@ -469,10 +456,3 @@ export default function LandingPage() {
     </>
   );
 }
-
-
-
-
-
-
-

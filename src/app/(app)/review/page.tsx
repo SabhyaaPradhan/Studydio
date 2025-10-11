@@ -8,7 +8,6 @@ import { Flashcard as FlashcardComponent } from "@/components/flashcard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Flame, Smile, Meh, Frown, Loader2 } from 'lucide-react';
-import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack, Flashcard as FlashcardType, ReviewSession } from '@/lib/types';
 import { smartScheduler } from '@/ai/flows/smart-scheduler';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
@@ -250,7 +249,7 @@ export default function ReviewPage() {
     <div className="container mx-auto max-w-3xl">
         <div className="flex justify-between items-center mb-6">
             <div>
-                <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">Daily Review</ScrollFloat>
+                <h1 className="text-3xl font-bold">Daily Review</h1>
                 <p className="text-muted-foreground">Strengthen your memory with spaced repetition.</p>
             </div>
             <div className="flex items-center gap-2 text-orange-500 font-bold text-lg">

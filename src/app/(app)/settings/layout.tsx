@@ -1,7 +1,6 @@
 
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
-import ScrollFloat from "@/components/ScrollFloat";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -19,7 +18,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
     return (
         <div className="container mx-auto max-w-5xl">
              <div>
-                <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">Settings</ScrollFloat>
+                <h1 className="text-3xl font-bold">Settings</h1>
                 <p className="text-muted-foreground">Manage your account settings, plan, and notifications.</p>
             </div>
 

@@ -6,9 +6,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Zap, Heart, CheckCircle, Globe } from "lucide-react";
-import ScrollFloat from "@/components/ScrollFloat";
-import ScrollReveal from "@/components/ScrollReveal";
-import FadeContent from "@/components/FadeContent";
 import { useInView } from "react-intersection-observer";
 import { Metadata } from "next";
 
@@ -38,20 +35,18 @@ export default function AboutPage() {
         >
           <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-b from-black via-stone-950/80 to-stone-950" />
           <div className="container mx-auto px-4 md:px-6">
-            <ScrollFloat
-              tag="h1"
+            <h1
               className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline"
             >
               Our mission is to make learning effortless.
-            </ScrollFloat>
-            <ScrollReveal
-              tag="div"
-              textTag="p"
+            </h1>
+            <div
               className="max-w-[700px] mx-auto mt-6 md:text-xl/relaxed !m-0"
-              textClassName="!text-lg !font-normal !text-muted-foreground"
             >
-              Siloir was built to help students and creators learn faster, understand deeper, and make studying smarter — not harder.
-            </ScrollReveal>
+              <p className="!text-lg !font-normal !text-muted-foreground">
+                Siloir was built to help students and creators learn faster, understand deeper, and make studying smarter — not harder.
+              </p>
+            </div>
              <div className="mt-8">
                 <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 transition-transform hover:scale-105">
                     <Link href="/signup">Start Learning with Siloir</Link>
@@ -63,7 +58,7 @@ export default function AboutPage() {
         <section id="the-story" className="w-full py-16 md:py-24 lg:py-32">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <FadeContent>
+                    <div>
                         <Image
                             src="https://picsum.photos/seed/about-story/800/600"
                             alt="Siloir UI Mockup"
@@ -72,15 +67,15 @@ export default function AboutPage() {
                             className="rounded-xl shadow-2xl shadow-primary/10"
                             data-ai-hint="abstract ui"
                         />
-                    </FadeContent>
-                    <FadeContent delay={200}>
+                    </div>
+                    <div>
                         <div className="space-y-4">
                             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">It started as a simple idea.</h2>
                             <p className="text-muted-foreground md:text-lg">
                                 Turning scattered content into focused learning. Today, Siloir helps thousands of learners transform videos, PDFs, and articles into powerful study material — instantly. We believe that education should be accessible and that technology can bridge the gap between information and understanding.
                             </p>
                         </div>
-                    </FadeContent>
+                    </div>
                 </div>
             </div>
         </section>
@@ -95,13 +90,13 @@ export default function AboutPage() {
                         { icon: <CheckCircle className="size-8 text-primary" />, title: "Clarity", description: "Understand deeply, don't just memorize." },
                         { icon: <Globe className="size-8 text-primary" />, title: "Accessibility", description: "Knowledge for everyone, everywhere." },
                     ].map((value, index) => (
-                         <FadeContent key={value.title} delay={index * 150}>
+                         <div key={value.title}>
                             <Card className="bg-card/50 backdrop-blur-sm border-white/10 h-full p-6 text-left transition-all duration-300 hover:border-primary/50 hover:-translate-y-2">
                                 <div className="mb-4">{value.icon}</div>
                                 <h3 className="text-xl font-bold mb-2">{value.title}</h3>
                                 <p className="text-muted-foreground">{value.description}</p>
                             </Card>
-                        </FadeContent>
+                        </div>
                     ))}
                 </div>
             </div>
@@ -116,7 +111,7 @@ export default function AboutPage() {
                         { value: 99.9, label: "Uptime", suffix: "%" },
                         { value: 2000000, label: "Minutes Processed", suffix: "+" },
                     ].map((stat, index) => (
-                        <FadeContent key={stat.label} delay={index * 150}>
+                        <div key={stat.label}>
                             <div className="p-6 rounded-lg">
                                 <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary flex items-center justify-center">
                                     {statsInView ? <StaticNumber n={stat.value} /> : '0'}
@@ -124,7 +119,7 @@ export default function AboutPage() {
                                 </div>
                                 <p className="text-sm text-muted-foreground mt-2">{stat.label}</p>
                             </div>
-                        </FadeContent>
+                        </div>
                     ))}
                 </div>
             </div>

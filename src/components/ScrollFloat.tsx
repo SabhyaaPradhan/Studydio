@@ -31,51 +31,12 @@ const ScrollFloat = ({
       </span>
     ));
   }, [children]);
-
-  useGSAP(
-    () => {
-      const el = containerRef.current;
-      if (!el) return;
-
-      const charElements = el.querySelectorAll('.char');
-      if (charElements.length === 0) return;
-
-      gsap.fromTo(
-        charElements,
-        {
-          willChange: 'opacity, transform',
-          opacity: 0,
-          yPercent: 120,
-          scaleY: 2.3,
-          scaleX: 0.7,
-          transformOrigin: '50% 0%'
-        },
-        {
-          duration: animationDuration,
-          ease: ease,
-          opacity: 1,
-          yPercent: 0,
-          scaleY: 1,
-          scaleX: 1,
-          stagger: stagger,
-          scrollTrigger: {
-            trigger: el,
-            scroller: scrollContainerRef?.current || window,
-            start: scrollStart,
-            toggleActions: "play none none none",
-            once: true,
-          }
-        }
-      );
-    },
-    { scope: containerRef, dependencies: [children] }
-  );
   
   const Tag = tag;
 
   return (
     <Tag ref={containerRef} className={`scroll-float ${className}`}>
-      <span className={`scroll-float-text ${textClassName}`}>{splitText}</span>
+      <span className={`scroll-float-text ${textClassName}`}>{children}</span>
     </Tag>
   );
 };

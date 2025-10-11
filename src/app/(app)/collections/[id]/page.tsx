@@ -6,7 +6,6 @@ import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from '@
 import { collection, doc, query, where } from 'firebase/firestore';
 import type { Subject, StudyPack } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import ScrollFloat from '@/components/ScrollFloat';
 import { StudyPackCard } from '@/components/study-pack-card';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -65,9 +64,9 @@ export default function CollectionDetailPage() {
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Collections
       </Button>
-      <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">
+      <h1 className="text-3xl font-bold">
         {subject.title}
-      </ScrollFloat>
+      </h1>
       <p className="text-muted-foreground mt-1 mb-8">{subject.description}</p>
       
       <h2 className="text-2xl font-bold mb-6">Study Packs in this Collection</h2>

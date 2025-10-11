@@ -4,8 +4,6 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import './MagicBento.css';
-import ScrollFloat from './ScrollFloat';
-import ScrollReveal from './ScrollReveal';
 import Script from 'next/script';
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -484,17 +482,16 @@ const WhyChooseUs = ({
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <ScrollFloat tag="h1" className="text-[100px] md:text-[300px] font-blackheat text-white" scrollStart="top 80%">
+              <h1 className="text-[100px] md:text-[300px] font-blackheat text-white">
               Why Choose Us
-              </ScrollFloat>
-              <ScrollReveal
-                tag="div"
-                textTag="p"
+              </h1>
+              <div
                 className="max-w-[900px] mx-auto md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed !m-0"
-                textClassName="!text-xl !font-normal !text-muted-foreground"
               >
+                <p className="!text-xl !font-normal !text-muted-foreground">
                 AI that adapts to the way you learn — faster, smarter, and personalized.
-                </ScrollReveal>
+                </p>
+                </div>
             </div>
           </div>
           {enableSpotlight && (
@@ -672,8 +669,3 @@ const WhyChooseUs = ({
 };
 
 export default WhyChooseUs;
-
-
-
-
-    

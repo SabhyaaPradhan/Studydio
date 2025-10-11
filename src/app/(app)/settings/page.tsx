@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
-import ScrollFloat from "@/components/ScrollFloat";
 import { doc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
@@ -47,7 +46,7 @@ export default function SettingsPage() {
   return (
     <div className="container mx-auto space-y-8 max-w-3xl">
       <div>
-        <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">Settings</ScrollFloat>
+        <h1 className="text-3xl font-bold">Settings</h1>
         <p className="text-muted-foreground">Manage your account settings, plan, and notifications.</p>
       </div>
 

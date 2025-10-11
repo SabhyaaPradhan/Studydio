@@ -10,7 +10,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, CheckCircle, XCircle, FileText, Bot, BookOpen, MessageSquare, Send, User as UserIcon, Loader2 } from 'lucide-react';
-import ScrollFloat from '@/components/ScrollFloat';
 import type { StudyPack } from '@/lib/types';
 import { chatWithContent } from '@/ai/flows/chat-with-content';
 import { Input } from '@/components/ui/input';
@@ -95,7 +94,7 @@ export default function StudyPackClientPage({ id, initialStudyPack }: { id: stri
   
   return (
     <div className="container mx-auto">
-        <ScrollFloat tag="h1" className="text-3xl font-bold mb-1" textClassName="scroll-float-text-h1">{studyPack.title}</ScrollFloat>
+        <h1 className="text-3xl font-bold mb-1">{studyPack.title}</h1>
         <p className="text-muted-foreground mb-6">Let's get studying. You've got this!</p>
 
       <Tabs defaultValue="flashcards" className="w-full">

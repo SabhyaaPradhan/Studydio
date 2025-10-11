@@ -17,9 +17,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import ScrollFloat from "@/components/ScrollFloat";
-import ScrollReveal from "@/components/ScrollReveal";
-import FadeContent from "@/components/FadeContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -130,21 +127,19 @@ export default function PricingPage() {
         >
           <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-b from-black via-stone-950/80 to-stone-950" />
           <div className="container mx-auto px-4 md:px-6">
-            <ScrollFloat
-              tag="h1"
+            <h1
               className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline"
             >
               Find the Perfect Plan
-            </ScrollFloat>
-            <ScrollReveal
-              tag="div"
-              textTag="p"
+            </h1>
+            <div
               className="max-w-[700px] mx-auto mt-4 md:text-xl/relaxed !m-0"
-              textClassName="!text-xl !font-normal !text-muted-foreground"
             >
-              Whether you’re a student, educator, or lifelong learner — Siloir
-              has a plan for you.
-            </ScrollReveal>
+              <p className="!text-xl !font-normal !text-muted-foreground">
+                Whether you’re a student, educator, or lifelong learner — Siloir
+                has a plan for you.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -152,11 +147,8 @@ export default function PricingPage() {
           <div className="px-4 md:px-6">
             <div className="grid items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 px-4 md:px-6">
               {plans.map((plan, index) => (
-                <FadeContent
+                <div
                   key={plan.name}
-                  delay={index * 200}
-                  duration={800}
-                  initialOpacity={0}
                   className="h-full"
                 >
                   <Card
@@ -203,7 +195,7 @@ export default function PricingPage() {
                         </Button>
                     </CardFooter>
                   </Card>
-                </FadeContent>
+                </div>
               ))}
             </div>
           </div>
@@ -218,7 +210,7 @@ export default function PricingPage() {
                 </div>
                 <Accordion type="single" collapsible className="w-full">
                     {faqs.map((faq, index) => (
-                    <FadeContent key={index} delay={index * 150} duration={500} initialOpacity={0}>
+                    <div key={index}>
                         <AccordionItem value={`item-${index+1}`} className="border-b border-white/10">
                             <AccordionTrigger className="text-lg font-medium text-white hover:no-underline">
                                 {faq.question}
@@ -227,7 +219,7 @@ export default function PricingPage() {
                                 {faq.answer}
                             </AccordionContent>
                         </AccordionItem>
-                    </FadeContent>
+                    </div>
                     ))}
                 </Accordion>
             </div>
@@ -235,7 +227,7 @@ export default function PricingPage() {
 
         <section id="cta" className="w-full py-20 md:py-28">
             <div className="container mx-auto px-4 md:px-6">
-                <FadeContent duration={1000} initialOpacity={0}>
+                <div>
                     <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gray-900/50 p-12 text-center shadow-2xl shadow-primary/10">
                          <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
                         <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
@@ -250,7 +242,7 @@ export default function PricingPage() {
                             </Button>
                         </div>
                     </div>
-                </FadeContent>
+                </div>
             </div>
         </section>
       </main>

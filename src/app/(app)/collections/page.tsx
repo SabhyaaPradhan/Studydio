@@ -4,7 +4,6 @@
 import { BookCopy, PlusCircle, Trash2, Edit, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import ScrollFloat from "@/components/ScrollFloat";
 import {
   Dialog,
   DialogContent,
@@ -226,9 +225,9 @@ export default function CollectionsPage() {
     <div className="container mx-auto">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <ScrollFloat tag="h1" className="text-3xl font-bold" textClassName="scroll-float-text-h1">
+          <h1 className="text-3xl font-bold">
             My Collections
-          </ScrollFloat>
+          </h1>
           <p className="text-muted-foreground">
             Group your study packs into subjects or courses.
           </p>

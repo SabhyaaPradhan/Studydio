@@ -206,7 +206,7 @@ export default function LandingPage() {
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
+                    <h3 className="text-2xl font-bold mb-2">Flashcard</h3>
                     <p>Generate interactive flashcards from any content.</p>
                   </div>
                   <Image src={card1} alt="Flashcards" width={80} height={80} className="rounded-lg" data-ai-hint="flashcard illustration" />

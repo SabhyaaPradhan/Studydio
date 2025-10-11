@@ -13,8 +13,11 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import dashboard_img from "../public/images/dashboard.png";
 import CardSwap, { Card } from '@/components/CardSwap';
-import features1 from "../public/images/Futuristic_Learning_Video_Generation.gif"
-import features2 from "../public/images/Video_Ready_Link_Provided.gif"
+import features1 from "../public/images/features1.png"
+import features2 from "../public/images/features2.png"
+import card1 from "../public/images/card1.png"
+import card2 from "../public/images/card2.png"
+import card3 from "../public/images/card3.png"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CountUp from "@/components/CountUp";
 import Orb from "@/components/Orb";
@@ -153,7 +156,9 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div className="browser-mockup">
+              <div className="browser-mockup w-30px">
+              <Image src={features1} alt="Scheduler" className="w-full rounded-lg" data-ai-hint="calendar schedule" />
+
               </div>
             </div>
           </div>
@@ -161,6 +166,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
             <div>
               <div className="browser-mockup">
+              <Image src={features2} alt="Scheduler" className="w-full rounded-lg" data-ai-hint="calendar schedule" />
               </div>
             </div>
             <div>
@@ -194,19 +200,31 @@ export default function LandingPage() {
                 pauseOnHover={false}
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-4">Flashcards</h3>
-                  <p className="mt-4">Generate interactive flashcards from any content.</p>
-                  <Image src="https://picsum.photos/seed/flashcard/400/200" alt="Flashcards" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                        <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
+                        <p className="text-sm">Generate interactive flashcards from any content.</p>
+                    </div>
+                    <Image src={card1} alt="Flashcards" width={120} height={120} className="rounded-lg object-contain" data-ai-hint="flashcard illustration" />
+                  </div>
                 </Card>
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-4">Quizzes</h3>
-                  <p className="mt-4">Test your knowledge with auto-generated quizzes.</p>
-                  <Image src="https://picsum.photos/seed/quiz/400/200" alt="Quizzes" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
+                   <div className="flex items-center gap-4">
+                        <div className="flex-1">
+                            <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
+                            <p className="text-sm">Test your knowledge with auto-generated quizzes.</p>
+                        </div>
+                        <Image src={card2} alt="Quizzes" width={120} height={120} className="rounded-lg object-contain" data-ai-hint="quiz illustration" />
+                    </div>
                 </Card>
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-4">Summaries</h3>
-                  <p className="mt-4">Get concise AI-powered summaries of long articles.</p>
-                  <Image src="https://picsum.photos/seed/summary/400/200" alt="Summaries" width={400} height={200} className="rounded-lg mt-4" data-ai-hint="summary document" />
+                    <div className="flex items-center gap-4">
+                        <div className="flex-1">
+                            <h3 className="text-2xl font-bold mb-2">Summaries</h3>
+                            <p className="text-sm">Get concise AI-powered summaries of long articles.</p>
+                        </div>
+                        <Image src={card3} alt="Summaries" width={120} height={120} className="rounded-lg object-contain" data-ai-hint="summary document" />
+                    </div>
                 </Card>
               </CardSwap>
             </div>

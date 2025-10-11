@@ -205,25 +205,25 @@ export default function LandingPage() {
                 pauseOnHover={false}
               >
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
                     <p>Generate interactive flashcards from any content.</p>
                   </div>
-                  <Image src={card1} alt="Flashcards" width={120} height={120} className="rounded-lg" data-ai-hint="flashcard illustration" />
+                  <Image src={card1} alt="Flashcards" width={80} height={80} className="rounded-lg" data-ai-hint="flashcard illustration" />
                 </Card>
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
                     <p>Test your knowledge with auto-generated quizzes.</p>
                   </div>
-                  <Image src={card2} alt="Quizzes" width={120} height={120} className="rounded-lg" data-ai-hint="quiz illustration" />
+                  <Image src={card2} alt="Quizzes" width={80} height={80} className="rounded-lg" data-ai-hint="quiz illustration" />
                 </Card>
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-2xl font-bold mb-2">Summaries</h3>
                     <p>Get concise AI-powered summaries of long articles.</p>
                   </div>
-                  <Image src={card3} alt="Summaries" width={120} height={120} className="rounded-lg" data-ai-hint="summary document" />
+                  <Image src={card3} alt="Summaries" width={80} height={80} className="rounded-lg" data-ai-hint="summary document" />
                 </Card>
               </CardSwap>
             </div>
@@ -443,7 +443,7 @@ export default function LandingPage() {
       </section>
 
       <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative overflow-hidden">
-        {isClient && !isMobile && (
+        {isClient && (
           <div className="absolute inset-0 w-full h-full z-0">
             <Orb
               hoverIntensity={0.5}

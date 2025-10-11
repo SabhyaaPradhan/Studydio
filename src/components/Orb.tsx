@@ -171,7 +171,6 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
   `;
 
   useEffect(() => {
-    if (isMobile) return;
     const container = ctnDom.current;
     if (!container) return;
 
@@ -279,8 +278,6 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hue, hoverIntensity, rotateOnHover, forceHoverState, isInView, isMobile]);
-
-  if (isMobile) return null;
 
   return <div ref={ctnDom} className="orb-container" />;
 }

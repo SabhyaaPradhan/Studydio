@@ -95,7 +95,6 @@ export const Plasma = ({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (isMobile) return;
     if (!containerRef.current) return;
 
     const useCustomColor = color ? 1.0 : 0.0;
@@ -197,8 +196,6 @@ export const Plasma = ({
       }
     };
   }, [color, speed, direction, scale, opacity, mouseInteractive, isInView, isMobile]);
-
-  if (isMobile) return null;
 
   return <div ref={containerRef} className="plasma-container" />;
 };

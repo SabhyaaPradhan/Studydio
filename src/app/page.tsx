@@ -23,6 +23,7 @@ import CountUp from "@/components/CountUp";
 import Orb from "@/components/Orb";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const WhyChooseUs = dynamic(() => import('@/components/WhyChooseUs'), { ssr: false });
 
@@ -54,6 +55,8 @@ const DiscordIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function LandingPage() {
   const dashboardImage = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
   const [isClient, setIsClient] = useState(false);
+  const isMobile = useIsMobile();
+
 
   useEffect(() => {
     setIsClient(true);
@@ -63,26 +66,28 @@ export default function LandingPage() {
   return (
     <>
       <LandingHeader />
-      {isClient && <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
-        <FaultyTerminal
-          scale={1.8}
-          gridMul={[2, 1]}
-          digitSize={1.8}
-          timeScale={0.5}
-          pause={false}
-          scanlineIntensity={0.5}
-          glitchAmount={0.5}
-          flickerAmount={0.5}
-          noiseAmp={1}
-          chromaticAberration={0}
-          dither={0}
-          curvature={0.1}
-          tint="#26CF80"
-          mouseReact={true}
-          mouseStrength={0.5}
-          brightness={0.6}
-        />
-      </div>}
+      {isClient && !isMobile && (
+        <div style={{ position: 'fixed', top: 0, left: 0, overflow: 'hidden', width: '100%', height: '100%', zIndex: -1 }}>
+          <FaultyTerminal
+            scale={1.8}
+            gridMul={[2, 1]}
+            digitSize={1.8}
+            timeScale={0.5}
+            pause={false}
+            scanlineIntensity={0.5}
+            glitchAmount={0.5}
+            flickerAmount={0.5}
+            noiseAmp={1}
+            chromaticAberration={0}
+            dither={0}
+            curvature={0.1}
+            tint="#26CF80"
+            mouseReact={true}
+            mouseStrength={0.5}
+            brightness={0.6}
+          />
+        </div>
+      )}
       <section id="hero" className="w-full min-h-screen relative flex items-center justify-center">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:grid-cols-1">
@@ -199,20 +204,26 @@ export default function LandingPage() {
                 delay={5000}
                 pauseOnHover={false}
               >
-                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
-                  <p>Generate interactive flashcards from any content.</p>
-                  <Image src={card1} alt="Flashcards" width={300} height={120} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
+                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
+                    <p>Generate interactive flashcards from any content.</p>
+                  </div>
+                  <Image src={card1} alt="Flashcards" width={120} height={120} className="rounded-lg" data-ai-hint="flashcard illustration" />
                 </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
-                  <p>Test your knowledge with auto-generated quizzes.</p>
-                  <Image src={card2} alt="Quizzes" width={300} height={120} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
+                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
+                    <p>Test your knowledge with auto-generated quizzes.</p>
+                  </div>
+                  <Image src={card2} alt="Quizzes" width={120} height={120} className="rounded-lg" data-ai-hint="quiz illustration" />
                 </Card>
-                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
-                  <h3 className="text-2xl font-bold mb-2">Summaries</h3>
-                  <p>Get concise AI-powered summaries of long articles.</p>
-                  <Image src={card3} alt="Summaries" width={300} height={120} className="rounded-lg mt-4" data-ai-hint="summary document" />
+                <Card className="p-6 bg-card/50 backdrop-blur-sm text-white flex items-center gap-4">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">Summaries</h3>
+                    <p>Get concise AI-powered summaries of long articles.</p>
+                  </div>
+                  <Image src={card3} alt="Summaries" width={120} height={120} className="rounded-lg" data-ai-hint="summary document" />
                 </Card>
               </CardSwap>
             </div>
@@ -432,14 +443,16 @@ export default function LandingPage() {
       </section>
 
       <section id="launch" className="w-full py-20 md:py-32 lg:py-40 bg-black text-white relative overflow-hidden">
-        {isClient && <div className="absolute inset-0 w-full h-full z-0">
-          <Orb
-            hoverIntensity={0.5}
-            rotateOnHover={true}
-            hue={20}
-            forceHoverState={true}
-          />
-        </div>}
+        {isClient && !isMobile && (
+          <div className="absolute inset-0 w-full h-full z-0">
+            <Orb
+              hoverIntensity={0.5}
+              rotateOnHover={true}
+              hue={20}
+              forceHoverState={true}
+            />
+          </div>
+        )}
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="flex flex-col items-center justify-center text-center space-y-6">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mix-blend-difference">Launch with Siloir.</h2>
@@ -462,5 +475,3 @@ export default function LandingPage() {
     </>
   );
 }
-
-    

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import { useInView } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 import './Plasma.css';
 
 const hexToRgb = hex => {
@@ -91,8 +92,10 @@ export const Plasma = ({
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, margin: '100px' });
   const mousePos = useRef({ x: 0, y: 0 });
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
     if (!containerRef.current) return;
 
     const useCustomColor = color ? 1.0 : 0.0;
@@ -188,12 +191,14 @@ export const Plasma = ({
       }
       try {
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        containerRef.current?.removeChild(canvas);
+        if (containerRef.current) containerRef.current.removeChild(canvas);
       } catch {
         console.warn('Canvas already removed from container');
       }
     };
-  }, [color, speed, direction, scale, opacity, mouseInteractive, isInView]);
+  }, [color, speed, direction, scale, opacity, mouseInteractive, isInView, isMobile]);
+
+  if (isMobile) return null;
 
   return <div ref={containerRef} className="plasma-container" />;
 };

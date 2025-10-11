@@ -102,6 +102,7 @@ const ParticleCard = ({
   const memoizedParticles = useRef([]);
   const particlesInitialized = useRef(false);
   const magnetismAnimationRef = useRef(null);
+  const isMobile = useIsMobile();
 
   const initializeParticles = useCallback(() => {
     if (particlesInitialized.current || !cardRef.current) return;
@@ -173,7 +174,7 @@ const ParticleCard = ({
   }, [initializeParticles]);
 
   useEffect(() => {
-    if (disableAnimations || !cardRef.current) return;
+    if (disableAnimations || !cardRef.current || isMobile) return;
 
     const element = cardRef.current;
 
@@ -308,7 +309,7 @@ const ParticleCard = ({
       element.removeEventListener('click', handleClick);
       clearAllParticles();
     };
-  }, [animateParticles, clearAllParticles, disableAnimations, enableTilt, enableMagnetism, clickEffect, glowColor]);
+  }, [animateParticles, clearAllParticles, disableAnimations, enableTilt, enableMagnetism, clickEffect, glowColor, isMobile]);
 
   return (
     <div
@@ -330,9 +331,10 @@ const GlobalSpotlight = ({
 }) => {
   const spotlightRef = useRef(null);
   const isInsideSection = useRef(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    if (disableAnimations || !gridRef?.current || !enabled) return;
+    if (disableAnimations || !gridRef?.current || !enabled || isMobile) return;
 
     const spotlight = document.createElement('div');
     spotlight.className = 'global-spotlight';
@@ -448,7 +450,7 @@ const GlobalSpotlight = ({
       document.removeEventListener('mouseleave', handleMouseLeave);
       spotlightRef.current?.parentNode?.removeChild(spotlightRef.current);
     };
-  }, [gridRef, disableAnimations, enabled, spotlightRadius, glowColor]);
+  }, [gridRef, disableAnimations, enabled, spotlightRadius, glowColor, isMobile]);
 
   return null;
 };
@@ -507,7 +509,7 @@ const WhyChooseUs = ({
           <BentoCardGrid gridRef={gridRef}>
             {cardData.map((card, index) => {
               const isWhoFor = card.label === 'Who It’s For';
-              const baseClassName = `magic-bento-card ${textAutoHide ? 'card--text-autohide' : ''} ${enableBorderGlow ? 'card--border-glow' : ''}`;
+              const baseClassName = `magic-bento-card ${textAutoHide ? 'card--text-autohide' : ''} ${!shouldDisableAnimations && enableBorderGlow ? 'card--border-glow' : ''}`;
               const cardProps = {
                 className: `${baseClassName} ${isWhoFor ? 'card--who-its-for' : ''}`,
                 style: {
@@ -516,7 +518,7 @@ const WhyChooseUs = ({
                 }
               };
 
-              if (enableStars) {
+              if (enableStars && !shouldDisableAnimations) {
                 return (
                   <ParticleCard
                     key={index}
@@ -544,7 +546,7 @@ const WhyChooseUs = ({
                   key={index}
                   {...cardProps}
                   ref={el => {
-                    if (!el) return;
+                    if (!el || shouldDisableAnimations) return;
 
                     const handleMouseMove = e => {
                       if (shouldDisableAnimations) return;

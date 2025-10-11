@@ -3,6 +3,7 @@
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { useInView } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 import './FaultyTerminal.css';
 
 const vertexShader = `
@@ -255,6 +256,7 @@ export default function FaultyTerminal({
   const rafRef = useRef(0);
   const loadAnimationStartRef = useRef(0);
   const timeOffsetRef = useRef(Math.random() * 100);
+  const isMobile = useIsMobile();
 
   const tintVec = useMemo(() => hexToRgb(tint), [tint]);
 
@@ -270,6 +272,7 @@ export default function FaultyTerminal({
   }, []);
 
   useEffect(() => {
+    if (isMobile) return;
     if (typeof window === 'undefined') return;
 
     const ctn = containerRef.current;
@@ -376,7 +379,7 @@ export default function FaultyTerminal({
     return () => {
       cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
-      if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
+      if (mouseReact && ctn) ctn.removeEventListener('mousemove', handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
       loadAnimationStartRef.current = 0;
@@ -402,8 +405,11 @@ export default function FaultyTerminal({
     pageLoadAnimation,
     brightness,
     handleMouseMove,
-    isInView
+    isInView,
+    isMobile
   ]);
+
+  if (isMobile) return null;
 
   return <div ref={containerRef} className={`faulty-terminal-container ${className}`} style={style} {...rest} />;
 }

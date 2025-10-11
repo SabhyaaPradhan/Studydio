@@ -1,8 +1,10 @@
+
 'use client';
 
-import React, { Children, cloneElement, forwardRef, isValidElement, useMemo } from 'react';
+import React, { Children, cloneElement, forwardRef, isValidElement, useMemo, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { useInView } from 'framer-motion';
 import './CardSwap.css';
 
 export const Card = forwardRef(({ customClass, ...rest }: any, ref) => (
@@ -68,6 +70,7 @@ const CardSwap = ({
   );
   
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: false, margin: '100px' });
   
   useGSAP(() => {
     if(!containerRef.current) return;
@@ -79,7 +82,7 @@ const CardSwap = ({
     const masterTl = gsap.timeline({
       repeat: -1,
       repeatDelay: delay / 1000,
-      paused: false,
+      paused: true, // Start paused
     });
     
     const createSwapAnimation = () => {
@@ -134,11 +137,18 @@ const CardSwap = ({
       const anim = createSwapAnimation();
       if(anim) masterTl.add(anim);
     }
+
+    // Control animation based on view
+    if (isInView) {
+      masterTl.play();
+    } else {
+      masterTl.pause();
+    }
     
     if (pauseOnHover) {
         const node = containerRef.current;
         const pause = () => masterTl.pause();
-        const resume = () => masterTl.resume();
+        const resume = () => { if (isInView) masterTl.resume(); };
         node.addEventListener('mouseenter', pause);
         node.addEventListener('mouseleave', resume);
         return () => {
@@ -152,7 +162,7 @@ const CardSwap = ({
         masterTl.kill();
     }
 
-  }, { scope: containerRef, dependencies: [childArr, cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, config, refs] });
+  }, { scope: containerRef, dependencies: [childArr, cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, config, refs, isInView] });
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

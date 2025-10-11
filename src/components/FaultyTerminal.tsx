@@ -1,6 +1,8 @@
+
 'use client';
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import { useEffect, useRef, useMemo, useCallback } from 'react';
+import { useInView } from 'framer-motion';
 import './FaultyTerminal.css';
 
 const vertexShader = `
@@ -244,6 +246,7 @@ export default function FaultyTerminal({
   ...rest
 }) {
   const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: false, margin: '100px' });
   const programRef = useRef(null);
   const rendererRef = useRef(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
@@ -330,6 +333,7 @@ export default function FaultyTerminal({
 
     const update = t => {
       rafRef.current = requestAnimationFrame(update);
+      if (!isInView) return;
 
       if (pageLoadAnimation && loadAnimationStartRef.current === 0) {
         loadAnimationStartRef.current = t;
@@ -397,7 +401,8 @@ export default function FaultyTerminal({
     mouseStrength,
     pageLoadAnimation,
     brightness,
-    handleMouseMove
+    handleMouseMove,
+    isInView
   ]);
 
   return <div ref={containerRef} className={`faulty-terminal-container ${className}`} style={style} {...rest} />;

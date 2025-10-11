@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
+import { useInView } from 'framer-motion';
 import './Plasma.css';
 
 const hexToRgb = hex => {
@@ -88,6 +89,7 @@ export const Plasma = ({
   mouseInteractive = true
 }) => {
   const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: false, margin: '100px' });
   const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -163,6 +165,9 @@ export const Plasma = ({
     let raf = 0;
     const t0 = performance.now();
     const loop = t => {
+      raf = requestAnimationFrame(loop);
+      if (!isInView) return;
+      
       let timeValue = (t - t0) * 0.001;
 
       if (direction === 'pingpong') {
@@ -172,7 +177,6 @@ export const Plasma = ({
 
       program.uniforms.iTime.value = timeValue;
       renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
 
@@ -189,11 +193,9 @@ export const Plasma = ({
         console.warn('Canvas already removed from container');
       }
     };
-  }, [color, speed, direction, scale, opacity, mouseInteractive]);
+  }, [color, speed, direction, scale, opacity, mouseInteractive, isInView]);
 
   return <div ref={containerRef} className="plasma-container" />;
 };
 
 export default Plasma;
-
-    

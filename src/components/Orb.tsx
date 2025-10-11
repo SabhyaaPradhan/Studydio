@@ -3,10 +3,12 @@
 
 import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle, Vec3 } from 'ogl';
+import { useInView } from 'framer-motion';
 import './Orb.css';
 
 export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = true, forceHoverState = false }) {
   const ctnDom = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ctnDom, { once: false, margin: '100px' });
 
   const vert = /* glsl */ `
     precision highp float;
@@ -240,6 +242,8 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
     let rafId: number;
     const update = (t: number) => {
       rafId = requestAnimationFrame(update);
+      if (!isInView) return;
+
       const dt = (t - lastTime) * 0.001;
       lastTime = t;
       program.uniforms.iTime.value = t * 0.001;
@@ -269,7 +273,7 @@ export default function Orb({ hue = 0, hoverIntensity = 0.2, rotateOnHover = tru
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hue, hoverIntensity, rotateOnHover, forceHoverState]);
+  }, [hue, hoverIntensity, rotateOnHover, forceHoverState, isInView]);
 
   return <div ref={ctnDom} className="orb-container" />;
 }

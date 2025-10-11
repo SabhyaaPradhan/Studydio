@@ -137,7 +137,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="features" className="w-full py-12 md:py-12 lg:py-12 bg-black overflow-hidden">
+      <section id="features" className="w-full py-12 md:py-12 lg:py-12 bg-black overflow-hidden px-10">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h1 className="text-[100px] md:text-[300px] font-blackheat text-white">
@@ -202,17 +202,17 @@ export default function LandingPage() {
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
                   <h3 className="text-2xl font-bold mb-2">Flashcards</h3>
                   <p>Generate interactive flashcards from any content.</p>
-                  <Image src={card1} alt="Flashcards" width={120} height={120} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
+                  <Image src={card1} alt="Flashcards" width={300} height={120} className="rounded-lg mt-4" data-ai-hint="flashcard illustration" />
                 </Card>
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
                   <h3 className="text-2xl font-bold mb-2">Quizzes</h3>
                   <p>Test your knowledge with auto-generated quizzes.</p>
-                  <Image src={card2} alt="Quizzes" width={120} height={120} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
+                  <Image src={card2} alt="Quizzes" width={300} height={120} className="rounded-lg mt-4" data-ai-hint="quiz illustration" />
                 </Card>
                 <Card className="p-6 bg-card/50 backdrop-blur-sm text-white">
                   <h3 className="text-2xl font-bold mb-2">Summaries</h3>
                   <p>Get concise AI-powered summaries of long articles.</p>
-                  <Image src={card3} alt="Summaries" width={120} height={120} className="rounded-lg mt-4" data-ai-hint="summary document" />
+                  <Image src={card3} alt="Summaries" width={300} height={120} className="rounded-lg mt-4" data-ai-hint="summary document" />
                 </Card>
               </CardSwap>
             </div>

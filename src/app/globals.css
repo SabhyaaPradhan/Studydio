@@ -17,6 +17,10 @@
   src: url('../public/fonts/swear-display-regular.otf');
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
